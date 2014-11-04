@@ -3,11 +3,15 @@ import os
 import json, requests
 from sys import argv
 
+#import model
+
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
 def get_song_data(artist, title):
+
+
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary")
 
 	status_code = r.status_code
@@ -59,8 +63,12 @@ def process_sections(artist, title):
 
 	return song_data
 
+def main():
+	script, artist, title = argv
+	print process_sections(artist, title)
+
 if __name__ == "__main__":
-	process_sections("radiohead", "weird fishes")
+	main()
 
 
 
