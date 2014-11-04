@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import json, requests
+from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
@@ -33,8 +34,13 @@ def get_song_data(artist, title):
 	for key, value in audio_summary.iteritems():
 		song_data[key] = value
 
+	return song_data
 
-	# get info on song sections
+# get info on song sections and add to song_data dictionary
+def process_sections(artist, title):
+
+	song_data = get_song_data(artist, title)
+	
 	analysis_url = str(song_data["analysis_url"])	
 	r1 = requests.get(analysis_url)
 
@@ -45,5 +51,18 @@ def get_song_data(artist, title):
 
 	song_data["num_sections"] = len(sections)
 
+	section_dict = {}
+	for i in range(len(sections)):
+		section_dict["section%d" % i] = sections[i]
 
-	#return song_data
+	song_data["section_dict"] = section_dict
+
+	return song_data
+
+if __name__ == "__main__":
+	process_sections("radiohead", "weird fishes")
+
+
+
+
+
