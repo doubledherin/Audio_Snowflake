@@ -7,8 +7,7 @@ api_key = os.environ.get("ECHO_NEST_API_KEY")
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
 def get_song_data(artist, title):
-	print api_key
-	r = requests.get("http://developer.echonest.com/api/v4/song/search?" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary")
+	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary")
 
 	status_code = r.status_code
 	results = json.loads(r.content)
@@ -22,6 +21,9 @@ def get_song_data(artist, title):
 		# skip audio_summary, which we're getting in the next for loop
 		if key == "audio_summary":
 			continue
+		# rename "id" key for clarity purposes
+		if key == "id":
+			key = "song_id"
 		song_data[key] = value
 
 	# get detailed song info	
@@ -29,9 +31,6 @@ def get_song_data(artist, title):
 
 	for key, value in audio_summary.iteritems():
 		song_data[key] = value
-
-	for key, value in song_data.iteritems():
-		print key, value
 
 
 	return song_data
