@@ -26,6 +26,7 @@ def get_song_data(artist, title):
 			key = "song_id"
 		song_data[key] = value
 
+
 	# get detailed song info	
 	audio_summary = song_general["audio_summary"]
 
@@ -33,4 +34,16 @@ def get_song_data(artist, title):
 		song_data[key] = value
 
 
-	return song_data
+	# get info on song sections
+	analysis_url = str(song_data["analysis_url"])	
+	r1 = requests.get(analysis_url)
+
+	status_code = r1.status_code
+	r1 = json.loads(r1.content)
+
+	sections = r1["sections"]
+
+	song_data["num_sections"] = len(sections)
+
+
+	#return song_data
