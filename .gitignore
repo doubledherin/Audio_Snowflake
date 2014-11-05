@@ -10,3 +10,7 @@ model.py
 planning/
 result_structure.txt
 venv/
+get_song_data.pyc
+model.pyc
+pseudocode.txt
+section_collapse_play.py

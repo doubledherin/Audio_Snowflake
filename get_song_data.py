@@ -66,9 +66,6 @@ def collapse_sections(artist, title):
 	song_data = add_sections(artist, title)
 	sections = song_data["sections"]
 
-	for section in sections:
-		print section, "\n"
-
 	collapsed = {}
 
 	for i in range(len(sections)):
@@ -77,12 +74,7 @@ def collapse_sections(artist, title):
 		time_sig = sections[i]["time_signature"]
 		collapsed[(key, mode, time_sig)] = collapsed.setdefault((key, mode, time_sig), [])
 		collapsed[(key, mode, time_sig)].append(sections[i])
-	
-	for key, value in collapsed.iteritems():
-		print "Key: %r, Value: %r" % (key, value)
-		print len(collapsed[key])
-		print "\n"
-	print song_data["num_sections"]
+
 
 	new_collapsed = {}
 	# get total duration for each collapsed section
@@ -95,30 +87,49 @@ def collapse_sections(artist, title):
 		key = tuple(key)
 
 		new_collapsed[key] = value
+		# tuple is now: (total_duration, key, mode, time sig)
 
-	print new_collapsed
+	# for debugging
+	for key, value in new_collapsed.iteritems():
+		print "Key: %r, Value: %r\n" % (key, value)
 
+	# for each collapsed section, collapse list of values into averages
+	newer_collapsed = {}
 
+	items = new_collapsed.items()
+	
+	for key, value in items:
+		
+		newer_collapsed[key] = {}
 
-	# # for each collapse section, collapse list of values into averages
-	# for key in collapsed:
-	# 	new_value = [{"avg_confidence":0, 
-	# 	              "avg_key_confidence": 0, 
-	# 	              "avg_mode_confidence": 0, 
-	# 	              "avg_time_signature_confidence": 0, 
-	# 	              "avg_tempo": 0, 
-	# 	              "avg_loudness": 0,
-	# 	              "total_duration": 0 
-	# 	             }]
-		 
+		total_confidence = 0 
+		total_key_confidence = 0 
+		total_mode_confidence = 0 
+		total_time_signature_confidence = 0 
+		total_tempo = 0 
+		total_loudness = 0
 
+		for item in value:
+			total_confidence +=  item["confidence"]
+			total_key_confidence += item["key_confidence"]
+			total_mode_confidence += item["mode_confidence"]
+			total_time_signature_confidence += item["time_signature_confidence"]
+			total_tempo += item["tempo"]
+			total_loudness += item["loudness"]
+		
+		totals = [total_confidence, total_key_confidence, total_mode_confidence, total_time_signature_confidence, total_tempo, total_loudness]
 
+		averages = map(lambda x: x / len(value), totals)
 
-
+		print key
+		print len(value)
+		print totals
+		print averages
+		print "\n"
 
 def main():
 	script, artist, title = argv
-	print collapse_sections(artist, title)
+	collapse_sections(artist, title)
 
 if __name__ == "__main__":
 	main()
