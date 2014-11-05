@@ -121,11 +121,18 @@ def collapse_sections(artist, title):
 
 		averages = map(lambda x: x / len(value), totals)
 
+		newer_collapsed[key]["avg_confidence"] = averages[0]
+		newer_collapsed[key]["avg_key_confidence"] = averages[1]
+
+		newer_collapsed[key]["avg_mode_confidence"] = averages[2]
+		newer_collapsed[key]["avg_time_signature_confidence"] = averages[3]
+		newer_collapsed[key]["avg_tempo"] = averages[4]
+		newer_collapsed[key]["avg_loudness"] = averages[5]
+
+	print newer_collapsed
+	for key, value in newer_collapsed.iteritems():
 		print key
-		print len(value)
-		print totals
-		print averages
-		print "\n"
+		print value
 
 def main():
 	script, artist, title = argv
