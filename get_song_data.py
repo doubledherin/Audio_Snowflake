@@ -17,6 +17,8 @@ def get_song_data(artist, title):
 	status_code = r.status_code
 	results = json.loads(r.content)
 
+	print results
+
 	song_data = {}
 
 	# get general song info
@@ -38,7 +40,15 @@ def get_song_data(artist, title):
 	for key, value in audio_summary.iteritems():
 		song_data[key] = value
 
+	# # pretty print for development purposes
+	# for key, value in song_data.iteritems():
+	# 	print key, value
+	# 	print "\n"
+
 	return song_data
+
+# def get_track_data(md5):
+	
 
 # get info on song sections and add to song_data dictionary
 def add_sections(artist, title):
@@ -57,6 +67,11 @@ def add_sections(artist, title):
 
 
 	song_data["num_sections"] = len(sections)
+ 
+ # 	# pretty print for development purposes
+	# for key, value in song_data.iteritems():
+	# 	print key, value
+	# 	print "\n"
 
 	return song_data
 
@@ -90,9 +105,9 @@ def collapse_sections(artist, title):
 		new_collapsed[key] = value
 		# tuple is now: (total_duration, key, mode, time sig)
 
-	# for debugging
-	for key, value in new_collapsed.iteritems():
-		print "Key: %r, Value: %r\n" % (key, value)
+	# # for debugging
+	# for key, value in new_collapsed.iteritems():
+	# 	print "Key: %r, Value: %r\n" % (key, value)
 
 	# for each collapsed section, collapse list of values into averages
 	newer_collapsed = {}
@@ -130,9 +145,12 @@ def collapse_sections(artist, title):
 		newer_collapsed[key]["avg_tempo"] = averages[4]
 		newer_collapsed[key]["avg_loudness"] = averages[5]
 
+	# here for pretty printing/debugging only
 	for key, value in newer_collapsed.iteritems():
-		print key
-		print value
+		print "Key: ", key
+		print "Values: "
+		for key, value in value.iteritems():
+			print key, ": ", value
 
 def main():
 	script, artist, title = argv
