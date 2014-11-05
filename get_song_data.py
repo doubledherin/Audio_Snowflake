@@ -82,6 +82,7 @@ def collapse_sections(artist, title):
 		total_duration = 0
 		for item in value:
 			total_duration += item["duration"]
+		total_duration = int(round(total_duration))
 		key = list(key)
 		key.insert(0, total_duration)
 		key = tuple(key)
@@ -119,7 +120,7 @@ def collapse_sections(artist, title):
 		
 		totals = [total_confidence, total_key_confidence, total_mode_confidence, total_time_signature_confidence, total_tempo, total_loudness]
 
-		averages = map(lambda x: x / len(value), totals)
+		averages = map(lambda x: round(x / len(value), 3), totals)
 
 		newer_collapsed[key]["avg_confidence"] = averages[0]
 		newer_collapsed[key]["avg_key_confidence"] = averages[1]
@@ -129,7 +130,6 @@ def collapse_sections(artist, title):
 		newer_collapsed[key]["avg_tempo"] = averages[4]
 		newer_collapsed[key]["avg_loudness"] = averages[5]
 
-	print newer_collapsed
 	for key, value in newer_collapsed.iteritems():
 		print key
 		print value
