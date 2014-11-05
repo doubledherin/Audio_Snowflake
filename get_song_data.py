@@ -79,11 +79,41 @@ def collapse_sections(artist, title):
 		collapsed[(key, mode, time_sig)].append(sections[i])
 	
 	for key, value in collapsed.iteritems():
-		print "Key: %r, Value: %r\n" % (key, value)
+		print "Key: %r, Value: %r" % (key, value)
 		print len(collapsed[key])
+		print "\n"
 	print song_data["num_sections"]
 
-	# get rid of outliers
+	new_collapsed = {}
+	# get total duration for each collapsed section
+	for key, value in collapsed.iteritems():
+		total_duration = 0
+		for item in value:
+			total_duration += item["duration"]
+		key = list(key)
+		key.insert(0, total_duration)
+		key = tuple(key)
+
+		new_collapsed[key] = value
+
+	print new_collapsed
+
+
+
+	# # for each collapse section, collapse list of values into averages
+	# for key in collapsed:
+	# 	new_value = [{"avg_confidence":0, 
+	# 	              "avg_key_confidence": 0, 
+	# 	              "avg_mode_confidence": 0, 
+	# 	              "avg_time_signature_confidence": 0, 
+	# 	              "avg_tempo": 0, 
+	# 	              "avg_loudness": 0,
+	# 	              "total_duration": 0 
+	# 	             }]
+		 
+
+
+
 
 
 def main():
