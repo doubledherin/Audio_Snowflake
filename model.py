@@ -44,25 +44,25 @@ class Track(Base):
 
     instrumentalness = Column(Float)
 
-    # the below come from add_sections function
-    num_sections = Column(Integer) # not sure if I should keep; this is precollapse
+    # # the below come from add_sections function
+    # num_sections = Column(Integer) # not sure if I should keep; this is precollapse
 
-    # maybe the below should be MULTISET data type?
-    # pickle type
-    sections = Column(Array) # not sure if I should keep; this is precollapse
+    # # maybe the below should be MULTISET data type?
+    # # pickle type
+    # sections = Column(Array) # not sure if I should keep; this is precollapse
 
 
 
-    # Still need to get the below into song_data
-    track_id = Column(String(50))
+    # # Still need to get the below into song_data
+    # track_id = Column(String(50))
     
 
-    album = Column(String(150))
-    year = Column(Integer)
+    # album = Column(String(150))
+    # year = Column(Integer)
 
-    key_confidence = Column(Float)
-    mode_confidence = Column(Float)
-    time_sig_confidence = Column(Float)
+    # key_confidence = Column(Float)
+    # mode_confidence = Column(Float)
+    # time_sig_confidence = Column(Float)
 
 def connect():
     global ENGINE
