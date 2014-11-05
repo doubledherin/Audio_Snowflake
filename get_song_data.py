@@ -66,17 +66,25 @@ def collapse_sections(artist, title):
 	song_data = add_sections(artist, title)
 	sections = song_data["sections"]
 
+	for section in sections:
+		print section, "\n"
+
 	collapsed = {}
 
 	for i in range(len(sections)):
 		key = sections[i]["key"]
 		mode = sections[i]["mode"]
-		collapsed[(key, mode)] = collapsed.setdefault((key, mode), [])
-		collapsed[(key, mode)].append(sections[i])
+		time_sig = sections[i]["time_signature"]
+		collapsed[(key, mode, time_sig)] = collapsed.setdefault((key, mode, time_sig), [])
+		collapsed[(key, mode, time_sig)].append(sections[i])
 	
 	for key, value in collapsed.iteritems():
 		print "Key: %r, Value: %r\n" % (key, value)
+		print len(collapsed[key])
 	print song_data["num_sections"]
+
+	# get rid of outliers
+
 
 def main():
 	script, artist, title = argv
