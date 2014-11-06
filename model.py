@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker
 
 
@@ -31,7 +31,7 @@ class Track(Base):
     acousticness = Column(Float)
     danceability = Column(Float)
 
-    time_sig = Column(Integer)
+    time_signature = Column(Integer)
     duration = Column(Float)
     loudness = Column(Float)
     
@@ -68,7 +68,7 @@ def connect():
     global ENGINE
     global Session 
 
-    ENGINE = create_engine("sqlite:///tracks.db", echo=True)
+    ENGINE = create_engine("sqlite:///audiosnowflake.db", echo=True)
     Session = sessionmaker(bind=ENGINE)
 
     return Session()
