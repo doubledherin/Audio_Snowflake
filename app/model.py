@@ -21,30 +21,49 @@ class Track(Base):
     tempo = Column(Float)
     energy = Column(Float)
     liveness = Column(Float)
-    # analysis_url = Column(String(200)) not sure I want this in the dbase
-
     speechiness = Column(Float)
     artist_name = Column(String(100))
-
     mode = Column(Integer)
-
     acousticness = Column(Float)
     danceability = Column(Float)
-
     time_signature = Column(Integer)
     duration = Column(Float)
     loudness = Column(Float)
-    
     artist_id = Column(String(50))
     valence = Column(Float) 
-
-
     audio_md5 = Column(String(50))
-
-
     instrumentalness = Column(Float)
 
+    # values for the interior rings (per section)
+    section0_a = Column(Float)
+    section0_b = Column(Float)
+    section0_t = Column(Float)
+    section0_h = Column(Float)
+
+    section1_a = Column(Float)
+    section1_b = Column(Float)
+    section1_t = Column(Float)
+    section1_h = Column(Float)
+
+    section2_a = Column(Float)
+    section2_b = Column(Float)
+    section2_t = Column(Float)
+    section2_h = Column(Float)
+
+    section3_a = Column(Float)
+    section3_b = Column(Float)
+    section3_t = Column(Float)
+    section3_h = Column(Float)
+
+    section4_a = Column(Float)
+    section4_b = Column(Float)
+    section4_t = Column(Float)
+    section4_h = Column(Float)
+
     # # the below come from add_sections function
+
+    # analysis_url = Column(String(200)) not sure I want this in the dbase
+
     # num_sections = Column(Integer) # not sure if I should keep; this is precollapse
 
     # # maybe the below should be MULTISET data type?

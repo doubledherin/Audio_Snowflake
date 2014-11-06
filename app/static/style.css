@@ -1,0 +1,10 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+  #song_entry {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
