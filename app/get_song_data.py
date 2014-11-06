@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
+
 import os
 import json, requests
 from sys import argv
-
-#import model
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
@@ -11,26 +10,27 @@ api_key = os.environ.get("ECHO_NEST_API_KEY")
 # returns a dictionary of song data
 def get_song_data(artist, title):
 
-
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary")
 
 	status_code = r.status_code
 	results = json.loads(r.content)
 
-	print results
-
 	song_data = {}
+
 
 	# get general song info
 	song_general = results["response"]["songs"][0]
 	
 	for key, value in song_general.iteritems():
+
 		# skip audio_summary, which we're getting in the next for loop
 		if key == "audio_summary":
 			continue
+		
 		# rename "id" key for clarity purposes
 		if key == "id":
 			key = "song_id"
+		
 		song_data[key] = value
 
 
@@ -45,44 +45,46 @@ def get_song_data(artist, title):
 	# 	print key, value
 	# 	print "\n"
 
+	# song_data now contains everything but the sections data
 	return song_data
 
-# def get_track_data(md5):
-	
-
-# get info on song sections and add to song_data dictionary
+# get info on song sections from analysis_url
+# and add sections to song_data dictionary
 def add_sections(artist, title):
-
+	
 	song_data = get_song_data(artist, title)
 	
-	analysis_url = str(song_data["analysis_url"])	
-	r1 = requests.get(analysis_url)
+	analysis_url = str(song_data["analysis_url"])
 
-	status_code = r1.status_code
-	r1 = json.loads(r1.content)
+	r = requests.get(analysis_url)
+
+	status_code = r.status_code
+	results = json.loads(r.content)
 
 	#TO DO: Build in handler in the case that sections data is limited.
-	sections = r1["sections"]
+	sections = results["sections"]
 	song_data["sections"] = sections
 
 
-	song_data["num_sections"] = len(sections)
+	# song_data["num_sections"] = len(sections)
  
- # 	# pretty print for development purposes
-	# for key, value in song_data.iteritems():
-	# 	print key, value
-	# 	print "\n"
+ 	# pretty print for development purposes
+	for key, value in song_data.iteritems():
+		print key, value
+		print "\n"
 
 	return song_data
 
-# takes and artist/title combo, gets the song data, gets the section data
-# then collapses the sections into similar groups (those with the same key and mode)
+# collapses sections into groups with same key, mode, and time signature,
+# then collapses further by averaging of data in each collapsed section;
+# then reduces number of sections to no more than 5
 def collapse_sections(artist, title):
+
 	song_data = add_sections(artist, title)
+
 	sections = song_data["sections"]
 
 	collapsed = {}
-
 	for i in range(len(sections)):
 		key = sections[i]["key"]
 		mode = sections[i]["mode"]
@@ -95,29 +97,36 @@ def collapse_sections(artist, title):
 	# get total duration for each collapsed section
 	for key, value in collapsed.iteritems():
 		total_duration = 0
+		
 		for item in value:
 			total_duration += item["duration"]
+		
 		total_duration = int(round(total_duration))
+		
+		# recreate key so that it starts with total duration
 		key = list(key)
 		key.insert(0, total_duration)
 		key = tuple(key)
 
+		# key is now (total_duration, key, mode, time sig)
 		new_collapsed[key] = value
-		# tuple is now: (total_duration, key, mode, time sig)
 
 	# # for debugging
 	# for key, value in new_collapsed.iteritems():
 	# 	print "Key: %r, Value: %r\n" % (key, value)
 
+
+
 	# for each collapsed section, collapse list of values into averages
 	newer_collapsed = {}
 
+
 	items = new_collapsed.items()
-	
+
 	for key, value in items:
-		
 		newer_collapsed[key] = {}
 
+		# get totals for each item in a collapsed section's values
 		total_confidence = 0 
 		total_key_confidence = 0 
 		total_mode_confidence = 0 
@@ -133,13 +142,14 @@ def collapse_sections(artist, title):
 			total_tempo += item["tempo"]
 			total_loudness += item["loudness"]
 		
+		# put the totals in a list to use map function for averages
 		totals = [total_confidence, total_key_confidence, total_mode_confidence, total_time_signature_confidence, total_tempo, total_loudness]
 
 		averages = map(lambda x: round(x / len(value), 3), totals)
 
+		# add the averaged values to the newer_collapsed dictionary
 		newer_collapsed[key]["avg_confidence"] = averages[0]
 		newer_collapsed[key]["avg_key_confidence"] = averages[1]
-
 		newer_collapsed[key]["avg_mode_confidence"] = averages[2]
 		newer_collapsed[key]["avg_time_signature_confidence"] = averages[3]
 		newer_collapsed[key]["avg_tempo"] = averages[4]
@@ -152,9 +162,8 @@ def collapse_sections(artist, title):
 		for key, value in value.iteritems():
 			print key, ": ", value
 
-	# shrink to 5 or fewer items
-	# TO DO: Think about how to make it so sections can number
-	# more than 5
+
+	# shrink to 5 or fewer sections
 	while len(newer_collapsed) > 5:
 		
 		# remove item with the shortest duration
@@ -171,16 +180,9 @@ def collapse_sections(artist, title):
 		for key, value in value.iteritems():
 			print key, ": ", value
 
-
-
 def main():
 	script, artist, title = argv
 	collapse_sections(artist, title)
 
 if __name__ == "__main__":
 	main()
-
-
-
-
-
