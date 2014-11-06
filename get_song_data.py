@@ -152,6 +152,27 @@ def collapse_sections(artist, title):
 		for key, value in value.iteritems():
 			print key, ": ", value
 
+	# shrink to 5 or fewer items
+	# TO DO: Think about how to make it so sections can number
+	# more than 5
+	while len(newer_collapsed) > 5:
+		
+		# remove item with the shortest duration
+		sorted_keys = sorted(newer_collapsed.keys())
+		shortest_duration = sorted_keys.pop(0)
+		del newer_collapsed[shortest_duration]
+
+	# here for pretty printing/debugging only
+	print "\n\n\n\n\nReduced to five or fewer\n"
+	for key, value in newer_collapsed.iteritems():
+
+		print "Key: ", key
+		print "Values: "
+		for key, value in value.iteritems():
+			print key, ": ", value
+
+
+
 def main():
 	script, artist, title = argv
 	collapse_sections(artist, title)

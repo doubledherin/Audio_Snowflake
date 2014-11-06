@@ -2,10 +2,11 @@ import model
 from get_song_data import get_song_data
 
 def main(session):
-    songs = [("Radiohead", "Creep")]
+    songs = [("Radiohead", "Weird Fishes"), ("Radiohead", "No Surprises"), ("Radiohead", "Nude"), ("Radiohead", "Paranoid Android")]
     for song in songs:
         song_data = get_song_data(song[0], song[1])
 
+        #TO DO check to see if song is already in db
         track = model.Track()
 
         track.song_id = song_data["song_id"]
