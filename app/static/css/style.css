@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: white;
+    width: 50%;
+/*    margin-right: auto;
+    margin-left: auto;*/
+}
+
+  #song_entry {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
+
+  #song_credit {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
