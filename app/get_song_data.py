@@ -6,6 +6,20 @@ from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
+# calls Echonest API with song title only
+# not sure I want/need this
+
+def get_by_title_only(title):
+
+	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=100&title=" + title + "&bucket=artist_hotttnesss&bucket=audio_summary")
+
+	print r.url 
+
+	status_code = r.status_code
+	results = json.loads(r.content)
+
+	
+
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
 def get_song_data(artist, title):
@@ -181,8 +195,9 @@ def collapse_sections(artist, title):
 			print key, ": ", value
 
 def main():
-	script, artist, title = argv
-	collapse_sections(artist, title)
+	# script, artist, title = argv
+	get_by_title_only("karma police")
+	#collapse_sections(artist, title)
 
 if __name__ == "__main__":
 	main()
