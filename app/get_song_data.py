@@ -7,19 +7,9 @@ from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
-# calls Echonest API with song title only
-# not sure I want/need this
 
-def get_by_title_only(title):
-
-	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=100&title=" + title + "&bucket=artist_hotttnesss&bucket=audio_summary")
-
-	print r.url 
-
-	status_code = r.status_code
-	results = json.loads(r.content)
-
-	
+def get_music_player(artist, title):
+	pass
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
@@ -27,7 +17,7 @@ def get_song_data(artist, title):
 
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
-	print r.url
+	# print r.url
 
 	status_code = r.status_code
 	results = json.loads(r.content)
@@ -63,21 +53,6 @@ def get_song_data(artist, title):
 	# 	print key, value
 	# 	print "\n"
 
-	# get track id
-	# md5 = "881f4e47e88e8b570e34a3b49c8262ac"
-	# # md5 = song_data["audio_md5"]
-	# # print md5
-
-	# # http://developer.echonest.com/api/v4/track/profile?api_key=SREB10QN87HZONHAH&format=json&id=TRTLKZV12E5AC92E11&bucket=audio_summary
-	
-	# r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&md5=881f4e47e88e8b570e34a3b49c8262ac&bucket=audio_summary")
-
-	# print 0, r1.url
-
-	# status_code = r1.status_code
-	# results = json.loads(r1.content)
-
-
 	# song_data now contains everything but the sections data
 	return song_data
 
@@ -97,9 +72,6 @@ def add_sections(artist, title):
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
 	song_data["sections"] = sections
-
-
-	# song_data["num_sections"] = len(sections)
  
  # 	# pretty print for development purposes
 	# for key, value in song_data.iteritems():
@@ -217,6 +189,8 @@ def main():
 	script, artist, title = argv
 	# get_by_title_only("karma police")
 	# collapse_sections(artist, title)
-	get_song_data(artist, title)
+	# get_song_data(artist, title)
+	get_music_player(artist, title)
+	
 if __name__ == "__main__":
 	main()
