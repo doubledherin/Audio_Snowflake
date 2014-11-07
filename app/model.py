@@ -37,7 +37,14 @@ class Track(Base):
     audio_md5 = Column(String(50))
     instrumentalness = Column(Float)
 
-    # values for the interior rings (per section)
+
+    # values for the outer ring (1 per track)
+    outer_a = Column(Float)
+    outer_b = Column(Float)
+    outer_t = Column(Float)
+    outer_h = Column(Float)
+
+    # values for the interior rings (1 per section)
     section0_a = Column(Float)
     section0_b = Column(Float)
     section0_t = Column(Float)
@@ -62,38 +69,3 @@ class Track(Base):
     section4_b = Column(Float)
     section4_t = Column(Float)
     section4_h = Column(Float)
-
-    # # the below come from add_sections function
-
-    # analysis_url = Column(String(200)) not sure I want this in the dbase
-
-    # num_sections = Column(Integer) # not sure if I should keep; this is precollapse
-
-    # # maybe the below should be MULTISET data type?
-    # # pickle type
-    # sections = Column(Array) # not sure if I should keep; this is precollapse
-
-
-
-    # # Still need to get the below into song_data
-    # track_id = Column(String(50))
-    
-
-    # album = Column(String(150))
-    # year = Column(Integer)
-
-    # key_confidence = Column(Float)
-    # mode_confidence = Column(Float)
-    # time_sig_confidence = Column(Float)
-
-# def connect():
-#     global ENGINE
-#     global Session 
-
-#     ENGINE = create_engine("sqlite:///audiosnowflake.db", echo=True)
-#     Session = sessionmaker(bind=ENGINE)
-
-#     return Session()
-
-# if __name__ == "__main__":
-#     db_session = connect()

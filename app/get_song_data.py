@@ -7,9 +7,19 @@ from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
-
+# calls Spotify API with artist and title to get a track id
 def get_music_player(artist, title):
-	pass
+	
+	r = requests.get("https://api.spotify.com/v1/search?q=artist%3A" + artist + "track%3A" + title + "&type=track")
+
+	print r 
+
+	print r.url
+	r.json()
+
+	print r
+
+	# curl -X GET "https://api.spotify.com/v1/search?q=artist%3Aelliottsmithtrack%3Asouthernbelle&type=track" -H "Accept: application/json"
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
@@ -191,6 +201,6 @@ def main():
 	# collapse_sections(artist, title)
 	# get_song_data(artist, title)
 	get_music_player(artist, title)
-	
+
 if __name__ == "__main__":
 	main()

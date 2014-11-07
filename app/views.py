@@ -4,7 +4,6 @@ import model as m
 
 from sqlalchemy import desc
 
-track_id = "5u1la2hnzQOpWYdT0Vyegn"
 app = Flask(__name__)
 app.secret_key = "ADFLKASDJF"
 
@@ -19,21 +18,24 @@ def get_new_song():
     title = request.args.get("title")
     artist_name = request.args.get("artist_name")
 
-    print title
-    print artist_name
-
     # check to see if song is in database. 
     song = m.session.query(m.Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
 
+    # if it is, return information for it and render it on screen
+    # (placeholder below)
+    song_data = None
 
-    if song:
-        md5 = song.audio_md5
+    # if it is not, call Echonest
 
-        print "Song in database!"
-    else:
-        print "Song not in database!"
 
-    return render_template("index.html", track_id=track_id)
+    # then call Spotify for the music player
+    spotify_track_id = "0um6CMHbyaJCr0aHL2OdRU"
+
+
+    # then store Echonest and Spotify data in database
+
+
+    return render_template("index.html", spotify_track_id=spotify_track_id)
 
 
 if __name__ == "__main__":
