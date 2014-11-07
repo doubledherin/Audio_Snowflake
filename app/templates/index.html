@@ -27,8 +27,8 @@
     */
 
 
-    float a = screen.height/4;
-    float b = screen.height/4 - 110;
+    float a = screen.height/2 + 100;
+    float b = screen.height/4 - 10;
     float t = 45;
     float h = b - 2;
 
@@ -40,7 +40,7 @@ background(0);
 }
     void draw() {
       //rotate(PI/8);
-      
+
       stroke(#F5E69C, 100);
       float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
       float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
@@ -103,17 +103,18 @@ background(0);
 <canvas></canvas>
 
         <div id="song_entry">
-            <form action="/song_entry" method="POST">
+            <form action="/new_song" method="GET">
+                <label for="artist_name">Artist name:</label>
+                <input type="text" name="artist_name">
                 <label for="title">Song title:</label>
-                <input type="text" name="title">
-                <label for="title">Artist name:</label>
                 <input type="text" name="title">
                 <input type="submit" value="Enter">
             </form>
         <div>
 
+
         <div id="song_credit">
-            "California," by Joanna Newsome
+          <iframe src="https://embed.spotify.com/?uri=spotify:track:{{ track_id }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
         <div>
     </body>
 </html>

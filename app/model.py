@@ -1,13 +1,16 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Float
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
-
-ENGINE = None
-Session = None
+engine = create_engine("sqlite:///audiosnowflake.db", echo=False)
+session = scoped_session(sessionmaker(bind=engine,
+                                      autocommit = False,
+                                      autoflush = False))
 
 Base = declarative_base()
+Base.query = session.query_property()
+
 
 class Track(Base):
     __tablename__ = "tracks"
@@ -83,14 +86,14 @@ class Track(Base):
     # mode_confidence = Column(Float)
     # time_sig_confidence = Column(Float)
 
-def connect():
-    global ENGINE
-    global Session 
+# def connect():
+#     global ENGINE
+#     global Session 
 
-    ENGINE = create_engine("sqlite:///audiosnowflake.db", echo=True)
-    Session = sessionmaker(bind=ENGINE)
+#     ENGINE = create_engine("sqlite:///audiosnowflake.db", echo=True)
+#     Session = sessionmaker(bind=ENGINE)
 
-    return Session()
+#     return Session()
 
-if __name__ == "__main__":
-    db_session = connect()
+# if __name__ == "__main__":
+#     db_session = connect()

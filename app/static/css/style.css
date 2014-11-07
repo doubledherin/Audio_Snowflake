@@ -6,6 +6,10 @@ body {
     margin-left: auto;*/
 }
 
+input {
+    color: black;
+}
+
   #song_entry {
     position: fixed;
     bottom: 0;

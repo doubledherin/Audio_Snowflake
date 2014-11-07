@@ -4,6 +4,7 @@ import os
 import json, requests
 from sys import argv
 
+
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 # calls Echonest API with song title only
@@ -24,10 +25,13 @@ def get_by_title_only(title):
 # returns a dictionary of song data
 def get_song_data(artist, title):
 
-	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary")
+	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
+
+	print r.url
 
 	status_code = r.status_code
 	results = json.loads(r.content)
+
 
 	song_data = {}
 
@@ -59,6 +63,21 @@ def get_song_data(artist, title):
 	# 	print key, value
 	# 	print "\n"
 
+	# get track id
+	# md5 = "881f4e47e88e8b570e34a3b49c8262ac"
+	# # md5 = song_data["audio_md5"]
+	# # print md5
+
+	# # http://developer.echonest.com/api/v4/track/profile?api_key=SREB10QN87HZONHAH&format=json&id=TRTLKZV12E5AC92E11&bucket=audio_summary
+	
+	# r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&md5=881f4e47e88e8b570e34a3b49c8262ac&bucket=audio_summary")
+
+	# print 0, r1.url
+
+	# status_code = r1.status_code
+	# results = json.loads(r1.content)
+
+
 	# song_data now contains everything but the sections data
 	return song_data
 
@@ -82,10 +101,10 @@ def add_sections(artist, title):
 
 	# song_data["num_sections"] = len(sections)
  
- 	# pretty print for development purposes
-	for key, value in song_data.iteritems():
-		print key, value
-		print "\n"
+ # 	# pretty print for development purposes
+	# for key, value in song_data.iteritems():
+	# 	print key, value
+	# 	print "\n"
 
 	return song_data
 
@@ -169,12 +188,12 @@ def collapse_sections(artist, title):
 		newer_collapsed[key]["avg_tempo"] = averages[4]
 		newer_collapsed[key]["avg_loudness"] = averages[5]
 
-	# here for pretty printing/debugging only
-	for key, value in newer_collapsed.iteritems():
-		print "Key: ", key
-		print "Values: "
-		for key, value in value.iteritems():
-			print key, ": ", value
+	# # here for pretty printing/debugging only
+	# for key, value in newer_collapsed.iteritems():
+	# 	print "Key: ", key
+	# 	print "Values: "
+	# 	for key, value in value.iteritems():
+	# 		print key, ": ", value
 
 
 	# shrink to 5 or fewer sections
@@ -185,19 +204,19 @@ def collapse_sections(artist, title):
 		shortest_duration = sorted_keys.pop(0)
 		del newer_collapsed[shortest_duration]
 
-	# here for pretty printing/debugging only
-	print "\n\n\n\n\nReduced to five or fewer\n"
-	for key, value in newer_collapsed.iteritems():
+	# # here for pretty printing/debugging only
+	# print "\n\n\n\n\nReduced to five or fewer\n"
+	# for key, value in newer_collapsed.iteritems():
 
-		print "Key: ", key
-		print "Values: "
-		for key, value in value.iteritems():
-			print key, ": ", value
+	# 	print "Key: ", key
+	# 	print "Values: "
+	# 	for key, value in value.iteritems():
+	# 		print key, ": ", value
 
 def main():
-	# script, artist, title = argv
-	get_by_title_only("karma police")
-	#collapse_sections(artist, title)
-
+	script, artist, title = argv
+	# get_by_title_only("karma police")
+	# collapse_sections(artist, title)
+	get_song_data(artist, title)
 if __name__ == "__main__":
 	main()
