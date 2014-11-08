@@ -1,25 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import os
-import json, requests
+import json, requests, spotipy
 from sys import argv
 
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
+
+
 # calls Spotify API with artist and title to get a track id
 def get_music_player(artist, title):
 	
-	r = requests.get("https://api.spotify.com/v1/search?q=artist%3A" + artist + "track%3A" + title + "&type=track")
 
-	print r 
+	r = requests.get("https://api.spotify.com/v1/search?q=track%3A" + title + "+artist%3A" + artist + "&type=track")
 
-	print r.url
-	r.json()
-
-	print r
-
-	# curl -X GET "https://api.spotify.com/v1/search?q=artist%3Aelliottsmithtrack%3Asouthernbelle&type=track" -H "Accept: application/json"
+	print r.text
+	
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
