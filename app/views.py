@@ -16,6 +16,7 @@ def index():
 
     # Right now, it always starts with Southern Belle (Elliott Smith)
     spotify_track_id = "0um6CMHbyaJCr0aHL2OdRU"
+    spotify_track_id = "spotify:track:5AMrnF761nziCWUfjBgRUI"
 
     return render_template("index.html", spotify_track_id=spotify_track_id)
 

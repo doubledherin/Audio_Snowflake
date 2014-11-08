@@ -41,16 +41,28 @@ def get_song_data(artist, title):
 
 
 	# call echonest to get spotify track id
-	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
+	r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
 
-	status_code = r.status_code
-	results = json.loads(r.content)
+	status_code = r1.status_code
+	results = json.loads(r1.content)
 
 	echonest_track_id = results["response"]["songs"][0]["tracks"][0]["id"]
 
-	
-
+	print echonest_track_id
 	song_data["echonest_track_id"] = echonest_track_id
+
+	# get spotify track id
+	r2 = requests.get("http://developer.echonest.com/api/v4/track/profile?api_key=" + api_key + "&format=json&id=" + echonest_track_id + "&bucket=audio_summary")
+
+	status_code = r2.status_code
+	results = json.loads(r2.content)
+
+	foreign_ids = results["response"]["track"]["foreign_ids"]
+	for foreign_id in foreign_ids:
+		if foreign_id.startswith("spotify:track"):
+			spotify_track_id = foreign_id
+	print spotify_track_id # should be 5AMrnF761nziCWUfjBgRUI for fascination street
+
 
 	print song_data["echonest_track_id"] #TRHPVFE144D149FCAB for fascination street
 	# get detailed song info	
@@ -203,8 +215,8 @@ def main():
 	script, artist, title = argv
 	# get_by_title_only("karma police")
 	# collapse_sections(artist, title)
-	# get_song_data(artist, title)
-	get_music_player(artist, title)
+	get_song_data(artist, title)
+	# get_music_player(artist, title)
 
 if __name__ == "__main__":
 	main()
