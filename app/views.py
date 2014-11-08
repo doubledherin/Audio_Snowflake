@@ -3,6 +3,7 @@ from flask import session as browser_session
 import model as m 
 
 from sqlalchemy import desc
+from api_calls import get_song_data
 
 app = Flask(__name__)
 app.secret_key = "ADFLKASDJF"
@@ -31,10 +32,11 @@ def get_new_song():
     # (placeholder below)
     if song:
         song_data = None
-
+        print song_data
     # TO DO: if it is not, call Echonest
     else:
-        pass
+        song_data = get_song_data(artist_name, title)
+
 
     # TO DO: then call Spotify for the music player
 
@@ -42,7 +44,7 @@ def get_new_song():
 
     # TO DO: then store Echonest and Spotify data in database
 
-    return render_template("index.html", spotify_track_id=spotify_track_id)
+    return render_template("index.html") #, spotify_track_id=spotify_track_id)
 
 
 if __name__ == "__main__":

@@ -4,19 +4,25 @@ import os
 import json, requests, spotipy
 from sys import argv
 
-
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 
-
-# calls Spotify API with artist and title to get a track id
+# calls Spotify API with artist and title to get track uri for web player
 def get_music_player(artist, title):
-	
 
-	r = requests.get("https://api.spotify.com/v1/search?q=track%3A" + title + "+artist%3A" + artist + "&type=track")
+	# r = requests.get("https://api.spotify.com/v1/search?q=track%3A\"" + title + "\"+artist%3A\"" + artist + "\"&type=track")
 
-	print r.text
-	
+	spotify_track_id = "1zHlj4dQ8ZAtrayhuDDmkY"
+	r = requests.get("https://api.spotify.com/v1/tracks/" + spotify_track_id)
+
+
+
+	status_code = r.status_code
+	results = json.loads(r.content)
+
+	print status_code
+	print results
+	print r.url	
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
@@ -24,8 +30,7 @@ def get_song_data(artist, title):
 
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
-	# print r.url
-
+	print r.url
 	status_code = r.status_code
 	results = json.loads(r.content)
 
@@ -197,7 +202,7 @@ def main():
 	# get_by_title_only("karma police")
 	# collapse_sections(artist, title)
 	# get_song_data(artist, title)
-	get_music_player(artist, title)
+	# get_music_player(artist, title)
 
 if __name__ == "__main__":
 	main()

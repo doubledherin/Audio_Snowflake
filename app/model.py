@@ -38,11 +38,11 @@ class Track(Base):
     instrumentalness = Column(Float)
 
 
-    # values for the outer ring (1 per track)
-    outer_a = Column(Float)
-    outer_b = Column(Float)
-    outer_t = Column(Float)
-    outer_h = Column(Float)
+    # # values for the outer ring (1 per track)
+    # outer_a = Column(Float)
+    # outer_b = Column(Float)
+    # outer_t = Column(Float)
+    # outer_h = Column(Float)
 
     # values for the interior rings (1 per section)
     section0_a = Column(Float)
