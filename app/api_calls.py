@@ -10,19 +10,8 @@ api_key = os.environ.get("ECHO_NEST_API_KEY")
 # calls Spotify API with artist and title to get track uri for web player
 def get_music_player(artist, title):
 
-	# r = requests.get("https://api.spotify.com/v1/search?q=track%3A\"" + title + "\"+artist%3A\"" + artist + "\"&type=track")
+	pass
 
-	spotify_track_id = "1zHlj4dQ8ZAtrayhuDDmkY"
-	r = requests.get("https://api.spotify.com/v1/tracks/" + spotify_track_id)
-
-
-
-	status_code = r.status_code
-	results = json.loads(r.content)
-
-	print status_code
-	print results
-	print r.url	
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
@@ -30,14 +19,11 @@ def get_song_data(artist, title):
 
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
-	print r.url
+	# print r.url
 	status_code = r.status_code
 	results = json.loads(r.content)
 
-
 	song_data = {}
-
-
 	# get general song info
 	song_general = results["response"]["songs"][0]
 	
@@ -54,6 +40,19 @@ def get_song_data(artist, title):
 		song_data[key] = value
 
 
+	# call echonest to get spotify track id
+	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
+
+	status_code = r.status_code
+	results = json.loads(r.content)
+
+	echonest_track_id = results["response"]["songs"][0]["tracks"][0]["id"]
+
+	
+
+	song_data["echonest_track_id"] = echonest_track_id
+
+	print song_data["echonest_track_id"] #TRHPVFE144D149FCAB for fascination street
 	# get detailed song info	
 	audio_summary = song_general["audio_summary"]
 
@@ -65,7 +64,10 @@ def get_song_data(artist, title):
 	# 	print key, value
 	# 	print "\n"
 
-	# song_data now contains everything but the sections data
+
+	# song_data now contains everything but sections data
+
+
 	return song_data
 
 # get info on song sections from analysis_url
@@ -202,7 +204,7 @@ def main():
 	# get_by_title_only("karma police")
 	# collapse_sections(artist, title)
 	# get_song_data(artist, title)
-	# get_music_player(artist, title)
+	get_music_player(artist, title)
 
 if __name__ == "__main__":
 	main()
