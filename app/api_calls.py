@@ -51,7 +51,7 @@ def get_song_data(artist, title):
 	print echonest_track_id
 	song_data["echonest_track_id"] = echonest_track_id
 
-	# get spotify track id
+	# get spotify track uri
 	r2 = requests.get("http://developer.echonest.com/api/v4/track/profile?api_key=" + api_key + "&format=json&id=" + echonest_track_id + "&bucket=audio_summary")
 
 	status_code = r2.status_code
@@ -60,11 +60,11 @@ def get_song_data(artist, title):
 	foreign_ids = results["response"]["track"]["foreign_ids"]
 	for foreign_id in foreign_ids:
 		if foreign_id.startswith("spotify:track"):
-			spotify_track_id = foreign_id
-	print spotify_track_id # should be 5AMrnF761nziCWUfjBgRUI for fascination street
+			spotify_track_uri = foreign_id
+	song_data["spotify_track_uri"] = spotify_track_uri
 
 
-	print song_data["echonest_track_id"] #TRHPVFE144D149FCAB for fascination street
+	print song_data["echonest_track_id"] 
 	# get detailed song info	
 	audio_summary = song_general["audio_summary"]
 
