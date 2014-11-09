@@ -187,37 +187,7 @@ def collapse_sections(artist, title):
 	# 	for key, value in value.iteritems():
 	# 		print key, ": ", value
 
-# NOT WORKING AND DON'T KNOW WHY. WROTE ECHONEST API FORUM
-def get_echonest_track_id(artist, title):
-	song_data = get_spotify_track_uri(artist, title)
 
-		# if len(results["response"]["songs"]) == 0 or len(results["response"]["songs"][0]["tracks"]) == 0: 
-	# 	print "ERROR: Cannot access echonest track id for %s" % (song_data["title"])
-	# else:
-
-	# 	echonest_track_id = results["response"]["songs"][0]["tracks"][0]["id"]
-	
-
-	# 	song_data["echonest_track_id"] = unicode(echonest_track_id)
-
-	# 	# get spotify track uri
-	# 	r2 = requests.get("http://developer.echonest.com/api/v4/track/profile?api_key=" + api_key + "&format=json&id=" + echonest_track_id + "&bucket=audio_summary")
-
-
-	# 	status_code = r2.status_code
-	# 	results = json.loads(r2.content)
-
-	# 	try:
-	# 		foreign_ids = results["response"]["track"]["foreign_ids"]
-	# 		for foreign_id in foreign_ids:
-	# 			if foreign_id.startswith("spotify:track"):
-	# 				spotify_track_uri = foreign_id
-	# 		song_data["spotify_track_uri"] = spotify_track_uri
-	# 	except:
-	# 		"ERROR: No foreign ids for %s" % (song_data["title"])
-
-	# song_data now contains everything but sections data
-	return song_data
 
 
 def main():
