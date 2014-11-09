@@ -2,12 +2,11 @@ body {
     background-color: black;
     color: white;
     width: 50%;
-/*    margin-right: auto;
-    margin-left: auto;*/
 }
 
 input {
-    color: black;
+  background-color: white;
+  color: black;
 }
 
   #bottom_right_box {
@@ -24,12 +23,17 @@ input {
 
   #song_title {
     position: absolute;
-    bottom: 0px;
+    bottom: 140px;
     right: 0;
   }
 
-  #web_player {
+  #enter_button {
     position: absolute;
+    bottom: 100px;
+    right: 0;
+  }
+  #web_player {
+    position: fixed;
     bottom: 0;
     right: 0;
   }

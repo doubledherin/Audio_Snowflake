@@ -4,6 +4,7 @@
 <head>
     <meta charset=utf-8 />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Audio Snowflake</title>
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon" />
@@ -33,8 +34,8 @@
     float h = b - 2;
 
 void setup() {
- size(screen.width, screen.height);
-background(0);
+      size(screen.width, screen.height);
+      background(0);
       smooth();
 
 }
@@ -83,39 +84,24 @@ background(0);
 
       t += .1;
 
-
-
-// Math on guilloche
-// Post  guilloche on 5/17/2012, 9:37 am
-
-// The following basic hypertrochoid equations makes a nice rosette:
-// x = (R+r)cos(t)+(r+p)cos(t*(R+r)/r)
-// y = (R+r)sin(t)-(r+p)sin(t*(R+r)/r)
-
-// We can extend the above equations to have more options:
-// x = (R+r)cos(m*t)+(r+p)cos(m*t*(R+r)/r) + Q*cos(n*t)
-// y = (R+r)sin(m*t) - (r+p)sin(m*t*(R+r)/r) + Q*sin(n*t)
-
-// You can test all above or other equations with Torapp guilloche designer.
 }
 
     </script>
-
 <canvas></canvas>
 
-        <div id="song_entry">
+        <div id="bottom_right_box">
             <form action="/new_song" method="GET">
-                <label for="artist_name">Artist name:</label>
-                <input type="text" name="artist_name">
-                <label for="title">Song title:</label>
-                <input type="text" name="title">
-                <input type="submit" value="Enter">
+              <div id="artist_name" width="250"><input type="text" placeholder="Enter artist" name="artist_name"></div>
+                <div id="song_title"><input type="text" placeholder="Enter song" name="title"></div>
+
+                <div id="enter_button">
+                  <button type="submit" class="btn btn-default">Enter</button>
+                </div>
             </form>
-        <div>
 
-
-        <div id="song_credit">
-          <iframe src="https://embed.spotify.com/?uri={{ spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
-        <div>
-    </body>
+            <div id="web_player">
+              <iframe src="https://embed.spotify.com/?uri={{ spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
+            </div>
+        </div>
+</body>
 </html>
