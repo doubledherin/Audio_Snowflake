@@ -16,15 +16,11 @@ app.secret_key = "ADFLKASDJF"
 @app.route("/")
 def index():
 
-    # ALWAYS SAME TRACK TO START
-    spotify_track_uri = "spotify:track:5AMrnF761nziCWUfjBgRUI"
-    
-    # # TO DO: randomly get a spotify_track_id from database
-    # rand = random.randrange(0, db_session.query(m.Track).count()) 
-    # row = db_session.query(m.Track)[rand]
+    # get random song from db to start 
+    rand = random.randrange(0, db_session.query(m.Track).count()) 
+    row = db_session.query(m.Track)[rand]
 
-    # print row.spotify_track_uri
-
+    spotify_track_uri = row.spotify_track_uri
 
     return render_template("index.html", spotify_track_uri=spotify_track_uri)
 
