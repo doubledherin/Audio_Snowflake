@@ -14,7 +14,13 @@ body {
   .breadcrumb .active {
     color: white;
   }
-  
+
+p {
+  color: white;
+  text-align: center;
+/*  margin-right: auto;
+  margin-left: auto;
+*/}
 input {
   background-color: white;
   color: black;
