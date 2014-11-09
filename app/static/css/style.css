@@ -4,6 +4,17 @@ body {
     width: 50%;
 }
 
+  .breadcrumb {
+    background-color: black;
+
+    position: fixed;
+    right: 0;
+  }
+
+  .breadcrumb .active {
+    color: white;
+  }
+  
 input {
   background-color: white;
   color: black;

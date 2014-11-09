@@ -17,6 +17,12 @@
 
 <body>
 
+  <ul class="breadcrumb">
+    <li class="active">Home</li>
+    <li><a href="#">About</a></li>
+ 
+  </ul>
+
     <script type="application/processing">
     /* A hypotrochoid is a roulette traced by a point P 
     attached to a circle of radius b rolling around the 
@@ -89,14 +95,23 @@
     </script>
 <canvas></canvas>
 
-        <div id="bottom_right_box">
-            <form action="/new_song" method="GET">
-              <div id="artist_name" width="250"><input type="text" placeholder="Enter artist" name="artist_name"></div>
-                <div id="song_title"><input type="text" placeholder="Enter song" name="title"></div>
-
-                <div id="enter_button">
-                  <button type="submit" class="btn btn-default">Enter</button>
+        <div id="bottom_right_box" class="container">
+            <form class="form-horizontal" role="form" action="/new_song" method="GET" >
+              <div class="form-group">
+                
+                <div class="row">
+                <div class="col-sm-2" id="artist_name" width="250"><input type="text" placeholder="Enter artist" name="artist_name"></div>
                 </div>
+
+
+                <div class="row">
+                <div class="col-sm-2" id="song_title"><input type="text" placeholder="Enter song" name="title"></div>
+                </div>
+
+                <div class="row">
+                <div class="col-sm-2" id="enter_button"><button type="submit" class="btn btn-default">Get Snowflake</button></div>
+                </div>
+              </div>
             </form>
 
             <div id="web_player">
