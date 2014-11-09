@@ -12,11 +12,12 @@ from api_calls import get_song_data
 app = Flask(__name__)
 app.secret_key = "ADFLKASDJF"
 
-# ALWAYS SAME TRACK TO START
-spotify_track_uri = "spotify:track:5AMrnF761nziCWUfjBgRUI"
 
 @app.route("/")
 def index():
+
+    # ALWAYS SAME TRACK TO START
+    spotify_track_uri = "spotify:track:5AMrnF761nziCWUfjBgRUI"
     
     # # TO DO: randomly get a spotify_track_id from database
     # rand = random.randrange(0, db_session.query(m.Track).count()) 

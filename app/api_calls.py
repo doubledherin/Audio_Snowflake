@@ -6,21 +6,21 @@ from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
-# calls Echonest API with artist name and song title (strings);
+# calls Echonest API with artist name and song title and
 # returns a dictionary of song data
 def get_song_data(artist, title):
 
+	song_data = {}
+
+	# get general song info
+	###########################################
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
-	print 000, r.headers
 	if r.status_code != 200:
 		return "Error accessing Echonest API for 1st get_song_data call. Status code %d" % r.status_code
 	
 	results = json.loads(r.content)
 
-	song_data = {}
-
-	# get general song info
 	song_general = results["response"]["songs"][0]
 	
 	if len(song_general) == 0:
@@ -37,7 +37,8 @@ def get_song_data(artist, title):
 
 		song_data[key] = value
 	
-	# get detailed song info	
+	# get detailed song info
+	###########################################	
 	try:
 		audio_summary = song_general["audio_summary"]
 	except:
@@ -47,6 +48,7 @@ def get_song_data(artist, title):
 		song_data[key] = value
 
 	# call echonest to get spotify track id
+	###########################################
 	r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
 
 	if r1.status_code != 200:
@@ -56,41 +58,23 @@ def get_song_data(artist, title):
 
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
-
-	return song_data
-
-# get info on song sections from analysis_url
-# and add sections to song_data dictionary
-def add_sections(artist, title):
 	
-	song_data = get_song_data(artist, title)
-	
+	# get analyses of song sections
+	###########################################
 	analysis_url = str(song_data["analysis_url"])
 
-	r = requests.get(analysis_url)
+	r2 = requests.get(analysis_url)
 
-	status_code = r.status_code
-	results = json.loads(r.content)
+	if r2.status_code != 200:
+		return "Error accessing analysis url. Status code %d" % r2.status_code
+
+	results = json.loads(r2.content)
 
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
-	song_data["sections"] = sections
- 
- 	# pretty print for development purposes
-	for key, value in song_data.iteritems():
-		print key, value
-		print "\n"
 
-	return song_data
-
-# collapses sections into groups with same key, mode, and time signature,
-# then collapses further by averaging of data in each collapsed section;
-# then reduces number of sections to no more than 5
-def collapse_sections(artist, title):
-
-	song_data = add_sections(artist, title)
-
-	sections = song_data["sections"]
+	# collapse song sections
+	###########################################
 
 	collapsed = {}
 	for i in range(len(sections)):
@@ -117,12 +101,6 @@ def collapse_sections(artist, title):
 
 		# key is now (total_duration, key, mode, time sig)
 		new_collapsed[key] = value
-
-	# # for debugging
-	# for key, value in new_collapsed.iteritems():
-	# 	print "Key: %r, Value: %r\n" % (key, value)
-
-
 
 	# for each collapsed section, collapse list of values into averages
 	newer_collapsed = {}
@@ -162,14 +140,6 @@ def collapse_sections(artist, title):
 		newer_collapsed[key]["avg_tempo"] = averages[4]
 		newer_collapsed[key]["avg_loudness"] = averages[5]
 
-	# # here for pretty printing/debugging only
-	# for key, value in newer_collapsed.iteritems():
-	# 	print "Key: ", key
-	# 	print "Values: "
-	# 	for key, value in value.iteritems():
-	# 		print key, ": ", value
-
-
 	# shrink to 5 or fewer sections
 	while len(newer_collapsed) > 5:
 		
@@ -178,16 +148,8 @@ def collapse_sections(artist, title):
 		shortest_duration = sorted_keys.pop(0)
 		del newer_collapsed[shortest_duration]
 
-	# # here for pretty printing/debugging only
-	# print "\n\n\n\n\nReduced to five or fewer\n"
-	# for key, value in newer_collapsed.iteritems():
-
-	# 	print "Key: ", key
-	# 	print "Values: "
-	# 	for key, value in value.iteritems():
-	# 		print key, ": ", value
-
-
+	for key, value in newer_collapsed.iteritems():
+		print "Key: %s, Value: %r" % (key, value)
 
 
 def main():
