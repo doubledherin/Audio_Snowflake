@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import os
-import json, requests, spotipy
+import json, requests
 from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
-
-
-# calls Spotify API with artist and title to get track uri for web player
-def get_music_player(artist, title):
-
-	pass
-
 
 # calls Echonest API with artist name and song title (strings);
 # returns a dictionary of song data
@@ -19,16 +12,21 @@ def get_song_data(artist, title):
 
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
-	# print r.url
-	status_code = r.status_code
+	print 000, r.headers
+	if r.status_code != 200:
+		return "Error accessing Echonest API for 1st get_song_data call. Status code %d" % r.status_code
+	
 	results = json.loads(r.content)
 
 	song_data = {}
+
 	# get general song info
 	song_general = results["response"]["songs"][0]
 	
-	for key, value in song_general.iteritems():
+	if len(song_general) == 0:
+		return "Error. No song data returned from Echonest API."
 
+	for key, value in song_general.iteritems():
 		# skip audio_summary, which we're getting in the next for loop
 		if key == "audio_summary":
 			continue
@@ -36,49 +34,28 @@ def get_song_data(artist, title):
 		# rename "id" key for clarity purposes
 		if key == "id":
 			key = "song_id"
-		
+
 		song_data[key] = value
-
-
-	# call echonest to get spotify track id
-	r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
-
-	status_code = r1.status_code
-	results = json.loads(r1.content)
-
-	echonest_track_id = results["response"]["songs"][0]["tracks"][0]["id"]
-
-	print echonest_track_id
-	song_data["echonest_track_id"] = echonest_track_id
-
-	# get spotify track uri
-	r2 = requests.get("http://developer.echonest.com/api/v4/track/profile?api_key=" + api_key + "&format=json&id=" + echonest_track_id + "&bucket=audio_summary")
-
-	status_code = r2.status_code
-	results = json.loads(r2.content)
-
-	foreign_ids = results["response"]["track"]["foreign_ids"]
-	for foreign_id in foreign_ids:
-		if foreign_id.startswith("spotify:track"):
-			spotify_track_uri = foreign_id
-	song_data["spotify_track_uri"] = spotify_track_uri
-
-
-	print song_data["echonest_track_id"] 
+	
 	# get detailed song info	
-	audio_summary = song_general["audio_summary"]
+	try:
+		audio_summary = song_general["audio_summary"]
+	except:
+		"ERROR: No audio summary for %s" % song_data["title"]
 
 	for key, value in audio_summary.iteritems():
 		song_data[key] = value
 
-	# # pretty print for development purposes
-	# for key, value in song_data.iteritems():
-	# 	print key, value
-	# 	print "\n"
+	# call echonest to get spotify track id
+	r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
 
+	if r1.status_code != 200:
+		return "Error accessing Echonest API. Status code %d" % r1.status_code
 
-	# song_data now contains everything but sections data
+	results = json.loads(r1.content)
 
+	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
+	song_data["spotify_track_uri"] = spotify_track_uri
 
 	return song_data
 
@@ -99,10 +76,10 @@ def add_sections(artist, title):
 	sections = results["sections"]
 	song_data["sections"] = sections
  
- # 	# pretty print for development purposes
-	# for key, value in song_data.iteritems():
-	# 	print key, value
-	# 	print "\n"
+ 	# pretty print for development purposes
+	for key, value in song_data.iteritems():
+		print key, value
+		print "\n"
 
 	return song_data
 
@@ -122,7 +99,6 @@ def collapse_sections(artist, title):
 		time_sig = sections[i]["time_signature"]
 		collapsed[(key, mode, time_sig)] = collapsed.setdefault((key, mode, time_sig), [])
 		collapsed[(key, mode, time_sig)].append(sections[i])
-
 
 	new_collapsed = {}
 	# get total duration for each collapsed section
@@ -211,11 +187,46 @@ def collapse_sections(artist, title):
 	# 	for key, value in value.iteritems():
 	# 		print key, ": ", value
 
+# NOT WORKING AND DON'T KNOW WHY. WROTE ECHONEST API FORUM
+def get_echonest_track_id(artist, title):
+	song_data = get_spotify_track_uri(artist, title)
+
+		# if len(results["response"]["songs"]) == 0 or len(results["response"]["songs"][0]["tracks"]) == 0: 
+	# 	print "ERROR: Cannot access echonest track id for %s" % (song_data["title"])
+	# else:
+
+	# 	echonest_track_id = results["response"]["songs"][0]["tracks"][0]["id"]
+	
+
+	# 	song_data["echonest_track_id"] = unicode(echonest_track_id)
+
+	# 	# get spotify track uri
+	# 	r2 = requests.get("http://developer.echonest.com/api/v4/track/profile?api_key=" + api_key + "&format=json&id=" + echonest_track_id + "&bucket=audio_summary")
+
+
+	# 	status_code = r2.status_code
+	# 	results = json.loads(r2.content)
+
+	# 	try:
+	# 		foreign_ids = results["response"]["track"]["foreign_ids"]
+	# 		for foreign_id in foreign_ids:
+	# 			if foreign_id.startswith("spotify:track"):
+	# 				spotify_track_uri = foreign_id
+	# 		song_data["spotify_track_uri"] = spotify_track_uri
+	# 	except:
+	# 		"ERROR: No foreign ids for %s" % (song_data["title"])
+
+	# song_data now contains everything but sections data
+	return song_data
+
+
 def main():
 	script, artist, title = argv
-	# get_by_title_only("karma police")
-	# collapse_sections(artist, title)
 	get_song_data(artist, title)
+	# add_sections(artist, title)
+	# collapse_sections(artist, title)
+	# get_echonest_track_id(artist, title)
+	# get_spotify_track_uri(artist, title)
 	# get_music_player(artist, title)
 
 if __name__ == "__main__":

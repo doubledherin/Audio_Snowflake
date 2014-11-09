@@ -4,12 +4,12 @@ from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 engine = create_engine("sqlite:///audiosnowflake.db", echo=False)
-session = scoped_session(sessionmaker(bind=engine,
+db_session = scoped_session(sessionmaker(bind=engine,
                                       autocommit = False,
                                       autoflush = False))
 
 Base = declarative_base()
-Base.query = session.query_property()
+Base.query = db_session.query_property()
 
 
 class Track(Base):
@@ -36,13 +36,17 @@ class Track(Base):
     valence = Column(Float) 
     audio_md5 = Column(String(50))
     instrumentalness = Column(Float)
+    # echonest_track_id = Column(String(50))
+    spotify_track_uri = Column(String(50))
+    analysis_url = Column(String(150))
+    # artist_foreign_ids = Column(String (150))
 
 
-    # # values for the outer ring (1 per track)
-    # outer_a = Column(Float)
-    # outer_b = Column(Float)
-    # outer_t = Column(Float)
-    # outer_h = Column(Float)
+    # values for the outer ring (1 per track)
+    outer_a = Column(Float)
+    outer_b = Column(Float)
+    outer_t = Column(Float)
+    outer_h = Column(Float)
 
     # values for the interior rings (1 per section)
     section0_a = Column(Float)
@@ -69,3 +73,6 @@ class Track(Base):
     section4_b = Column(Float)
     section4_t = Column(Float)
     section4_h = Column(Float)
+
+
+

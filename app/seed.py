@@ -1,11 +1,16 @@
+# -*- coding: utf-8 -*-
 import model
-from get_song_data import get_song_data
+from model import db_session
+from api_calls import get_song_data
 
 def main(session):
-    songs = [("Radiohead", "Weird Fishes"), ("Radiohead", "No Surprises"), ("Radiohead", "Nude"), ("Radiohead", "Paranoid Android")]
+    songs = [("Cyndi Lauper", "True Colors")]
+
     for song in songs:
+
         song_data = get_song_data(song[0], song[1])
 
+        print 0, song_data.keys(), "\n\n\n"
         #TO DO check to see if song is already in db
         track = model.Track()
 
@@ -27,11 +32,15 @@ def main(session):
         track.valence = song_data["valence"]    
         track.audio_md5 = song_data["audio_md5"]
         track.instrumentalness = song_data["instrumentalness"]
+        #track.echonest_track_id = song_data["echonest_track_id"]
+        track.spotify_track_uri = song_data["spotify_track_uri"]
+        track.analysis_url = song_data["analysis_url"]
+        track.artist_foreign_ids = song_data["artist_foreign_ids"]
 
-        session.add(track)
+        db_session.add(track)
 
-    session.commit()
+    db_session.commit()
 
 if __name__ == "__main__":
-    session = model.connect()
-    main(session)
+    # session = model.connect()
+    main(db_session)
