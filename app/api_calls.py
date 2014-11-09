@@ -45,6 +45,9 @@ def get_song_data(artist, title):
 		"ERROR: No audio summary for %s" % song_data["title"]
 
 	for key, value in audio_summary.iteritems():
+		# round to no more than 3 decimal places
+		if type(value) == float:
+			value = round(value, 3)
 		song_data[key] = value
 
 	# call echonest to get spotify track id

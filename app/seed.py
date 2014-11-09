@@ -4,13 +4,12 @@ from model import db_session
 from api_calls import get_song_data
 
 def main(session):
-    songs = [("Cyndi Lauper", "True Colors")]
+    songs = [("Pink Floyd", "Money")]
 
     for song in songs:
 
         song_data = get_song_data(song[0], song[1])
 
-        print 0, song_data.keys(), "\n\n\n"
         #TO DO check to see if song is already in db
         track = model.Track()
 
