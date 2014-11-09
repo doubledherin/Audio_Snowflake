@@ -34,18 +34,23 @@ def get_new_song():
     title = request.args.get("title")
     artist_name = request.args.get("artist_name")
 
-    # # check to see if song is in database. 
-    # song = m.session.query(m.Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
+    # check to see if song is in database. 
+    song = m.db_session.query(m.Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
+
+    if song:
+        print "SONG IN DATABASE"
+        spotify_track_uri = song.spotify_track_uri
 
     # # TO DO: if it is, return information for it and render it on screen
     # # (placeholder below)
     # if song:
     #     song_data = None
     #     print song_data
+
     # # TO DO: if it is not, call Echonest
-    # else:
-    song_data = get_song_data(artist_name, title)
-    spotify_track_uri = song_data["spotify_track_uri"]
+    else:
+        song_data = get_song_data(artist_name, title)
+        spotify_track_uri = song_data["spotify_track_uri"]
 
     return render_template("new_song.html", spotify_track_uri=spotify_track_uri) 
 
