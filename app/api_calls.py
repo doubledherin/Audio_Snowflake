@@ -59,6 +59,11 @@ def get_song_data(artist, title):
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
 	
+	return song_data
+
+def collapse_sections(artist, title):
+	song_data = get_song_data(artist, title)
+
 	# get analyses of song sections
 	###########################################
 	analysis_url = str(song_data["analysis_url"])
@@ -149,14 +154,13 @@ def get_song_data(artist, title):
 		del newer_collapsed[shortest_duration]
 
 	for key, value in newer_collapsed.iteritems():
-		print "Key: %s, Value: %r" % (key, value)
-
+		print "Key: %s\nValue: %r" % (key, value)
 
 def main():
 	script, artist, title = argv
-	get_song_data(artist, title)
+	# get_song_data(artist, title)
 	# add_sections(artist, title)
-	# collapse_sections(artist, title)
+	collapse_sections(artist, title)
 	# get_echonest_track_id(artist, title)
 	# get_spotify_track_uri(artist, title)
 	# get_music_player(artist, title)

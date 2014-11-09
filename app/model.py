@@ -41,7 +41,6 @@ class Track(Base):
     analysis_url = Column(String(150))
     # artist_foreign_ids = Column(String (150))
 
-
     # values for the outer ring (1 per track)
     outer_a = Column(Float)
     outer_b = Column(Float)
