@@ -3,6 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Audio Snowflake</title>
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -102,19 +103,22 @@ background(0);
     </script>
 <canvas></canvas>
 
-        <div id="song_entry">
+        <div id="bottom_right_box">
             <form action="/new_song" method="GET">
-                <label for="artist_name">Artist name:</label>
-                <input type="text" name="artist_name">
-                <label for="title">Song title:</label>
+                <div id="artist_name"><label for="artist_name">Artist name:</label>
+                <input type="text" name="artist_name"></div>
+
+                <div id="song_title"><label for="title">Song title:</label>
                 <input type="text" name="title">
-                <input type="submit" value="Enter">
+
+                <input type="submit" value="Enter"></div>
             </form>
-        <div>
+            
+            <div id="web_player">
+              <iframe src="https://embed.spotify.com/?uri={{ spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
+            </div>
+        </div>
 
 
-        <div id="song_credit">
-          <iframe src="https://embed.spotify.com/?uri={{ spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
-        <div>
     </body>
 </html>

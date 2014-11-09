@@ -10,14 +10,26 @@ input {
     color: black;
 }
 
-  #song_entry {
-    position: fixed;
+  #bottom_right_box {
+    position: fixed
     bottom: 0;
     right: 0;
   }
 
-  #song_credit {
-    position: fixed;
+  #artist_name {
+    position: absolute;
+    bottom: 160px;
+    right: 0;
+  }
+
+  #song_title {
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+  }
+
+  #web_player {
+    position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
   }
