@@ -17,6 +17,7 @@
 
     void setup() {
           size(1200, 700);
+          frameRate(100);
           background(0);
           smooth();
     }

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import model
 from model import db_session
+from sys import argv
 from api_calls import get_song_data
 
-def main(session):
-    songs = [("Pink Floyd", "Money")]
+def main(session, artist, title):
+    songs = [(artist, title)]
 
     for song in songs:
 
@@ -42,4 +43,5 @@ def main(session):
 
 if __name__ == "__main__":
     # session = model.connect()
-    main(db_session)
+    script, artist, title = argv
+    main(db_session, artist, title)
