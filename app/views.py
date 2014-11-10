@@ -1,6 +1,9 @@
-import random
+import json, random
 
-from flask import Flask, render_template, redirect, request, flash
+import numpy as np
+import pandas as pd
+
+from flask import Flask, render_template, redirect, request, flash, url_for
 from flask import session as browser_session
 import model as m 
 from model import db_session
@@ -56,3 +59,5 @@ def about_page():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

@@ -23,6 +23,8 @@
  
   </ul>
 
+
+
     <script type="application/processing">
     /* A hypotrochoid is a roulette traced by a point P 
     attached to a circle of radius b rolling around the 
@@ -34,11 +36,11 @@
     y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t))
     */
 
-
     float a = screen.height/2 + 100;
     float b = screen.height/4 - 10;
     float t = 45;
     float h = b - 2;
+  
 
     void setup() {
           size(screen.width, screen.height);
@@ -46,7 +48,9 @@
           smooth();
     }
 
-    void draw() {
+
+    void draw(){
+
 
       stroke(#F5E69C, 100);
       float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
@@ -91,6 +95,7 @@
       t += .1;
 
 }
+
 
     </script>
 <canvas></canvas>
