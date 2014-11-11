@@ -15,6 +15,9 @@ body {
     color: white;
   }
 
+  .container {
+    width: 250px;
+  }
 p {
   color: white;
   text-align: center;
@@ -27,6 +30,7 @@ input {
 }
 
   #bottom_right_box {
+    display: inline-block;
     position: fixed
     bottom: 0;
     right: 0;

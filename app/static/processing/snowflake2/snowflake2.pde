@@ -1,12 +1,13 @@
 Pattern hypotrochoid;
 
-int[] h_values = {19, 140, 175, 50, 90};
+int[] h_values = {19, 140, 175, 50, 
+90};
 
 Hypotrochoid[] hypotrochoids = new Hypotrochoid[h_values.length];
 
 void setup() {
 
-  size(1200,700); 
+  size(window.innerWidth, window.innerHeight); 
   frameRate(100);
   background(0);
   smooth();

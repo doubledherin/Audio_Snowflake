@@ -10,7 +10,7 @@
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css".>
 
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
     <script type="text/javascript" src="../static/js/init.js"></script>
 </head>
@@ -24,81 +24,7 @@
   </ul>
 
 
-
-    <script type="application/processing">
-    /* A hypotrochoid is a roulette traced by a point P 
-    attached to a circle of radius b rolling around the 
-    inside of a fixed circle of radius a, where P is a 
-    distance h from the center of the interior circle. 
-    The parametric equations for a hypotrochoid are
-
-    x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t))  
-    y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t))
-    */
-
-    float a = screen.height/2 + 100;
-    float b = screen.height/4 - 10;
-    float t = 45;
-    float h = b - 2;
-  
-
-    void setup() {
-          size(screen.width, screen.height);
-          background(0);
-          smooth();
-    }
-
-
-    void draw(){
-
-
-      stroke(#F5E69C, 100);
-      float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-
-      stroke(#EDAB54, 60);
-      h -= 20;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h += 20;
-
-      stroke(#115BF5, 100);
-      h -= 60;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h += 60;
-
-      stroke(#2BFA75, 100);
-      h += 60;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h -= 60;
-      
-      stroke(#FF2727, 40);
-      h -= 160;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h += 160;
-     
-      stroke(#272FFF, 70);
-      h += 170;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h -= 170;
-
-      t += .1;
-
-}
-
-
-    </script>
-<canvas></canvas>
+<canvas id="snowflake" data-processing-sources="../static/processing/snowflake2/snowflake2.pde"></canvas>
 
         <div id="bottom_right_box" class="container">
             <form class="form-horizontal" role="form" action="/new_song" method="GET" >
