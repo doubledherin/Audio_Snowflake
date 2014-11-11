@@ -22,12 +22,12 @@ app.secret_key = "ADFLKASDJF"
 def index():
 
     # get random song from db to start 
-    # rand = random.randrange(0, db_session.query(m.Track).count()) 
-    # row = db_session.query(m.Track)[rand]
+    rand = random.randrange(0, db_session.query(m.Track).count()) 
+    row = db_session.query(m.Track)[rand]
 
-    # spotify_track_uri = row.spotify_track_uri
+    spotify_track_uri = row.spotify_track_uri
 
-    return render_template("index.html") #, spotify_track_uri=spotify_track_uri)
+    return render_template("index.html", spotify_track_uri=spotify_track_uri)
 
 @app.route("/new_song")
 def get_new_song():
