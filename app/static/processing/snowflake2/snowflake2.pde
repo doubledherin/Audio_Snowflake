@@ -11,6 +11,7 @@ void setup() {
   frameRate(100);
   background(0);
   smooth();
+
   float a = 640.0;
   float b = 260.0;
   float t = 45.0;
@@ -23,7 +24,9 @@ void setup() {
 }
 void draw() {  
   for (int i = 0; i < hypotrochoids.length; i++) {
-    hypotrochoids[i].draw();
+
+      hypotrochoids[i].draw();
+ 
   }
 }
 
@@ -45,10 +48,12 @@ class Hypotrochoid implements Pattern
   };
 
   void draw() {
-          stroke(#F5E69C, 100);
-      float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x,y,1,1);
+      stroke(#F5E69C, 100);
+      float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 500;  
+      float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 500;
+      scale(.5);
+      ellipse(x ,y,1,1);
+      scale(2);
       t += 0.1;
 //      print("!a", a, "b", b, "t", t, "h", h, "x", x, "y", y);
   };
