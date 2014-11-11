@@ -1,9 +1,9 @@
 Pattern hypotrochoid;
 
-//float[] a_values = {640.0, 300.0, 100.0, 475.0, 
-//490.0};
-//float[] b_values = {260.0, 140.0, 175.0, 50.0, 
-//190.0};
+float[] a_values = {640, 300, 100, 475, 
+490};
+float[] b_values = {260.0, 140.0, 175.0, 50.0, 
+190.0};
 float[] h_values = {19, 140, 175, 50, 
 90};
 Hypotrochoid[] hypotrochoids = new Hypotrochoid[h_values.length];
@@ -15,16 +15,17 @@ void setup() {
   background(0);
   smooth();
 
-  float a = 640.0;
-  float b = 260.0;
+  // float a = 640.0;
+  // float b = 260.0;
   float t = 10.0;
 //  int h = 258;
   
   for (int i = 0; i < h_values.length; i++) {
-    hypotrochoids[i] = new Hypotrochoid(a, b, t, h_values[i]);
+    hypotrochoids[i] = new Hypotrochoid(a_values[i], b_values[i], t, h_values[i]);
 
     //    hypotrochoids[i] = new Hypotrochoid(a_values[i], b_values[i], t_values[i], h_values[i]);
-//  print(h_values[i]);  
+//  print(h_values[i]); 
+    // print("A: ", a_values[i], "H: ", h_values[i]);
   }
 }
 void draw() {  
