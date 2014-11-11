@@ -4,6 +4,8 @@ import os
 import json, requests
 from sys import argv
 
+from seed import add_to_db
+
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 # calls Echonest API with artist name and song title and

@@ -12,6 +12,8 @@ from sqlalchemy import desc
 
 from api_calls import get_song_data
 
+from seed import add_to_db
+
 app = Flask(__name__)
 app.secret_key = "ADFLKASDJF"
 
@@ -39,15 +41,14 @@ def get_new_song():
     if song:
         spotify_track_uri = song.spotify_track_uri
 
-    # # TO DO: if it is, return information for it and render it on screen
-    # # (placeholder below)
-    # if song:
-    #     song_data = None
-    #     print song_data
 
-    # # TO DO: if it is not, call Echonest
+    # If it is not in the db yet, call Echonest to get it
     else:
         song_data = get_song_data(artist_name, title)
+
+        add_to_db(db_session, song_data)
+        
+        # keep track uri for web player
         spotify_track_uri = song_data["spotify_track_uri"]
 
     return render_template("new_song.html", spotify_track_uri=spotify_track_uri) 
