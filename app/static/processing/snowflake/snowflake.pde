@@ -31,42 +31,43 @@
       float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
       ellipse(x, y, 1, 1);
 
-      stroke(#EDAB54, 60);
-      h -= 20;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h += 20;
-
-      stroke(#115BF5, 100);
-      h -= 60;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h += 60;
-
-      stroke(#2BFA75, 100);
-      h += 60;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h -= 60;
-      
-      stroke(#FF2727, 40);
-      h -= 160;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h += 160;
-     
-      stroke(#272FFF, 70);
-      h += 170;
-      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
-      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
-      ellipse(x, y, 1, 1);
-      h -= 170;
+//      stroke(#EDAB54, 60);
+//      h -= 20;
+//      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
+//      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
+//      ellipse(x, y, 1, 1);
+//      h += 20;
+//
+//      stroke(#115BF5, 100);
+//      h -= 60;
+//      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
+//      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
+//      ellipse(x, y, 1, 1);
+//      h += 60;
+//
+//      stroke(#2BFA75, 100);
+//      h += 60;
+//      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
+//      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
+//      ellipse(x, y, 1, 1);
+//      h -= 60;
+//      
+//      stroke(#FF2727, 40);
+//      h -= 160;
+//      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
+//      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
+//      ellipse(x, y, 1, 1);
+//      h += 160;
+//     
+//      stroke(#272FFF, 70);
+//      h += 170;
+//      x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t)) + 300;  
+//      y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t)) + 300;
+//      ellipse(x, y, 1, 1);
+//      h -= 170;
 
       t += .1;
+      print("%a", a, "b", b, "t", t, "h", h, "x", x, "y", y);
 
 }
 
