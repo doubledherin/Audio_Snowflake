@@ -4,6 +4,14 @@ from model import db_session
 from sys import argv
 # from api_calls import get_song_data
 
+
+
+import json
+
+values = {"hypo0_a": 640.0, "hypo0_b": 260.0, "hypo0_h" :19, "hypo1_a": 300.0, "hypo1_b": 140.0, "hypo1_h" : 140, "hypo2_a": 100.0, "hypo2_b": 175.0, "hypo2_h" : 175, "hypo3_a": 475.0, "hypo3_b": 50.0, "hypo3_h": 50, "hypo4_a": 490, "hypo4_b": 190.0, "hypo4_h" : 90}
+
+values_json = json.dumps(values)
+
 def add_to_db(session, song_data):
     # songs = [(artist, title)]
 
@@ -34,9 +42,9 @@ def add_to_db(session, song_data):
     track.instrumentalness = song_data["instrumentalness"]
     #track.echonest_track_id = song_data["echonest_track_id"]
     track.spotify_track_uri = song_data["spotify_track_uri"]
-    track.analysis_url = song_data["analysis_url"]
-    track.artist_foreign_ids = song_data["artist_foreign_ids"]
-
+    # track.analysis_url = song_data["analysis_url"]
+    # track.artist_foreign_ids = song_data["artist_foreign_ids"]
+    track.patterns = values_json
     db_session.add(track)
 
     db_session.commit()

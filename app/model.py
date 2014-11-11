@@ -1,7 +1,9 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, PickleType
 from sqlalchemy.orm import sessionmaker, scoped_session
+
+
 
 engine = create_engine("sqlite:///audiosnowflake.db", echo=False)
 db_session = scoped_session(sessionmaker(bind=engine,
@@ -41,37 +43,35 @@ class Track(Base):
     # analysis_url = Column(String(150))
     # artist_foreign_ids = Column(String (150))
 
-    # values for the outer ring (1 per track)
-    # outer_a = Column(Float)
-    # outer_b = Column(Float)
-    # outer_t = Column(Float)
-    # outer_h = Column(Float)
+    # values for the outer ring (epitrochoid; 1 per track)
+    # epi_a = Column(Float)
+    # epi_b = Column(Float)
+    # epi_h = Column(Float)
 
-    # # values for the interior rings (1 per section)
-    # section0_a = Column(Float)
-    # section0_b = Column(Float)
-    # section0_t = Column(Float)
-    # section0_h = Column(Float)
+    # # values for the interior rings (hypotrochoids; 1 per section; 5 sections max)
+    # hypo0_a = Column(Float)
+    # hypo0_b = Column(Float)
+    # hypo0_h = Column(Float)
 
-    # section1_a = Column(Float)
-    # section1_b = Column(Float)
-    # section1_t = Column(Float)
-    # section1_h = Column(Float)
+    # hypo1_a = Column(Float)
+    # hypo1_b = Column(Float)
+    # hypo1_h = Column(Float)
 
-    # section2_a = Column(Float)
-    # section2_b = Column(Float)
-    # section2_t = Column(Float)
-    # section2_h = Column(Float)
+    # hypo2_a = Column(Float)
+    # hypo2_b = Column(Float)
+    # hypo2_h = Column(Float)
 
-    # section3_a = Column(Float)
-    # section3_b = Column(Float)
-    # section3_t = Column(Float)
-    # section3_h = Column(Float)
+    # hypo3_a = Column(Float)
+    # hypo3_b = Column(Float)
+    # hypo3_h = Column(Float)
 
-    # section4_a = Column(Float)
-    # section4_b = Column(Float)
-    # section4_t = Column(Float)
-    # section4_h = Column(Float)
+    # hypo4_a = Column(Float)
+    # hypo4_b = Column(Float)
+    # hypo4_h = Column(Float)
+
+    # values for variables in patterns
+    patterns = Column(PickleType)
+
 
 
 

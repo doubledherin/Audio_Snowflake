@@ -4,7 +4,7 @@ import os
 import json, requests
 from sys import argv
 
-from seed import add_to_db
+
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
@@ -160,6 +160,11 @@ def collapse_sections(artist, title):
 
 	for key, value in newer_collapsed.iteritems():
 		print "Key: %s\nValue: %r" % (key, value)
+
+	return newer_collapsed
+
+def add_patterns(artist, title):
+	return newer_collapsed
 
 def main():
 	script, artist, title = argv
