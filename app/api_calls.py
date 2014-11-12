@@ -16,7 +16,11 @@ def get_song_data(artist, title):
 
 	# get general song info
 	###########################################
-	# params = {"api_key" : api_key}
+	
+	# TO DO: See if I can replace the below dictionary format with the concatentated string format. Note that the fact that # "bucket" appears twice in the concat version could prove tricky.
+	# params = {"api_key" : api_key, "format" : "json", "results" : "1", "artist": artist, "title" : title, "bucket" : "id:spotify"}
+	# response_general_info = requests.get("http://developer.echonest.com/api/v4/song/search", params=params)
+	
 	response_general_info = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
 	if response_general_info.status_code != 200:
