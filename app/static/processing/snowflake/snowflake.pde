@@ -63,13 +63,19 @@ class Hypotrochoid implements Pattern
   };
 
   void draw() {
- 
+//      translate(width/2, height/2);
+//      pushMatrix();
+
       stroke(#F5E69C, 100);
       float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t))+1200;  
-      float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t))+600;
+      float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t))+700;
       scale(.5);
       ellipse(x ,y,1,1);
       scale(2);
+//      popMatrix():
+//      translate(width, height);
+//      rotate(PI/12);
+
       t += 0.01;
 
   };
