@@ -1,9 +1,6 @@
 import json, random
 
-import numpy as np
-import pandas as pd
-
-from flask import Flask, render_template, redirect, request, flash, url_for
+from flask import Flask, jsonify, render_template, redirect, request, flash, url_for
 from flask import session as browser_session
 import model as m 
 from model import db_session
@@ -36,7 +33,7 @@ def get_new_song():
     artist_name = request.args.get("artist_name")
 
     # check to see if song is in database. 
-    song = m.db_session.query(m.Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
+    song = m.search(artist_name, title)
 
     if song:
         spotify_track_uri = song.spotify_track_uri
@@ -52,6 +49,22 @@ def get_new_song():
         spotify_track_uri = song_data["spotify_track_uri"]
 
     return render_template("new_song.html", spotify_track_uri=spotify_track_uri) 
+
+@app.route("/get_patterns")
+def get_pattern():
+
+    title = request.args.get("title")
+    artist_name = request.args.get("artist_name")
+    print title, artist_name
+    
+    song = m.search(artist_name, title)
+
+    if song:
+        patterns = song.patterns
+        return patterns
+    else:
+        return "SONG NOT FOUND"
+
 
 @app.route("/about")
 def about_page():

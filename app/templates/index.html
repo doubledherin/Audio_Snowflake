@@ -24,15 +24,11 @@
   </ul>
 
 
-<canvas id="snowflake" data-processing-sources="../static/processing/snowflake2/snowflake2.pde"></canvas>
+<canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
 
         <div id="bottom_right_box" class="container">
             <form class="form-horizontal" role="form" action="/new_song" method="GET" >
               <div class="form-group">
-                
-                                 <div class="row">
-                <div class="col-sm-2"><button type="button" id="draw_box_button" class="btn btn-default">Draw snowflake</button></div>
-                </div>
 
 
                 <div class="row">
@@ -73,18 +69,23 @@ function jsUpdateSize(){
 window.onload = jsUpdateSize;       // When the page first loads
 window.onresize = jsUpdateSize;     // When the browser changes size
 
-$("#draw_box_button").click(function() {
-    console.log("Clicked button!");
-    var pjs = Processing.getInstanceById('snowflake');
-    var patternValues = [{a: 640, b: 260, h: 19}, {a: 300, b: 140, h: 175}, {a: 100, b: 175, h: 175}, {a: 475, b: 50, h: 50}, {a: 490, b: 190, h: 90}];
+// TO DO-- figure out how to get around the two window.online lines (above and below)
+window.onload = function() {
+    $.get(
+        "/get_patterns", {"title": "Waltz #2 (XO)", "artist_name": "Elliott Smith"},
+        function (data) {
+            var pjs = Processing.getInstanceById('snowflake');
+            // var patternValues = [{a: 640, b: 260, h: 19}, {a: 300, b: 140, h: 175}, {a: 100, b: 175, h: 175}, {a: 475, b: 50, h: 50}, {a: 490, b: 190, h: 90}];
+            var arr_from_json = JSON.parse(data);
 
-    for (var i=0; i < patternValues.length; i++) {
-        pattern = patternValues[i];
-        console.log(pattern);
-        pjs.setUpHypotrochoid(pattern.a, pattern.b, pattern.h);
-    }
+            for (var i=0; i < arr_from_json.length; i++) {
+                pattern = arr_from_json[i];
+                console.log(pattern);
+                pjs.setUpHypotrochoid(pattern.a, pattern.b, pattern.h);
+            }
+        });
+}
 
-});
 
 </script>
 </html>

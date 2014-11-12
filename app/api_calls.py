@@ -16,6 +16,7 @@ def get_song_data(artist, title):
 
 	# get general song info
 	###########################################
+	# params = {"api_key" : api_key}
 	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
 	if r.status_code != 200:
@@ -162,9 +163,11 @@ def collapse_sections(artist, title):
 	for key, value in newer_collapsed.iteritems():
 		print "Key: %s\nValue: %r" % (key, value)
 
+	
+
 	return newer_collapsed
 
-def add_patterns(artist, title):
+def add_pattern_values(artist, title):
 	return newer_collapsed
 
 def main():

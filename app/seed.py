@@ -8,7 +8,7 @@ from sys import argv
 
 import json
 
-values = {"hypo0_a": 640.0, "hypo0_b": 260.0, "hypo0_h" :19, "hypo1_a": 300.0, "hypo1_b": 140.0, "hypo1_h" : 140, "hypo2_a": 100.0, "hypo2_b": 175.0, "hypo2_h" : 175, "hypo3_a": 475.0, "hypo3_b": 50.0, "hypo3_h": 50, "hypo4_a": 490, "hypo4_b": 190.0, "hypo4_h" : 90}
+values = [{"a": 640, "b": 260, "h": 19}, {"a": 300, "b": 140, "h": 175}, {"a": 100, "b": 175, "h": 175}, {"a": 475, "b": 50, "h": 50}, {"a": 490, "b": 190, "h": 90}]
 
 values_json = json.dumps(values)
 
