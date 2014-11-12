@@ -17,7 +17,6 @@ window.onload = function() {
         "/get_patterns", {"title": "Waltz #2 (XO)", "artist_name": "Elliott Smith"},
         function (data) {
             var pjs = Processing.getInstanceById('snowflake');
-            // var patternValues = [{a: 640, b: 260, h: 19}, {a: 300, b: 140, h: 175}, {a: 100, b: 175, h: 175}, {a: 475, b: 50, h: 50}, {a: 490, b: 190, h: 90}];
             var arr_from_json = JSON.parse(data);
 
             for (var i=0; i < arr_from_json.length; i++) {

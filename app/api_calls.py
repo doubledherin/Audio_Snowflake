@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import os
-import json, requests
+import json, os, pickle, requests
 from sys import argv
+
+# from algorithm import algorithm
 
 
 
@@ -69,7 +70,9 @@ def get_song_data(artist, title):
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
 	
-	print song_data
+
+
+	# print song_data
 	return song_data
 
 def collapse_sections(artist, title):
@@ -79,12 +82,12 @@ def collapse_sections(artist, title):
 	###########################################
 	analysis_url = str(song_data["analysis_url"])
 
-	r2 = requests.get(analysis_url)
+	respose_analysis_url = requests.get(analysis_url)
 
-	if r2.status_code != 200:
-		return "Error accessing analysis url. Status code %d" % r2.status_code
+	if respose_analysis_url.status_code != 200:
+		return "Error accessing analysis url. Status code %d" % respose_analysis_url.status_code
 
-	results = json.loads(r2.content)
+	results = json.loads(respose_analysis_url.content)
 
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
@@ -164,21 +167,149 @@ def collapse_sections(artist, title):
 		shortest_duration = sorted_keys.pop(0)
 		del newer_collapsed[shortest_duration]
 
-	for key, value in newer_collapsed.iteritems():
-		print "Key: %s\nValue: %r" % (key, value)
+	# for key, value in newer_collapsed.iteritems():
+	# 	print key, ": ", value
 
 
+	# create list of dictionaries, each dictionary stores one section's data
+	value_list = []
+	sorted_keys = sorted(newer_collapsed.keys())
+	for i in range(len(sorted_keys)):
+		d = {}
+		# d["hypo%d" % i] = []
+		# inner_d = {}
+		# inner_d["duration"] = sorted_keys[i][0]
+		# inner_d["key"] = sorted_keys[i][1]
+		# inner_d["mode"] = sorted_keys[i][2]
+		# inner_d["time_signature"] = sorted_keys[i][3]
 
-	return newer_collapsed
+		d["hypo%d" % i] = {}
+		d["hypo%d" % i]["duration"] = sorted_keys[i][0]
+		d["hypo%d" % i]["key"] = sorted_keys[i][1]
+		d["hypo%d" % i]["mode"] = sorted_keys[i][2]
+		d["hypo%d" % i]["time_signature"] = sorted_keys[i][3]
 
-def add_pattern_values(artist, title):
-	return newer_collapsed
+
+		v = newer_collapsed[sorted_keys[i]]
+
+		for key, value in v.iteritems():
+			d["hypo%d" % i][key] = value
+
+		# for key, value in inner_d.iteritems():
+		# 	print "INNER D:", key, value
+
+		# d["hypo%d" % i].append(inner_d)
+		value_list.append(d)
+
+	song_data["value_list"] = value_list
+	return song_data
+	# print "VALUE LIST: ", value_list
+
+	# patterns = algorithm(value_list)
+
+	# print patterns
+
+def algorithm(artist, title):
+	song_data = collapse_sections(artist, title)
+	# for item in song_data:
+	# 	print item
+
+	patterns = []
+
+
+	# for the epitrochoid (outer ring)
+	duration = song_data["duration"]
+	tempo = song_data["tempo"]
+	key = song_data["key"]
+	mode = song_data["mode"]
+	time_signature = song_data["time_signature"]
+	energy = song_data["energy"]
+	loudness = song_data["loudness"]
+	valence = song_data["valence"]
+
+	a = None
+	b = None
+	h = None
+	hue = None
+	saturation = None
+	brightness = None
+	transparency = None
+
+	d = {}
+
+	d["a"] = a
+	d["b"] = b 
+	d["h"] = h
+	d["hue"] = hue
+	d["saturation"] = saturation
+	d["brightness"] = brightness
+	d["transparency"] = transparency
+
+	patterns.append(d)
+
+
+	# for hypotrochoids (inner rings)
+	value_list = song_data["value_list"]
+	print "VALUE LIST: ", value_list
+	for section in value_list:
+		v = section.values()
+		# print type(v)
+		# print v
+
+		duration = v[0]["duration"]
+		avg_tempo = v[0]["avg_tempo"]
+		key = v[0]["key"]
+		mode = v[0]["mode"]
+		time_signature = v[0]["time_signature"]
+		avg_loudness = v[0]["avg_loudness"]
+
+		avg_confidence = v[0]["avg_confidence"]
+		avg_key_confidence = v[0]["avg_key_confidence"]
+		avg_mode_confidence = v[0]["avg_mode_confidence"]
+		avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
+
+		a = None
+		b = None
+		h = None
+		hue = None
+		saturation = None
+		brightness = None
+		transparency = None
+
+		d = {}
+
+		d["a"] = a
+		d["b"] = b 
+		d["h"] = h
+		d["hue"] = hue
+		d["saturation"] = saturation
+		d["brightness"] = brightness
+		d["transparency"] = transparency
+
+		patterns.append(d)
+
+	# patterns_json = json.dumps(patterns)
+	# song_data["patterns"] = patterns_json
+
+	# patterns_str = pickle.dumps(patterns)
+
+	# print "HEY", type(patterns_str)
+	song_data["patterns"] = patterns
+	# print song_data["patterns"]
+	return song_data
+
+# 	import json
+
+# values = [{"a": 640, "b": 260, "h": 19}, {"a": 300, "b": 140, "h": 175}, {"a": 100, "b": 175, "h": 175}, {"a": 475, "b": 50, "h": 50}, {"a": 490, "b": 190, "h": 90}]
+
+# values_json = json.dumps(values)
 
 def main():
 	script, artist, title = argv
-	get_song_data(artist, title)
+	algorithm(artist, title)
+	# get_song_data(artist, title)
 	# add_sections(artist, title)
-	collapse_sections(artist, title)
+	# collapse_sections(artist, title)
 	# get_echonest_track_id(artist, title)
 	# get_spotify_track_uri(artist, title)
 	# get_music_player(artist, title)

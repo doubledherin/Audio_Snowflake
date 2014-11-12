@@ -7,7 +7,7 @@ from model import db_session
 
 from sqlalchemy import desc
 
-from api_calls import get_song_data
+from api_calls import algorithm
 
 from seed import add_to_db
 
@@ -41,7 +41,7 @@ def get_new_song():
 
     # If it is not in the db yet, call Echonest to get it
     else:
-        song_data = get_song_data(artist_name, title)
+        song_data = algorithm(artist_name, title)
 
         add_to_db(db_session, song_data)
         

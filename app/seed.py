@@ -8,16 +8,33 @@ from sys import argv
 
 import json
 
-values = [{"a": 640, "b": 260, "h": 19}, {"a": 300, "b": 140, "h": 175}, {"a": 100, "b": 175, "h": 175}, {"a": 475, "b": 50, "h": 50}, {"a": 490, "b": 190, "h": 90}]
+# values = [{"a": 640, "b": 260, "h": 19}, {"a": 300, "b": 140, "h": 175}, {"a": 100, "b": 175, "h": 175}, {"a": 475, "b": 50, "h": 50}, {"a": 490, "b": 190, "h": 90}]
 
-values_json = json.dumps(values)
+# values_json = json.dumps(values)
+
+
+
 
 def add_to_db(session, song_data):
+
+    values = song_data["patterns"]
+    print values
+    print type(values)
+
+    values_json = json.dumps(values)
+    print values_json
+    print type(values_json)
+
     # songs = [(artist, title)]
 
     # for song in songs:
 
     # song_data = get_song_data(artist, title)
+
+
+
+
+
 
     #TO DO check to see if song is already in db
     track = model.Track()
@@ -40,13 +57,10 @@ def add_to_db(session, song_data):
     track.valence = song_data["valence"]    
     track.audio_md5 = song_data["audio_md5"]
     track.instrumentalness = song_data["instrumentalness"]
-    #track.echonest_track_id = song_data["echonest_track_id"]
     track.spotify_track_uri = song_data["spotify_track_uri"]
-    # track.analysis_url = song_data["analysis_url"]
-    # track.artist_foreign_ids = song_data["artist_foreign_ids"]
     track.patterns = values_json
-    db_session.add(track)
 
+    db_session.add(track)
     db_session.commit()
 
 if __name__ == "__main__":
