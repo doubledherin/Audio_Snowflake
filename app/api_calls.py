@@ -17,12 +17,12 @@ def get_song_data(artist, title):
 	# get general song info
 	###########################################
 	# params = {"api_key" : api_key}
-	r = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
+	response_general_info = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
 
-	if r.status_code != 200:
-		return "Error accessing Echonest API for 1st get_song_data call. Status code %d" % r.status_code
+	if response_general_info.status_code != 200:
+		return "Error accessing Echonest API for 1st get_song_data call. Status code %d" % response_general_info.status_code
 	
-	results = json.loads(r.content)
+	results = json.loads(response_general_info.content)
 
 	song_general = results["response"]["songs"][0]
 	
@@ -53,14 +53,14 @@ def get_song_data(artist, title):
 			value = round(value, 3)
 		song_data[key] = value
 
-	# call echonest to get spotify track id
+	# call echonest to get spotify track uri
 	###########################################
-	r1 = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
+	response_spotify_track_uri = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
 
-	if r1.status_code != 200:
-		return "Error accessing Echonest API. Status code %d" % r1.status_code
+	if response_spotify_track_uri.status_code != 200:
+		return "Error accessing Echonest API. Status code %d" % response_spotify_track_uri.status_code
 
-	results = json.loads(r1.content)
+	results = json.loads(response_spotify_track_uri.content)
 
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
@@ -163,7 +163,7 @@ def collapse_sections(artist, title):
 	for key, value in newer_collapsed.iteritems():
 		print "Key: %s\nValue: %r" % (key, value)
 
-	
+
 
 	return newer_collapsed
 
