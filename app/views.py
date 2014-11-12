@@ -38,8 +38,6 @@ def get_new_song():
     # check to see if song is in database. 
     song = m.db_session.query(m.Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
 
-    print song.patterns
-
     if song:
         spotify_track_uri = song.spotify_track_uri
 

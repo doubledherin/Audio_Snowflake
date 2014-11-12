@@ -64,6 +64,7 @@ def get_song_data(artist, title):
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
 	
+	print song_data
 	return song_data
 
 def collapse_sections(artist, title):
@@ -168,7 +169,7 @@ def add_patterns(artist, title):
 
 def main():
 	script, artist, title = argv
-	# get_song_data(artist, title)
+	get_song_data(artist, title)
 	# add_sections(artist, title)
 	collapse_sections(artist, title)
 	# get_echonest_track_id(artist, title)
