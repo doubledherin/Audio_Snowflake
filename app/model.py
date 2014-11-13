@@ -37,7 +37,7 @@ class Track(Base):
     audio_md5 = Column(String(50))
     instrumentalness = Column(Float)
     spotify_track_uri = Column(String(50))
-    patterns = Column(PickleType)
+    patterns = Column(String(300))
 
 
 

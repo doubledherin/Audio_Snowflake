@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import json, os, pickle, requests
+import json, os, requests
+from math import pi
 from sys import argv
-
-# from algorithm import algorithm
-
 
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
@@ -70,9 +68,6 @@ def get_song_data(artist, title):
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
 	
-
-
-	# print song_data
 	return song_data
 
 def collapse_sections(artist, title):
@@ -167,114 +162,140 @@ def collapse_sections(artist, title):
 		shortest_duration = sorted_keys.pop(0)
 		del newer_collapsed[shortest_duration]
 
-	# for key, value in newer_collapsed.iteritems():
-	# 	print key, ": ", value
-
-
 	# create list of dictionaries, each dictionary stores one section's data
 	value_list = []
 	sorted_keys = sorted(newer_collapsed.keys())
 	for i in range(len(sorted_keys)):
 		d = {}
-		# d["hypo%d" % i] = []
-		# inner_d = {}
-		# inner_d["duration"] = sorted_keys[i][0]
-		# inner_d["key"] = sorted_keys[i][1]
-		# inner_d["mode"] = sorted_keys[i][2]
-		# inner_d["time_signature"] = sorted_keys[i][3]
-
+	
 		d["hypo%d" % i] = {}
 		d["hypo%d" % i]["duration"] = sorted_keys[i][0]
 		d["hypo%d" % i]["key"] = sorted_keys[i][1]
 		d["hypo%d" % i]["mode"] = sorted_keys[i][2]
 		d["hypo%d" % i]["time_signature"] = sorted_keys[i][3]
 
-
 		v = newer_collapsed[sorted_keys[i]]
 
 		for key, value in v.iteritems():
 			d["hypo%d" % i][key] = value
 
-		# for key, value in inner_d.iteritems():
-		# 	print "INNER D:", key, value
-
-		# d["hypo%d" % i].append(inner_d)
 		value_list.append(d)
 
 	song_data["value_list"] = value_list
 	return song_data
-	# print "VALUE LIST: ", value_list
-
-	# patterns = algorithm(value_list)
-
-	# print patterns
 
 def algorithm(artist, title):
 	song_data = collapse_sections(artist, title)
-	# for item in song_data:
-	# 	print item
 
 	patterns = []
 
-
 	# for the epitrochoid (outer ring)
-	duration = song_data["duration"]
-	tempo = song_data["tempo"]
-	key = song_data["key"]
-	mode = song_data["mode"]
-	time_signature = song_data["time_signature"]
-	energy = song_data["energy"]
-	loudness = song_data["loudness"]
-	valence = song_data["valence"]
+	epi_duration = song_data["duration"]
+	epi_tempo = song_data["tempo"]
+	epi_key = song_data["key"]
+	epi_mode = song_data["mode"]
+	epi_time_signature = song_data["time_signature"]
+	epi_energy = song_data["energy"]
+	epi_loudness = song_data["loudness"]
+	epi_valence = song_data["valence"]
 
-	a = None
-	b = None
-	h = None
-	hue = None
-	saturation = None
-	brightness = None
-	transparency = None
+	# a = None
+	# b = None
+	# h = None
+	# hue = None
+	# saturation = None
+	# brightness = None
+	# transparency = None
 
-	d = {}
+	# d = {}
 
-	d["a"] = a
-	d["b"] = b 
-	d["h"] = h
-	d["hue"] = hue
-	d["saturation"] = saturation
-	d["brightness"] = brightness
-	d["transparency"] = transparency
+	# d["a"] = a
+	# d["b"] = b 
+	# d["h"] = h
+	# d["hue"] = hue
+	# d["saturation"] = saturation
+	# d["brightness"] = brightness
+	# d["transparency"] = transparency
 
-	patterns.append(d)
+	# patterns.append(d)
 
 
 	# for hypotrochoids (inner rings)
 	value_list = song_data["value_list"]
-	print "VALUE LIST: ", value_list
+
 	for section in value_list:
 		v = section.values()
-		# print type(v)
-		# print v
 
-		duration = v[0]["duration"]
-		avg_tempo = v[0]["avg_tempo"]
-		key = v[0]["key"]
-		mode = v[0]["mode"]
-		time_signature = v[0]["time_signature"]
-		avg_loudness = v[0]["avg_loudness"]
+		section_duration = v[0]["duration"]
+		section_avg_tempo = v[0]["avg_tempo"]
+		section_key = v[0]["key"]
+		section_mode = v[0]["mode"]
+		section_time_signature = v[0]["time_signature"]
+		section_avg_loudness = v[0]["avg_loudness"]
 
-		avg_confidence = v[0]["avg_confidence"]
-		avg_key_confidence = v[0]["avg_key_confidence"]
-		avg_mode_confidence = v[0]["avg_mode_confidence"]
-		avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
+		section_avg_confidence = v[0]["avg_confidence"]
+		section_avg_key_confidence = v[0]["avg_key_confidence"]
+		section_avg_mode_confidence = v[0]["avg_mode_confidence"]
+		section_avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
 
-		a = None
-		b = None
-		h = None
-		hue = None
-		saturation = None
-		brightness = None
-		transparency = None
+
+		# TO DO: Rescale according to window sizes
+
+		# Determines size of hypotrochoid
+		if section_duration < 60:
+			section_duration = 60
+		if section_duration > 600:
+			section_duration = 600
+
+		"""
+		Linear scaling section:
+
+		uses the following formula:
+		
+		Where [A, B] is the current range and [C, D] is the desired range:
+		
+		f(x) = C*(1 - (x - A / B - A)) + D*((x - A / B - A))
+		"""
+		unscaled_a = section_duration / (2 * pi)
+
+		# Scale from 200 to min(browser.height, browser.width); approx 700 for now
+		# [94, 942] => [200, 700]
+		a = 200 * (1 - ((unscaled_a - 94) / 848 )) + 700 * ((unscaled_a - 94) / 848)
+		
+		# # TO DO: FIGURE OUT B 
+		# # Proportion to a relates to number of points and shape of roulette
+		# unscaled_b = section_duration / section_time_signature 
+
+		# # Scale from 200 to min(browser.height, browser.width); approx 700 for now
+		# # b should be a proportion of a, with a min of a/5 and max of a-(a/10)
+		# # [a/5, (a - (a/10))] => [200, 700]
+		# b = 200 * (1 - ((unscaled_b - (a/5)) / (a-(a/10)) - (a/5))) + 700 * ((unscaled_b - (a/5)) / ((a-(a/10)) - (a/5)))
+
+		b = a / section_time_signature
+
+		# Relates to loopiness -- the higher the energy and valence, the loopier
+		unscaled_h = epi_energy + epi_valence
+		# Scale [-2, 2] to [0, (2*b)]
+		h = 0 * (1 - ((unscaled_h + 2)) / 4) + 2 * b * ((unscaled_h + 2) / 4)
+		
+		unscaled_hue = section_key
+		# [0, 11] to [0, 330]
+		hue = 0 * (1 - (unscaled_hue / 11)) + 330 * (unscaled_hue / 11 )
+		hue = int(h)
+
+		# major mode is fully saturated, minor mode is less saturated
+		if section_mode == 0:
+			saturation = 100
+		else:
+			saturation = 75
+		
+		# stays constant; otherwise colors get too dark
+		brightness = 100
+		
+		unscaled_transparency = section_avg_loudness
+		# Scale [-20, 0] to [50, 100]
+		transparency = 50 * (1 - ((unscaled_transparency + 20) / 20)) + 100 * ((unscaled_transparency + 20) / 20)
+		transparency = int(transparency)
 
 		d = {}
 
@@ -288,31 +309,16 @@ def algorithm(artist, title):
 
 		patterns.append(d)
 
-	# patterns_json = json.dumps(patterns)
-	# song_data["patterns"] = patterns_json
-
-	# patterns_str = pickle.dumps(patterns)
-
-	# print "HEY", type(patterns_str)
 	song_data["patterns"] = patterns
-	# print song_data["patterns"]
+
 	return song_data
 
-# 	import json
-
-# values = [{"a": 640, "b": 260, "h": 19}, {"a": 300, "b": 140, "h": 175}, {"a": 100, "b": 175, "h": 175}, {"a": 475, "b": 50, "h": 50}, {"a": 490, "b": 190, "h": 90}]
-
-# values_json = json.dumps(values)
 
 def main():
 	script, artist, title = argv
 	algorithm(artist, title)
 	# get_song_data(artist, title)
-	# add_sections(artist, title)
 	# collapse_sections(artist, title)
-	# get_echonest_track_id(artist, title)
-	# get_spotify_track_uri(artist, title)
-	# get_music_player(artist, title)
 
 if __name__ == "__main__":
 	main()

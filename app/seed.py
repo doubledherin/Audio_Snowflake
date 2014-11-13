@@ -12,29 +12,10 @@ import json
 
 # values_json = json.dumps(values)
 
-
-
-
 def add_to_db(session, song_data):
 
     values = song_data["patterns"]
-    print values
-    print type(values)
-
     values_json = json.dumps(values)
-    print values_json
-    print type(values_json)
-
-    # songs = [(artist, title)]
-
-    # for song in songs:
-
-    # song_data = get_song_data(artist, title)
-
-
-
-
-
 
     #TO DO check to see if song is already in db
     track = model.Track()
@@ -64,6 +45,6 @@ def add_to_db(session, song_data):
     db_session.commit()
 
 if __name__ == "__main__":
-    # session = model.connect()
+
     script, artist, title = argv
     add_to_db(db_session, artist, title)
