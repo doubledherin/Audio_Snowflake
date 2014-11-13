@@ -11,6 +11,7 @@ void setup() {
   size(window.innerWidth, window.innerHeight); 
   frameRate(100);
   background(0);
+  scale(.5);
   smooth();
 }
 
@@ -46,11 +47,13 @@ class Hypotrochoid implements Pattern {
   };
   void draw() {
     stroke(#F5E69C, 100);
-    float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t))+1200;  
-    float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t))+700;
-    scale(.5);
+    float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t))+600;  
+    float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t))+350;
+    // scale(2);
+    // scale(.5);
     ellipse(x ,y,1,1);
-    scale(2);
+    // scale(2);
+    // scale(.5);
     t += 0.01;
   };
 }

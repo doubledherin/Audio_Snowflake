@@ -65,6 +65,7 @@ def get_song_data(artist, title):
 
 	results = json.loads(response_spotify_track_uri.content)
 
+	print "RESULTS: ", results
 	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
 	song_data["spotify_track_uri"] = spotify_track_uri
 	
@@ -199,6 +200,7 @@ def algorithm(artist, title):
 	epi_loudness = song_data["loudness"]
 	epi_valence = song_data["valence"]
 
+	# TO DO: Uncomment the below out and create epitrochoid object for outer ring
 	# a = None
 	# b = None
 	# h = None
@@ -242,6 +244,8 @@ def algorithm(artist, title):
 		# TO DO: Rescale according to window sizes
 
 		# Determines size of hypotrochoid
+
+		# set hard min and max section_duration
 		if section_duration < 60:
 			section_duration = 60
 		if section_duration > 600:
@@ -262,7 +266,9 @@ def algorithm(artist, title):
 		# [94, 942] => [200, 700]
 		a = 200 * (1 - ((unscaled_a - 94) / 848 )) + 700 * ((unscaled_a - 94) / 848)
 		
-		# # TO DO: FIGURE OUT B 
+		# # TO DO: FIGURE OUT B. A % B should approach 1 as the tempo rises
+
+
 		# # Proportion to a relates to number of points and shape of roulette
 		# unscaled_b = section_duration / section_time_signature 
 
@@ -274,13 +280,14 @@ def algorithm(artist, title):
 		b = a / section_time_signature
 
 		# Relates to loopiness -- the higher the energy and valence, the loopier
+		# TO DO: Rescale so that it's tied to the section--right now the hue doesn't change
 		unscaled_h = epi_energy + epi_valence
 		# Scale [-2, 2] to [0, (2*b)]
 		h = 0 * (1 - ((unscaled_h + 2)) / 4) + 2 * b * ((unscaled_h + 2) / 4)
 		
 		unscaled_hue = section_key
 		# [0, 11] to [0, 330]
-		hue = 0 * (1 - (unscaled_hue / 11)) + 330 * (unscaled_hue / 11 )
+		hue = 0 * (1 - (unscaled_hue / 11.0)) + 330 * (unscaled_hue / 11.0 )
 		hue = int(h)
 
 		# major mode is fully saturated, minor mode is less saturated
