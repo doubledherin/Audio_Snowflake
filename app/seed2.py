@@ -12,7 +12,14 @@ import json
 
 def add_to_db(session):
 
-    songs = [("Radiohead", "Weird Fishes"), ("Cyndi Lauper", "True Colors")]
+    songs = [("Radiohead", "Weird Fishes"), 
+             ("Elliott Smith", "XO"),
+             ("Cyndi Lauper", "True Colors"), 
+             ("Mozart", "Symphony No. 40 in G Minor"),
+             ("Madonna", "La Isla Bonita"), 
+             ("Jose Gonzalez", "Heartbeats"), 
+             ("Erik Satie", "Gymnopedie No. 1"),
+             ("Metallica", "Enter Sandman")]
 
     for song in songs:
 

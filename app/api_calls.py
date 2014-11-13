@@ -225,8 +225,30 @@ def algorithm(artist, title):
 	# for hypotrochoids (inner rings)
 	value_list = song_data["value_list"]
 
+	print "VALUE_LIST: ", value_list
+	section_durations = []
+
 	for section in value_list:
 		v = section.values()
+		section_durations.append(v[0]["duration"])
+	print "SECTION DURATIONS: ", section_durations
+	min_section_duration = float(min(section_durations))
+	max_section_duration = float(max(section_durations))
+	print "MIN MAX DURATIONS: ", min_section_duration, max_section_duration
+
+	for section in value_list:
+
+		print "SECTION: ", section
+		v = section.values()
+
+		print "SECTION VALUES: ", v
+		# section_durations = []
+		# for section in value_list:
+		# 	section_durations.append(v[0]["duration"])
+		# min_section_duration = min(section_durations)
+		# max_section_duration = max(section_durations)	
+
+		# print "MIN MAX DURATIONS: ", min_section_duration, max_section_duration
 
 		section_duration = v[0]["duration"]
 		section_avg_tempo = v[0]["avg_tempo"]
@@ -243,13 +265,6 @@ def algorithm(artist, title):
 
 		# TO DO: Rescale according to window sizes
 
-		# Determines size of hypotrochoid
-
-		# set hard min and max section_duration
-		if section_duration < 60:
-			section_duration = 60
-		if section_duration > 600:
-			section_duration = 600
 
 		"""
 		Linear scaling section:
@@ -260,11 +275,15 @@ def algorithm(artist, title):
 		
 		f(x) = C*(1 - (x - A / B - A)) + D*((x - A / B - A))
 		"""
-		unscaled_a = section_duration / (2 * pi)
+		# Duration determines size of hypotrochoid
+		# section_duration -> circumference of large circle A
+		# unscaled_a -> radius of large circle A
+		unscaled_a = float(section_duration) #/ (2 * pi)
 
+		# Get min section_duration and max section duration for each section and 
 		# Scale from 200 to min(browser.height, browser.width); approx 700 for now
-		# [94, 942] => [200, 700]
-		a = 200 * (1 - ((unscaled_a - 94) / 848 )) + 700 * ((unscaled_a - 94) / 848)
+		# [min_section_duration, max_section_duration] => [200, 700]
+		a = 200 * (1 - ((unscaled_a - min_section_duration) / (max_section_duration - min_section_duration) )) + 700 * ((unscaled_a - min_section_duration) / (max_section_duration - min_section_duration))
 		
 		# # TO DO: FIGURE OUT B. A % B should approach 1 as the tempo rises
 
