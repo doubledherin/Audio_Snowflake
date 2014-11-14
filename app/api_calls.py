@@ -231,24 +231,12 @@ def algorithm(artist, title):
 	for section in value_list:
 		v = section.values()
 		section_durations.append(v[0]["duration"])
-	print "SECTION DURATIONS: ", section_durations
 	min_section_duration = float(min(section_durations))
 	max_section_duration = float(max(section_durations))
-	print "MIN MAX DURATIONS: ", min_section_duration, max_section_duration
 
 	for section in value_list:
 
-		print "SECTION: ", section
 		v = section.values()
-
-		print "SECTION VALUES: ", v
-		# section_durations = []
-		# for section in value_list:
-		# 	section_durations.append(v[0]["duration"])
-		# min_section_duration = min(section_durations)
-		# max_section_duration = max(section_durations)	
-
-		# print "MIN MAX DURATIONS: ", min_section_duration, max_section_duration
 
 		section_duration = v[0]["duration"]
 		section_avg_tempo = v[0]["avg_tempo"]
@@ -273,50 +261,61 @@ def algorithm(artist, title):
 		
 		Where [A, B] is the current range and [C, D] is the desired range:
 		
-		f(x) = C*(1 - (x - A / B - A)) + D*((x - A / B - A))
+		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
 		"""
 		# Duration determines size of hypotrochoid
-		# section_duration -> circumference of large circle A
-		# unscaled_a -> radius of large circle A
-		unscaled_a = float(section_duration) #/ (2 * pi)
+
+		unscaled_a = float(section_duration) 
 
 		# Get min section_duration and max section duration for each section and 
 		# Scale from 200 to min(browser.height, browser.width); approx 700 for now
 		# [min_section_duration, max_section_duration] => [200, 700]
 		a = 200 * (1 - ((unscaled_a - min_section_duration) / (max_section_duration - min_section_duration) )) + 700 * ((unscaled_a - min_section_duration) / (max_section_duration - min_section_duration))
-		
-		# # TO DO: FIGURE OUT B. A % B should approach 1 as the tempo rises
 
-
-		# # Proportion to a relates to number of points and shape of roulette
-		# unscaled_b = section_duration / section_time_signature 
-
-		# # Scale from 200 to min(browser.height, browser.width); approx 700 for now
-		# # b should be a proportion of a, with a min of a/5 and max of a-(a/10)
-		# # [a/5, (a - (a/10))] => [200, 700]
-		# b = 200 * (1 - ((unscaled_b - (a/5)) / (a-(a/10)) - (a/5))) + 700 * ((unscaled_b - (a/5)) / ((a-(a/10)) - (a/5)))
-
-		b = a / section_time_signature
+		b = (a - (section_avg_tempo/section_time_signature))/section_time_signature
 
 		# Relates to loopiness -- the higher the energy and valence, the loopier
-		# TO DO: Rescale so that it's tied to the section--right now the hue doesn't change
+
+		# TO DO: Rescale so that it's tied to the section--right now the h doesn't change
 		unscaled_h = epi_energy + epi_valence
 		# Scale [-2, 2] to [0, (2*b)]
 		h = 0 * (1 - ((unscaled_h + 2)) / 4) + 2 * b * ((unscaled_h + 2) / 4)
 		
+
+
+		"""
+		Linear scaling section:
+
+		uses the following formula:
+		
+		Where [A, B] is the current range and [C, D] is the desired range:
+		
+		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
+		"""
+
+		# TO DO: scale hue to key and mode
 		unscaled_hue = section_key
 		# [0, 11] to [0, 330]
-		hue = 0 * (1 - (unscaled_hue / 11.0)) + 330 * (unscaled_hue / 11.0 )
-		hue = int(h)
+		# hue = 0 * (1 - (unscaled_hue / 11.0)) + 330 * (unscaled_hue / 11.0 )
+		hue = 330 * (unscaled_hue / 11.0 )
+		hue = int(hue)
 
+
+		print "SECTION KEY: ", section_key
+		print "unscaled_hue: ", unscaled_hue
+		print "unscaled_hue/11.0", (unscaled_hue/11.0)
+		print "HUE: ", hue
+
+
+		# TO DO: Scale to energy or valence; brightness too
 		# major mode is fully saturated, minor mode is less saturated
 		if section_mode == 0:
 			saturation = 100
 		else:
 			saturation = 75
 		
-		# stays constant; otherwise colors get too dark
-		brightness = 100
+		# TO DO: scale from 50 to 100
+		brightness = 60
 		
 		unscaled_transparency = section_avg_loudness
 		# Scale [-20, 0] to [50, 100]
