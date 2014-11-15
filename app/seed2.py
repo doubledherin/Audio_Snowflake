@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+
+# This is meant to be run only on the command line; seed.py is run by the app
 import model
 from model import db_session
 from sys import argv
@@ -20,6 +23,13 @@ def add_to_db(session):
              ("Jose Gonzalez", "Heartbeats"), 
              ("Erik Satie", "Gymnopedie No. 1"),
              ("Metallica", "Enter Sandman")]
+
+            # [("Elvis Presley", "Blue Suede Shoes"),
+            #  ("Patsy Kline", "I Fall to Pieces"),
+            #  ("The Rolling Stones", "Satisfaction"),
+            #  ("James Brown", "Sex Machine"),
+            #  ("James Taylor", "Fire and Rain")]
+
 
     for song in songs:
 
@@ -54,7 +64,7 @@ def add_to_db(session):
 
         db_session.add(track)
         db_session.commit()
-        sleep(10)
+        sleep(5)
 
 
 if __name__ == "__main__":

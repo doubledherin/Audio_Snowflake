@@ -20,79 +20,42 @@ def index():
 
     # get random song from db to start 
     rand = random.randrange(0, db_session.query(m.Track).count()) 
-    row = db_session.query(m.Track)[rand]
+    track = db_session.query(m.Track)[rand]
 
-    spotify_track_uri = row.spotify_track_uri
-    patterns = row.patterns
+    # spotify_track_uri = track.spotify_track_uri
+    # patterns = track.patterns
 
-    print "PATTERNS: ", patterns
-    print type(patterns)
-
-    return render_template("index.html", patterns=patterns, spotify_track_uri=spotify_track_uri)
-
-@app.route("/get_random_patterns")
-def get_random_pattern():
-
-    # get random song from db to start 
-    rand = random.randrange(0, db_session.query(m.Track).count()) 
-    row = db_session.query(m.Track)[rand]
-
-    spotify_track_uri = row.spotify_track_uri
-    patterns = row.patterns
-
-    return patterns
-
-# @app.route("/new_song")
-# def get_new_song():
-    
-#     title = request.args.get("title")
-#     artist_name = request.args.get("artist_name")
-
-#     # check to see if song is in database. 
-#     song = m.search(artist_name, title)
-
-#     if song:
-#         spotify_track_uri = song.spotify_track_uri
-#         patterns = song.patterns
-
-
-#     # If it is not in the db yet, call Echonest to get it
-#     else:
-#         song_data = algorithm(artist_name, title)
-
-#         add_to_db(db_session, song_data)
-        
-#         # keep track uri for web player
-#         spotify_track_uri = song_data["spotify_track_uri"]
-#         patterns = song_data["patterns"]
-
-#     return render_template("new_song.html", patterns=patterns, spotify_track_uri=spotify_track_uri) 
+    return render_template("index.html", track=track)
 
 @app.route("/get_patterns")
 def get_pattern():
 
     title = request.args.get("title")
     artist_name = request.args.get("artist_name")
-    print title, artist_name
+    print 000, title, artist_name
     
     # check to see if song is in database. 
-    song = m.search(artist_name, title)
+    track = m.search(artist_name, title)
 
-    if song:
-        patterns = song.patterns
-        return patterns
+    if track:
+        # patterns = song.patterns
+        # spotify_track_uri = song.spotify_track_uri
+        print "I FOUND ME  A TRACKKKKKK"
+        return render_template("index.html", track=track)
+
     # If it is not in the db yet, call Echonest to get it
     else:
         song_data = algorithm(artist_name, title)
 
         add_to_db(db_session, song_data)
         
-        # keep track uri for web player
-        spotify_track_uri = song_data["spotify_track_uri"]
-        patterns = song_data["patterns"]
+        track = m.search(artist_name, title)
+        
+        # # keep track uri for web player
+        # spotify_track_uri = song_data["spotify_track_uri"]
+        # patterns = song_data["patterns"]
 
-        return patterns
-    # return render_template("new_song.html", patterns=patterns, spotify_track_uri=spotify_track_uri) 
+        return render_template("index.html", track=track) 
 
 
 @app.route("/about")

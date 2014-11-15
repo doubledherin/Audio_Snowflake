@@ -3,9 +3,12 @@
 import json, os, requests
 from math import pi
 from sys import argv
+from time import sleep
 
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
+# api_key = "V9Y2COADC9PUY3ZBO"
+# print api_key
 
 # calls Echonest API with artist name and song title and
 # returns a dictionary of song data
@@ -56,6 +59,7 @@ def get_song_data(artist, title):
 			value = round(value, 3)
 		song_data[key] = value
 
+	sleep(5)
 	# call echonest to get spotify track uri
 	###########################################
 	response_spotify_track_uri = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")

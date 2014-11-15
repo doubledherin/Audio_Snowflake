@@ -9,10 +9,9 @@
     
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css".>
-
-    <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../static/js/init.js"></script>
+    <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
+    <!---<script type="text/javascript" src="../static/js/init.js"></script>-->
 </head>
 
 <body>
@@ -27,32 +26,25 @@
 <canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
 
         <div id="bottom_right_box" class="container">
-            <form id="get_snowflake" class="form-horizontal" role="form" action="/new_song" method="GET" >
+            <form id="get_snowflake" class="form-horizontal" role="form" action="/get_patterns" method="GET" >
               <div class="form-group">
-
-
                 <div class="row">
                 <div class="col-sm-2" id="artist_name" width="250"><input type="text" placeholder="Enter artist" name="artist_name"></div>
                 </div>
-
-
                 <div class="row">
                 <div class="col-sm-2" id="song_title"><input type="text" placeholder="Enter song" name="title"></div>
                 </div>
-
                 <div class="row">
-                <div class="col-sm-2" id="enter_button"><button type="submit" class="btn btn-default">Get Snowflake</button></div>
+                <div class="col-sm-2" id="enter_button"><input type="submit" value="Get Snowflake" class="btn btn-default"></input></div>
                 </div>
-
-
               </div>
             </form>
-
             <div id="web_player">
 
-              <iframe src="https://embed.spotify.com/?uri={{ spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
+              <iframe src="https://embed.spotify.com/?uri={{ track.spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="false"></iframe>
 
             </div>
+            <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
         </div>
 </body>
 <script src="../static/js/snowflake.js"></script>
