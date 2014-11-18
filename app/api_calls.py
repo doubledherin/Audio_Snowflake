@@ -33,16 +33,16 @@ def get_song_data(artist, title):
 	for song in songs:
 		tracks = song["tracks"]
 		if tracks == []:
-			print "SKIPPING A SONG"
+			# print "SKIPPING A SONG"
 			continue
 		else:
 			for track in tracks:
 				if "foreign_id" in track:
 					song_data["spotify_track_uri"] = track["foreign_id"]
-					print "added spotify track uri to song_data"
+					# print "added spotify track uri to song_data"
 					break
 				else:
-					print "SKIPPING A TRACK"
+					# print "SKIPPING A TRACK"
 					continue
 		
 
@@ -61,7 +61,11 @@ def get_song_data(artist, title):
 					key = "song_id"
 
 				song_data[key] = value
-			
+
+			# lowercase artist name and song title
+			song_data["artist_name"] = song_data["artist_name"].lower()
+			song_data["title"] = song_data["title"].lower()
+
 			# get detailed song info
 			###########################################	
 			try:
@@ -76,9 +80,9 @@ def get_song_data(artist, title):
 				song_data[key] = value
 
 			break
-	print "HERE's your song data:" 
-	for key, value in song_data.iteritems():
-		print key, value, "\n"
+	# print "HERE's your song data:" 
+	# for key, value in song_data.iteritems():
+	# 	print key, value, "\n"
 	return song_data
 
 def collapse_sections(artist, title):
@@ -289,10 +293,14 @@ def algorithm(artist, title):
 		hue = 330 * (unscaled_hue / 11.0 )
 		hue = int(hue)
 
-		
-		saturation = 50
-		# TO DO: scale from 50 to 100
-		brightness = 60
+		# TO DO: scale saturation to valence and energy
+		# [-2, 2] to [0, 40]
+
+		unscaled_saturation = epi_energy + epi_valence
+
+		saturation = 40 * ((unscaled_saturation + 2) / 4)
+
+		brightness = 100
 		
 		unscaled_transparency = section_avg_loudness
 		# Scale [-20, 0] to [50, 100]

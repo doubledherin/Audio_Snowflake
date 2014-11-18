@@ -25,8 +25,8 @@ def index():
 def get_pattern():
 
     # Get the song title and artist name from the web form
-    title = request.args.get("title")
-    artist_name = request.args.get("artist_name")
+    title = request.args.get("title").lower()
+    artist_name = request.args.get("artist_name").lower()
     
     # Check to see if the track is in the database 
     track = m.search(artist_name, title)
