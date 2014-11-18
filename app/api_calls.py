@@ -8,71 +8,77 @@ from time import sleep
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
-# calls Echonest API with artist name and song title and
-# returns a dictionary of song data
+
 def get_song_data(artist, title):
+	"""
+	Takes two strings (artist name, song title) and returns a dictionary of song information.
+
+	"""
+	# get general song info
+	#######################
+	r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
+
+	if r.status_code != 200:
+		return "Error accessing Echonest API. Status code %d" % r.status_code
+	
+	print "RESPONSE URL: ", r.url
+
+	results = json.loads(r.content)
+
+	songs = results["response"]["songs"]
 
 	song_data = {}
 
-	# get general song info
-	###########################################
-	
-	# TO DO: See if I can replace the below dictionary format with the concatentated string format. Note that the fact that # "bucket" appears twice in the concat version could prove tricky.
-	# params = {"api_key" : api_key, "format" : "json", "results" : "1", "artist": artist, "title" : title, "bucket" : "id:spotify"}
-	# response_general_info = requests.get("http://developer.echonest.com/api/v4/song/search", params=params)
-	
-	response_general_info = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=audio_summary&bucket=id:spotify")
-
-	if response_general_info.status_code != 200:
-		return "Error accessing Echonest API for 1st get_song_data call. Status code %d" % response_general_info.status_code
-	
-	results = json.loads(response_general_info.content)
-
-	song_general = results["response"]["songs"][0]
-	
-	if len(song_general) == 0:
-		return "Error. No song data returned from Echonest API."
-
-	for key, value in song_general.iteritems():
-		# skip audio_summary, which we're getting in the next for loop
-		if key == "audio_summary":
+	# Filter for a result that has track info and a Spotify track uri (used in web player)
+	for song in songs:
+		tracks = song["tracks"]
+		if tracks == []:
+			print "SKIPPING A SONG"
 			continue
+		else:
+			for track in tracks:
+				if "foreign_id" in track:
+					song_data["spotify_track_uri"] = track["foreign_id"]
+					print "added spotify track uri to song_data"
+					break
+				else:
+					print "SKIPPING A TRACK"
+					continue
 		
-		# rename "id" key for clarity purposes
-		if key == "id":
-			key = "song_id"
 
-		song_data[key] = value
-	
-	# get detailed song info
-	###########################################	
-	try:
-		audio_summary = song_general["audio_summary"]
-	except:
-		"ERROR: No audio summary for %s" % song_data["title"]
+			for key, value in song.iteritems():
 
-	for key, value in audio_summary.iteritems():
-		# round to no more than 3 decimal places
-		if type(value) == float:
-			value = round(value, 3)
-		song_data[key] = value
+				# skip unneeded items
+				if key == "tracks" or key == "artist_foreign_ids":
+					continue
 
-	sleep(5)
-	# call echonest to get spotify track uri
-	###########################################
-	
+				# skip audio_summary, which we're getting in the next for loop
+				if key == "audio_summary":
+					continue
+				
+				# rename "id" key for clarity purposes
+				if key == "id":
+					key = "song_id"
 
-	response_spotify_track_uri = requests.get("http://developer.echonest.com/api/v4/song/search?api_key=" + api_key + "&format=json&results=1&artist=" + artist + "&title=" + title + "&bucket=tracks&bucket=id:spotify")
+				song_data[key] = value
+			
+			# get detailed song info
+			###########################################	
+			try:
+				audio_summary = song["audio_summary"]
+			except:
+				"ERROR: No audio summary for %s" % song_data["title"]
 
-	if response_spotify_track_uri.status_code != 200:
-		return "Error accessing Echonest API. Status code %d" % response_spotify_track_uri.status_code
+			for key, value in audio_summary.iteritems():
+				# round to no more than 3 decimal places
+				if type(value) == float:
+					value = round(value, 3)
+				song_data[key] = value
 
-	results = json.loads(response_spotify_track_uri.content)
-
-	print "RESULTS: ", results
-	spotify_track_uri = results["response"]["songs"][0]["tracks"][0]["foreign_id"]
-	song_data["spotify_track_uri"] = spotify_track_uri
-	
+			break
+	print "HERE's your song data:" 
+	for key, value in song_data.iteritems():
+		print key, value, "\n"
 	return song_data
 
 def collapse_sections(artist, title):
@@ -82,12 +88,12 @@ def collapse_sections(artist, title):
 	###########################################
 	analysis_url = str(song_data["analysis_url"])
 
-	respose_analysis_url = requests.get(analysis_url)
+	r = requests.get(analysis_url)
 
-	if respose_analysis_url.status_code != 200:
-		return "Error accessing analysis url. Status code %d" % respose_analysis_url.status_code
+	if r.status_code != 200:
+		return "Error accessing analysis url. Status code %d" % r.status_code
 
-	results = json.loads(respose_analysis_url.content)
+	results = json.loads(r.content)
 
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
@@ -204,32 +210,11 @@ def algorithm(artist, title):
 	epi_loudness = song_data["loudness"]
 	epi_valence = song_data["valence"]
 
-	# TO DO: Uncomment the below out and create epitrochoid object for outer ring
-	# a = None
-	# b = None
-	# h = None
-	# hue = None
-	# saturation = None
-	# brightness = None
-	# transparency = None
-
-	# d = {}
-
-	# d["a"] = a
-	# d["b"] = b 
-	# d["h"] = h
-	# d["hue"] = hue
-	# d["saturation"] = saturation
-	# d["brightness"] = brightness
-	# d["transparency"] = transparency
-
-	# patterns.append(d)
-
+	
 
 	# for hypotrochoids (inner rings)
 	value_list = song_data["value_list"]
 
-	print "VALUE_LIST: ", value_list
 	section_durations = []
 
 	for section in value_list:
@@ -255,8 +240,6 @@ def algorithm(artist, title):
 		section_avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
 
 
-		# TO DO: Rescale according to window sizes
-
 
 		"""
 		Linear scaling section:
@@ -269,33 +252,35 @@ def algorithm(artist, title):
 		"""
 		# Duration determines size of hypotrochoid
 
-		unscaled_a = float(section_duration) 
+		unscaled_a = float(epi_duration) 
 
-		# Get min section_duration and max section duration for each section and 
-		# Scale from 200 to min(browser.height, browser.width); approx 700 for now
-		# [min_section_duration, max_section_duration] => [200, 700]
-		a = 200 * (1 - ((unscaled_a - min_section_duration) / (max_section_duration - min_section_duration) )) + 700 * ((unscaled_a - min_section_duration) / (max_section_duration - min_section_duration))
 
-		b = (a - (section_avg_tempo/section_time_signature))/section_time_signature
-
-		# Relates to loopiness -- the higher the energy and valence, the loopier
-
-		# TO DO: Rescale so that it's tied to the section--right now the h doesn't change
-		unscaled_h = epi_energy + epi_valence
-		# Scale [-2, 2] to [0, (2*b)]
-		h = 0 * (1 - ((unscaled_h + 2)) / 4) + 2 * b * ((unscaled_h + 2) / 4)
+		# a is mapped to song duration--min of 60; max of 600
+		#[100, 600] => [500, 900]
 		
+		# First chuck outliers
+		if unscaled_a < 100:
+			unscaled_a = 100
+		if unscaled_a > 600:
+			unscaled_a = 600
+
+		a = 500 * (1 - ((unscaled_a - 100) / (600 - 100))) + 900 * ((unscaled_a - 100) / (600 - 100))
 
 
-		"""
-		Linear scaling section:
+		# b is mapped to section duration and has to be less than min and max of a
+		# [5, (unscaled_a-10)] => [275, 675]
 
-		uses the following formula:
-		
-		Where [A, B] is the current range and [C, D] is the desired range:
-		
-		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
-		"""
+		# Chuck outliers
+		unscaled_b = section_duration
+		if unscaled_b < 5:
+			unscaled_b = 5
+		if unscaled_b > (unscaled_a - 10):
+			unscaled_b = (unscaled_a - 10)		
+
+		b = 275 * (1 - ((unscaled_b - 5) / ((unscaled_a - 10) - 5))) + 675 * ((unscaled_b - 5) / ((unscaled_a - 10) - 5))
+
+		h = a - b
+
 
 		# TO DO: scale hue to key and mode
 		unscaled_hue = section_key
@@ -304,20 +289,8 @@ def algorithm(artist, title):
 		hue = 330 * (unscaled_hue / 11.0 )
 		hue = int(hue)
 
-
-		print "SECTION KEY: ", section_key
-		print "unscaled_hue: ", unscaled_hue
-		print "unscaled_hue/11.0", (unscaled_hue/11.0)
-		print "HUE: ", hue
-
-
-		# TO DO: Scale to energy or valence; brightness too
-		# major mode is fully saturated, minor mode is less saturated
-		if section_mode == 0:
-			saturation = 100
-		else:
-			saturation = 75
 		
+		saturation = 50
 		# TO DO: scale from 50 to 100
 		brightness = 60
 		

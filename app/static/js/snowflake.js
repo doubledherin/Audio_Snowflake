@@ -20,6 +20,8 @@ $(document).ready(function() {
     }, 1000);
 });
 
+
+
 function bindDataToProcessing(patterns) {
     var pjs = Processing.getInstanceById('snowflake');
     pjs.setup();

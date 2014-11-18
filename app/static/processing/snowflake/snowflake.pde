@@ -9,7 +9,7 @@ Hypotrochoid[] hypotrochoids = new Hypotrochoid[5];
 void setup() {
   hypotrochoids = new ArrayList<Hypotrochoid>();
   size(window.innerWidth, window.innerHeight); 
-  frameRate(60);
+  frameRate(100);
   colorMode(HSB, 360, 100, 100, 100);
   background(0);
   // scale(.01);
@@ -59,6 +59,6 @@ class Hypotrochoid implements Pattern {
     ellipse(x ,y,1,1);
     scale(2);
     // scale(.5);
-    t += 0.05;
+    t += 0.01;
   };
 }
