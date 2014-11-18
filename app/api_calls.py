@@ -293,12 +293,22 @@ def algorithm(artist, title):
 		hue = 330 * (unscaled_hue / 11.0 )
 		hue = int(hue)
 
+
+		"""
+		Linear scaling section:
+
+		uses the following formula:
+		
+		Where [A, B] is the current range and [C, D] is the desired range:
+		
+		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
+		"""
 		# TO DO: scale saturation to valence and energy
-		# [-2, 2] to [0, 40]
+		# [0, 2] to [0, 40]
 
 		unscaled_saturation = epi_energy + epi_valence
 
-		saturation = 40 * ((unscaled_saturation + 2) / 4)
+		saturation = 40 * ((unscaled_saturation - 2) / 2)
 
 		brightness = 100
 		
