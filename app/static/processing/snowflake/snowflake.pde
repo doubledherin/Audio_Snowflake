@@ -10,6 +10,7 @@ void setup() {
   hypotrochoids = new ArrayList<Hypotrochoid>();
   size(window.innerWidth, window.innerHeight); 
   frameRate(100);
+  ellipseMode(CENTER);
   colorMode(HSB, 360, 100, 100, 100);
   background(0);
   // scale(.01);

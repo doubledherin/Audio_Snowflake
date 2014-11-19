@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en-US">
 <head>
     <meta charset=utf-8 />
     <meta name="description" content="About page for music visualizer that maps song data to hypotrochoids and epitrochoids."/> 
@@ -8,7 +9,8 @@
     <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon"/>
     
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css".>
+    <link rel="stylesheet" type="text/css" href="../static/css/style_about.css"/>
+
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
@@ -19,33 +21,73 @@
 
   <ul class="breadcrumb">
     <li><a href="/">Home</a></li>
-    <li class="active">About</li>
- 
+    <li class="active">About</li> 
   </ul>
 
-  <p>
-    Audio Snowflake is a music visualizer created by Wendy Dherin in 2014. 
 
-    Each individual pattern of a single snowflake is a different hypotrochoid (hai-po-TRO-koid). Hypotrochoids are mathematical roulettes traced by a point P. Point P is attached to a circle B, which rolls around the interior of a larger circle A. 
+ <div id="about">
+  <div id="how-it-works">
+    <h1>How It Works</h1>
 
-    The shape of the hypotrochoid is determined by the radius of circles A and B as well as by the distance (h) between point P and the center of circle B.
+      <p>Each individual line drawing of a single snowflake is a <strong>hypotrochoid</strong> (pronounced <em>hai-po-TRO-koid</em>).</p>
 
-    ***Below is a drawing***
+      <p>Hypotrochoids are mathematical roulettes traced by a point P, which is located in a small circle that rolls around the interior of a larger circle. If you played with <a href="http://en.wikipedia.org/wiki/Spirograph" target="_blank">Spirograph</a> as a child, you may remember this premise.</p>
 
-    Lorem ipsum dolor sit amet, sea facilis evertitur conceptam in, eu nec epicuri tractatos. Pro modo quaeque partiendo ea, ut agam consetetur pri, sumo reprimique cum an. Ei sea facete quodsi delicatissimi. Eum id enim natum adversarium, mea no quot option delenit. Agam docendi qui an. Cu his maiorum tractatos, et noster vocent sensibus quo. Ea sed enim molestie inciderint.
+      <p>The shape of the hypotrochoid is determined by the radius of circles A and B as well as by the distance (h) between point P and the center of circle B.
 
-    Eu case consul lobortis qui. Ne est impetus liberavisse. Ut nec natum novum similique, case ceteros maluisset has ea. Qui ad quem ancillae noluisse. Ei mucius instructior vim, vel cu possit voluptatum.
+      If you remember Spirograph, the children's toy, that uses the same geometry.</p>
 
-    Eu vix dico autem, pro equidem insolens torquatos at, aliquid moderatius et qui. Mel animal lobortis tractatos at, sed ea option postulant, at idque inani propriae eam. Veniam eripuit suscipit vis at, vel et dolor dicant nostrum. Mel dolor malorum in. Sea eius sententiae ne. Te quo labitur interpretaris, et sea ornatus dolorem accumsan. Cu has mnesarchum percipitur ullamcorper, dicam cetero inermis pri no.
+      <img width="162" height="162" src="/static/images/HypotrochoidDiagram1.eps" class="center-image" alt="HypotrochoidDiagram1">
+      <img src="/static/images/hypotroc1.gif" class="center-image" width="200" height="200" alt="Hypotrochoid">
+  
+  </div>
 
-    Inani nihil invenire usu in. Vix ex nobis percipit, mei audiam persius ea. Facer prompta definiebas ea vix, labore phaedrum est in, ius unum fugit platonem te. Nec ad torquatos inciderint. Cu usu solum postea utamur, has an omnesque imperdiet sententiae.
+        
+  <div id="acknowledgments">
+    <h1>Acknowledgments</h1>
 
-    Cu erat nostro vis. Mel ne reprimique adversarium, illum iriure imperdiet qui te. Mea ne oratio audire explicari. Virtute impedit eam at, deterruisset signiferumque sed eu. Eos ne modo antiopam comprehensam, at mundi abhorreant quo, possim repudiandae et eam.
+      <p>Audio Snowflake is a music visualizer created by Wendy Dherin in 2014.</p>
 
-    Acknowledgments
-    
-  <p>
-    <img width="162" height="162" src="/static/images/HypotrochoidDiagram1.eps" class="center-image" alt="HypotrochoidDiagram1">
-    <img src="/static/images/hypotroc1.gif" class="center-image" width="200" height="200" alt="Hypotrochoid">
+      <p>The images are inspired by Spirograph and were made possible by the detailed track analysis information supplied by the <a href="http://the.echonest.com/" target="_blank">Echo Nest API.</a> The embedded web player is made possible by <a href="http://www.spotify.com/" target="_blank">Spotify.</a></p>
+
+      <p>The following people were instrumental to the project, providing mentorship, inspiration, and guidance:</p> 
+
+      <br>
+      
+      <h4>Hackbright Instructors</h4>
+        <ul>
+          <li>Nick Audo</li>
+          <li>Nick Avgerinos</li>
+          <li>Lindsay Cade</li>
+          <li>Cynthia Dueltgen</li>
+          <li>Joel Burton</li>
+          <li>Katie LeFevre</li>
+          <li>Meggie Mahnken</li>
+          <li>Sean Teague</li>
+        </ul>
+
+        <hr>
+       
+      <h4>Mentors</h4>
+        <ul>
+          <li>Andy Bartholomew
+          <li>Kristin Henry</li>
+          <li>Beth Jubera</li>
+          <li>Lynn Root</li>
+          <li>Jeff Tchang</li>
+          <li>Steve Tjoa</li>
+        </ul>
+
+        <hr>
+
+      <h4>Friends & Family</h4>
+        <ul>
+          <li>Benoit Dherin</li>
+          <li>Penelope Cameron</li>
+        </ul>
+
+  </div>
+</div>
+   
 </body>
 </html>

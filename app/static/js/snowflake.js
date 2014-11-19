@@ -15,7 +15,7 @@ window.onresize = jsUpdateSize;     // When the browser changes size
 $(document).ready(function() {
     setTimeout(function() {
         var patterns = $("#patterns").data().patterns;    
-        console.log(patterns)
+        // console.log(patterns)
         bindDataToProcessing(patterns); 
     }, 1000);
 });

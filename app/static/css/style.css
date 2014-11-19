@@ -1,29 +1,51 @@
+/* visited link */
+a:visited {
+  color: #FFFFFF;
+}
+
+/* mouse over link */
+a:hover {
+  color: #FFE066;
+}
+
+
+
+.breadcrumb {
+  background-color: black;
+  font-family: 'Roboto', sans-serif;
+  position: fixed;
+  right: 0;
+}
+
+.breadcrumb .active {
+  color: #FFFFFF;
+}
+
+
+
+}
 body {
     background-color: black;
     color: white;
-    width: 50%;
+    font-family: 'Roboto', sans-serif;
 }
 
-  .breadcrumb {
-    background-color: black;
+  #song-box {
 
-    position: fixed;
-    right: 0;
   }
 
-  .breadcrumb .active {
-    color: white;
+  #about {
+    background-color: white;
+    color: black;
+    font-size: 20px;
   }
+
+
 
   .container {
     width: 250px;
   }
-p {
-  color: white;
-  text-align: center;
-/*  margin-right: auto;
-  margin-left: auto;
-*/}
+
 input {
   background-color: white;
   color: black;
@@ -35,6 +57,8 @@ input {
     position: fixed
     bottom: 0;
     right: 0;
+    color: white;
+    text-align: center
   }
 
   #artist_name {
@@ -59,3 +83,32 @@ input {
     bottom: 0;
     right: 0;
   }
+
+/*
+canvas{
+    position: absolute;
+
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 5s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 5s;
+}
+canvas:hover {
+    -webkit-animation-name: rotate; 
+    -webkit-animation-duration: 6s; 
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: rotate; 
+    -moz-animation-duration: 6s; 
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+}
+@-webkit-keyframes rotate {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes rotate {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(360deg);}
+}*/

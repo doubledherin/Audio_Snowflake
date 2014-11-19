@@ -1,0 +1,96 @@
+body {
+    background-color: black;
+}
+
+.form-horizontal .form-group {
+  margin-right: 0;
+  margin-left: 0;
+
+}
+
+.form-group {
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+}
+
+#box {
+
+    color: black;
+    width: 250px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+/*    padding: 5px;
+*/   
+}
+
+#enter_button {
+  font-size: 20px;
+  padding-bottom: 15px;
+  padding-top: 3px;
+
+
+}
+
+.btn-info {
+  background-color: white;
+  color: black;
+    width: 245px;
+
+}
+input {
+    background-color: #3B393B;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    width: 250px;
+    margin-top: 1px;
+    border-radius: 5px;
+    border-color: black;
+    padding-bottom: 6px;
+    padding-top: 6px;
+}
+
+
+  .breadcrumb {
+    background-color: black;
+    font-size: 20px;
+    position: fixed;
+    right: 0;
+  }
+
+  .breadcrumb .active {
+    color: white;
+  }
+
+
+
+/*
+canvas{
+    position: absolute;
+
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 5s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 5s;
+}
+canvas:hover {
+    -webkit-animation-name: rotate; 
+    -webkit-animation-duration: 6s; 
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: rotate; 
+    -moz-animation-duration: 6s; 
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+}
+@-webkit-keyframes rotate {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes rotate {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(360deg);}
+}*/

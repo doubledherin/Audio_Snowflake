@@ -1,0 +1,35 @@
+body {
+    background-color: white;
+    color: black;
+    text-align: left;
+
+
+}
+
+  .breadcrumb {
+    background-color: white;
+
+    position: fixed;
+    right: 0;
+  }
+
+  .breadcrumb .active {
+    color: black;
+  }
+
+  .container {
+    width: 250px;
+  }
+
+p {
+  color: black;
+  text-align: left;
+  font-size: 24px;
+
+}
+
+#about {
+  background-color: white;
+  padding: 20px;
+}
+
