@@ -19,32 +19,73 @@
 
 <body>
 
-  <ul class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li class="active">About</li> 
-  </ul>
+
+            <ul class="breadcrumb">
+             <li><a href="/">Home</a></li>
+             <li class="active">About</li> 
+            </ul>
 
 
- <div id="about">
-  <div id="how-it-works">
-    <h1>How It Works</h1>
+<div id="text" class="container-fluid">
+  <div class="row">
+  <div class="col-md-8">
 
-      <p>Each individual line drawing of a single snowflake is a <strong>hypotrochoid</strong> (pronounced <em>hai-po-TRO-koid</em>).</p>
 
-      <p>Hypotrochoids are mathematical roulettes traced by a point P, which is located in a small circle that rolls around the interior of a larger circle. If you played with <a href="http://en.wikipedia.org/wiki/Spirograph" target="_blank">Spirograph</a> as a child, you may remember this premise.</p>
+    <h1>Audio Snowflake</h1>
+      <p>Math is beautiful and musical. Music is beautiful and mathematical. Each seem to hold ineffable universal truths; each play on symmetry and on juxtaposition.</p>
 
-      <p>The shape of the hypotrochoid is determined by the radius of circles A and B as well as by the distance (h) between point P and the center of circle B.
+      <p>Listening to music has an almost visceral effect on me. A great composition is something that makes as much sense to me as logic.</p>
 
-      If you remember Spirograph, the children's toy, that uses the same geometry.</p>
+      <p>The images created by Audio Snowflake are both objective and subjective.They are objective in the sense that they represent hard data. They are subjective in the sense that I, a mere human, have decided how to represent that hard data in visual form.</p>
+</div>
+</div>
+  <div class="row">
+  <div class="col-md-8">
+    <h1>The Geometry</h1>
 
-      <img width="162" height="162" src="/static/images/HypotrochoidDiagram1.eps" class="center-image" alt="HypotrochoidDiagram1">
-      <img src="/static/images/hypotroc1.gif" class="center-image" width="200" height="200" alt="Hypotrochoid">
+      <p>Each individual line drawing within a single snowflake is a geometric shape called a <strong>hypotrochoid</strong> <em>(</em>pronounced <em>hai-po-TRO-koid)</em>.</p>
+
+      <p>Hypotrochoids are mathematical roulettes traced by a point <em>P</em> that is attached to circle which rolls around the interior of a larger circle. If you played with <a href="http://en.wikipedia.org/wiki/Spirograph" target="_blank">Spirograph</a> as a child, you may be familiar with the concept.</p>
+
+      <p>The shape of the hypotrochoid is determined by the size of the two circles, as well as the distance <em>h</em> between the center of the smaller circle and  the radius of circles A and B as well as by the distance (h) between point P and the center of circle B.</p>
+
+      <p>Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.<p>
+</div>
+
+    <div class="col-md-4">
+      <img src="/static/images/HypotrochoidDiagram1.eps" class="center-image" alt="HypotrochoidDiagram1"><img src="/static/images/hypotroc1.gif" class="center-image" width="200" height="200" alt="Hypotrochoid">
+      <p>A hypotrochoid in which radius <em>b</em> is less than <em>h</em>.</p>
+      <img  src="/static/images/HypotrochoidDiagram2.eps" class="center-image" alt="HypotrochoidDiagram1"><img src="/static/images/hypotroc2.gif" class="center-image" width="200" height="200" alt="Hypotrochoid">
+      <p>A hypotrochoid in which radius <em>b</em> is greater than <em>h</em>.</p>
+      <p id="credit">Images from <a href="http://mathworld.wolfram.com/Hypotrochoid.html" target="_blank">Wolfram MathWorld</a>.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <h1>The Math</h1>
+
+    <p><em>x</em> = (<em> a−b </em>)cos<em> t</em> + <em>h </em> cos((( <em>a−b</em> ) ÷ <em>b</em> )<em> t </em>)</p>
+    <p><em>y</em> = (<em> a−b </em>) sin<em> t</em>  − <em>h </em>sin ((( <em>a−b</em> ) ÷ <em>b</em> )<em> t </em>)</p>
+
+</div>
+<div class="row">
+    <h1>The Data</h1>
+    <p>The Echo Nest Analyze API supplies extremely detailed song data, measuring as finely as the onset and duration of each microbeat of a song. Other qualities, such as key, mode (major or minor), tempo, time signature, etc. are provided as well.</p>
+
+    <p>The song data is analyzed from many different perspectives. The perspective I chose to focus on for this project is what Echo Nest calls "sections." In the song data, a new "section" starts when the analysis notes a significant change in the music. This change can be a change in key, mode, tempo, loudness, time signature, and so forth.</p>
+
+    <p>For example, say a song starts of in the key of C. For the chorus, it shifts to G. Then it goes back to C. Then again, it shifts to G for the chorus again. Later, for the bridge, it goes to F. And then the song ends once again in C.</p>
+
+    <p>Echo Nest would show this song as being split into five different sections--a new section for each change in key. (If the song also changed tempo, time signature, or loudness, those would create new sections as well.)</p>
+
   
-  </div>
+    <p>Each individual line drawing within a song's snowflakes represents one grouped section.</p>
 
-        
-  <div id="acknowledgments">
-    <h1>Acknowledgments</h1>
+</div>
+
+<div class="row">
+    <h1>The Acknowledgments</h1>
 
       <p>Audio Snowflake is a music visualizer created by Wendy Dherin in 2014.</p>
 
@@ -85,8 +126,9 @@
           <li>Benoit Dherin</li>
           <li>Penelope Cameron</li>
         </ul>
-
   </div>
+
+</div>
 </div>
    
 </body>
