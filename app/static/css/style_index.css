@@ -3,6 +3,10 @@ body {
     background-color: black;
 }
 
+a:hover {
+  color: #bebab3;
+}
+
 .breadcrumb {
   background-color: black;
   font-size: 20px;
@@ -35,6 +39,9 @@ body {
     right: 0;
 /*    padding: 5px;
 */   
+}
+#error {
+  color: #bebab3;
 }
 
 

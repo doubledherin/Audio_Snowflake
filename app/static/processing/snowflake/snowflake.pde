@@ -60,6 +60,6 @@ class Hypotrochoid implements Pattern {
     ellipse(x ,y,1,1);
     scale(2);
     // scale(.5);
-    t += 0.01;
+    t += 0.05;
   };
 }

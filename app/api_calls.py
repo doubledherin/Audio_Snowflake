@@ -16,10 +16,15 @@ def get_song_data(artist, title):
 	"""
 	# get general song info
 	#######################
-	r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
+	try:
+		r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
 
-	if r.status_code != 200:
-		return "Error accessing Echonest API. Status code %d" % r.status_code
+	except requests.exceptions.RequestException as e:
+		return "I'm sorry, that song is not available. Please try a different one."
+
+
+	# if r.status_code != 200:
+	# 	return "Error accessing Echonest API. Status code %d" % r.status_code
 	
 	print "RESPONSE URL: ", r.url
 

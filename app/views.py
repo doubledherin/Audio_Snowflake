@@ -28,7 +28,8 @@ def get_pattern():
     title = request.args.get("title").lower()
     artist_name = request.args.get("artist_name").lower()
     
-    # Check to see if the track is in the database 
+    # Check if the track is in the database 
+    # (using the artist name and title as entered)
     track = m.search(artist_name, title)
 
     if track:
@@ -36,15 +37,35 @@ def get_pattern():
 
     # If not, call Echonest to get it
     else:
-        song_data = algorithm(artist_name, title)
+        try:  
+            song_data = algorithm(artist_name, title)
 
-        # Add it to the database
-        add_to_db(db_session, song_data)
 
-        # Get it from the database
-        track = m.search(artist_name, title)
-        
-        return render_template("index.html", track=track) 
+            # Check if the track is in the database 
+            # (using the song id supplied by Echonest)
+            song_id = song_data["song_id"]
+
+            track = db_session.query(m.Track).filter_by(song_id=song_id).first()
+
+
+            # If it is in the database
+            if track:
+                return render_template("index.html", track=track)
+
+            else:
+                # Add it to the database
+                add_to_db(db_session, song_data)
+
+                # Get it from the database
+                track = db_session.query(m.Track).filter_by(song_id=song_id).first()
+                
+                return render_template("index.html", track=track) 
+
+        except:
+            # Prints error message to screen.
+            return render_template("index.html", track=None)
+
+
 
 
 @app.route("/about")

@@ -42,11 +42,16 @@
             </form>
             <div id="web_player">
 
+              {% if track %}
               <iframe src="https://embed.spotify.com/?uri={{ track.spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
-
+              {% else %}
+              <div id="error">I'm sorry, that song is not available.<br>Please try a different song.</div>
+              {% endif %}
             </div>
             <img src="../static/images/echonest_logo.gif">
+            {% if track %}
             <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
+            {% endif %}
         </div>
     </div>
 </body>
