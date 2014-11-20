@@ -7,6 +7,7 @@ a:hover {
   color: #bebab3;
 }
 
+
 .breadcrumb {
   background-color: black;
   font-size: 20px;
@@ -37,13 +38,15 @@ a:hover {
     position: absolute;
     bottom: 0;
     right: 0;
-/*    padding: 5px;
-*/   
+  
 }
 #error {
   color: #bebab3;
 }
 
+#save-button {
+  margin-bottom: 40px;
+}
 
 input {
     background-color: #3B393B;

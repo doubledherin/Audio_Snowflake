@@ -1,14 +1,17 @@
-import json, random
+import base64, json, os, random
 import model as m 
 from time import sleep
 
 from flask import Flask, jsonify, render_template, redirect, request, flash, url_for
-# from flask import session as browser_session
+
 from sqlalchemy import desc
+from werkzeug import secure_filename
 
 from model import db_session
 from api_calls import algorithm
 from add_to_db import add_to_db
+
+
 
 app = Flask(__name__)
 
@@ -28,9 +31,22 @@ def get_pattern():
     title = request.args.get("title").lower()
     artist_name = request.args.get("artist_name").lower()
     
-    # Check if the track is in the database 
-    # (using the artist name and title as entered)
-    track = m.search(artist_name, title)
+    # Nothing entered into form
+    if artist_name == "" and title == "":
+        return redirect("/")
+
+    # Only title entered
+    elif artist_name == "":
+        track = db_session.query(m.Track).filter_by(title=title).first()
+
+    # Onlu artist name entered
+    elif title == "":
+        track = db_session.query(m.Track).filter_by(artist_name=artist_name).first()
+
+    else:
+        # Check if the track is in the database 
+        # (using the artist name and title as entered)
+        track = db_session.query(m.Track).filter_by(artist_name=artist_name).filter_by(title=title).first()
 
     if track:
         return render_template("index.html", track=track)
@@ -65,12 +81,29 @@ def get_pattern():
             # Prints error message to screen.
             return render_template("index.html", track=None)
 
+@app.route("/add_snowflake", methods=["POST"])
+def add_snowflake():
+    song_id = request.form["song_id"]
+    image = request.form["img"]
+
+    if image:
+        img_type, img_b64data = image.split(",", 1)
+        image_data = base64.b64decode(img_b64data)
+        fout = open(os.path.join("static/uploads", song_id), "wb")
+        fout.write(image_data)
+        fout.close()
+
+    return "Foo"
 
 
 
 @app.route("/about")
 def about_page():
     return render_template("about.html")
+
+@app.route("/gallery")
+def gallery_page():
+    return render_template("gallery.html")    
 
 
 if __name__ == "__main__":

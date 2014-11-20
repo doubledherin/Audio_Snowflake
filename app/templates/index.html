@@ -18,6 +18,7 @@
   <ul class="breadcrumb">
     <li class="active">Home</li>
     <li><a href="/about">About</a></li>
+    <li><a href="/gallery">Gallery</a></li>
 
  
   </ul>
@@ -27,6 +28,8 @@
 
     <div id="box">
         <div id="bottom_right_box" class="container">
+
+
             <form id="get_snowflake" class="form-horizontal" role="form" action="/get_patterns" method="GET" >
               <div class="form-group">
                 <div class="row">
@@ -53,7 +56,21 @@
             <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
             {% endif %}
         </div>
+
     </div>
+    {% if track %}
+        <div class="col-sm-4" id="save_button">
+
+            <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
+            <input type="hidden" id="artist_name" name="artist_name" value="{{ track.artist_name }}">
+            <input type="hidden" id="title" name="title" value="{{ track.title }}">
+            <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
+            <input type="file" name="img">
+            <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
+          </form>
+
+        </div>
+    {% endif %}
 </body>
 <script src="../static/js/snowflake.js"></script>
 </html>

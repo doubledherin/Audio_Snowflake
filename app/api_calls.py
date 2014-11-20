@@ -22,12 +22,6 @@ def get_song_data(artist, title):
 	except requests.exceptions.RequestException as e:
 		return "I'm sorry, that song is not available. Please try a different one."
 
-
-	# if r.status_code != 200:
-	# 	return "Error accessing Echonest API. Status code %d" % r.status_code
-	
-	print "RESPONSE URL: ", r.url
-
 	results = json.loads(r.content)
 
 	songs = results["response"]["songs"]
@@ -38,16 +32,13 @@ def get_song_data(artist, title):
 	for song in songs:
 		tracks = song["tracks"]
 		if tracks == []:
-			# print "SKIPPING A SONG"
 			continue
 		else:
 			for track in tracks:
 				if "foreign_id" in track:
 					song_data["spotify_track_uri"] = track["foreign_id"]
-					# print "added spotify track uri to song_data"
 					break
 				else:
-					# print "SKIPPING A TRACK"
 					continue
 		
 
@@ -85,9 +76,6 @@ def get_song_data(artist, title):
 				song_data[key] = value
 
 			break
-	# print "HERE's your song data:" 
-	# for key, value in song_data.iteritems():
-	# 	print key, value, "\n"
 	return song_data
 
 def collapse_sections(artist, title):
@@ -291,7 +279,7 @@ def algorithm(artist, title):
 		h = a - b
 
 
-		# TO DO: scale hue to key and mode
+
 		unscaled_hue = section_key
 		# [0, 11] to [0, 330]
 		# hue = 0 * (1 - (unscaled_hue / 11.0)) + 330 * (unscaled_hue / 11.0 )
@@ -299,18 +287,8 @@ def algorithm(artist, title):
 		hue = int(hue)
 
 
-		"""
-		Linear scaling section:
 
-		uses the following formula:
-		
-		Where [A, B] is the current range and [C, D] is the desired range:
-		
-		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
-		"""
-		# TO DO: scale saturation to valence and energy
 		# [0, 2] to [0, 40]
-
 		unscaled_saturation = epi_energy + epi_valence
 
 		saturation = 40 * ((unscaled_saturation - 2) / 2)
