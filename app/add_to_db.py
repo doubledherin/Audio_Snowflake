@@ -4,7 +4,7 @@ from model import db_session
 from sys import argv
 
 
-def add_to_db(session, song_data):
+def add_song_to_db(session, song_data):
 
     values = song_data["patterns"]
     values_json = json.dumps(values)
@@ -35,7 +35,17 @@ def add_to_db(session, song_data):
     db_session.add(track)
     db_session.commit()
 
-if __name__ == "__main__":
+def add_image_to_db(session, filename):
 
-    script, artist, title = argv
-    add_to_db(db_session, artist, title)
+    image = model.Image()
+
+    image.filename = filename
+
+    db_session.add(image)
+    db_session.commit()
+
+
+# if __name__ == "__main__":
+
+#     script, artist, title = argv
+#     add_to_db(db_session, artist, title)

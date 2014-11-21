@@ -2,7 +2,7 @@
 
 
 # This is meant to be run only on the command line; 
-# a version without a list of songs (add_to_db.py) is run by the app
+# a version without a list of songs (add_song_to_db.py) is run by the app
 
 import json
 from sys import argv
@@ -12,7 +12,7 @@ import model
 from model import db_session
 from api_calls import algorithm
 
-def add_to_db(session):
+def add_song_to_db(session):
 
     songs = [("Radiohead", "Weird Fishes"), 
              ("Elliott Smith", "XO"),
@@ -62,4 +62,4 @@ def add_to_db(session):
 if __name__ == "__main__":
 
     # script, artist, title = argv
-    add_to_db(db_session)
+    add_song_to_db(db_session)

@@ -9,7 +9,7 @@ from werkzeug import secure_filename
 
 from model import db_session
 from api_calls import algorithm
-from add_to_db import add_to_db
+from add_to_db import add_song_to_db, add_image_to_db
 
 
 
@@ -69,7 +69,7 @@ def get_pattern():
 
             else:
                 # Add it to the database
-                add_to_db(db_session, song_data)
+                add_song_to_db(db_session, song_data)
 
                 # Get it from the database
                 track = db_session.query(m.Track).filter_by(song_id=song_id).first()
@@ -83,7 +83,7 @@ def get_pattern():
 
 @app.route("/add_snowflake", methods=["POST"])
 def add_snowflake():
-    song_id = request.form["song_id"] + ".png"
+    filename = request.form["song_id"] + ".png"
     image = request.form["img"]
     artist_name = request.form["artist_name"]
     title = request.form["title"]
@@ -95,10 +95,11 @@ def add_snowflake():
         image_data = base64.b64decode(img_b64data)
 
         # write to a file using the song id as the filename
-        fout = open(os.path.join("static/uploads", song_id), "wb")
+        fout = open(os.path.join("static/uploads", filename), "wb")
         fout.write(image_data)
         fout.close()
 
+        add_image_to_db(db_session, filename)
 
 
     return "Foo"

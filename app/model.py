@@ -11,8 +11,8 @@ db_session = scoped_session(sessionmaker(bind=engine,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-def search(artist_name, title):
-    return db_session.query(Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
+# def search(artist_name, title):
+#     return db_session.query(Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
 
 class Track(Base):
     __tablename__ = "tracks"
@@ -39,6 +39,10 @@ class Track(Base):
     spotify_track_uri = Column(String(50))
     patterns = Column(String(300))
 
+class Image(Base):
+    __tablename__ = "images"
 
+    id = Column(Integer, primary_key = True)
+    filename = Column(String(50))
 
 
