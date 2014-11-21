@@ -1,5 +1,5 @@
+// Get the dimensions of the viewport
 function jsUpdateSize(){
-    // Get the dimensions of the viewport
     var width = window.innerWidth ||
                 document.documentElement.clientWidth ||
                 document.body.clientWidth;
@@ -18,8 +18,6 @@ $(document).ready(function() {
         var patterns = $("#patterns").data().patterns;    
         bindDataToProcessing(patterns); 
     }, 1000);
-    
-
 });
 
 function bindDataToProcessing(patterns) {
@@ -31,19 +29,13 @@ function bindDataToProcessing(patterns) {
     }
 }
 
-
+// Adds snapshot of current canvas state to gallery
 $( "#add_button" ).click(function(event) {
     event.preventDefault();
     var canvas = document.getElementById("snowflake");
-    var song_id = $("#song_id:hidden").val();
-    var artist_name = $("#artist_name:hidden").val();
-    var title = $("#title:hidden").val();
-    console.log(title);
-    console.log(artist_name);
-
-
-    // var image = convertCanvasToImage(canvas);
-    // addSnowflake(image);
+    var song_id = $("#song_id").val();
+    var artist_name = $("#artist_name2").val();
+    var title = $("#title").val();
 
     $.ajax({
         type: "POST", 
@@ -59,30 +51,9 @@ $( "#add_button" ).click(function(event) {
     });
   });
 
-// Converts canvas to an image
+// Convert canvas to an image
 function convertCanvasToImage(canvas) {
   var image = new Image();
-  image.onload = function() {
-    console.log("image onload");
-  }
   image.src = canvas.toDataURL('image/png');
-  console.log(image);
-  console.log(image.src);
   return image
 }
-
-// function addSnowflake(image) {
-//   $.post(
-//       "/add_snowflake",
-//       {"image": image.src},
-//       function (data) {
-//           $("body").prepend(data);
-//       }
-// )};
-
-  //   $.ajax({
-  //     type: "POST",
-  //     url: '/add_snowflake',
-  //     data: {id: image.src}
-  // })
-  

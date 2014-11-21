@@ -31,21 +31,20 @@ def get_pattern():
     title = request.args.get("title").lower()
     artist_name = request.args.get("artist_name").lower()
     
-    # Nothing entered into form
+    # If nothing entered into form, get random song from database
     if artist_name == "" and title == "":
         return redirect("/")
 
-    # Only title entered
+    # If only title entered, check database for that title
     elif artist_name == "":
         track = db_session.query(m.Track).filter_by(title=title).first()
 
-    # Onlu artist name entered
+    # If only artist name entered, check database for that artist
     elif title == "":
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).first()
 
+    # If both artist and title entered, check database
     else:
-        # Check if the track is in the database 
-        # (using the artist name and title as entered)
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).filter_by(title=title).first()
 
     if track:
@@ -53,9 +52,9 @@ def get_pattern():
 
     # If not, call Echonest to get it
     else:
-        try:  
+        try:
+            print "MADE IT TO HERE"  
             song_data = algorithm(artist_name, title)
-
 
             # Check if the track is in the database 
             # (using the song id supplied by Echonest)
@@ -78,20 +77,29 @@ def get_pattern():
                 return render_template("index.html", track=track) 
 
         except:
-            # Prints error message to screen.
+
+            # Print error message to screen
             return render_template("index.html", track=None)
 
 @app.route("/add_snowflake", methods=["POST"])
 def add_snowflake():
-    song_id = request.form["song_id"]
+    song_id = request.form["song_id"] + ".png"
     image = request.form["img"]
+    artist_name = request.form["artist_name"]
+    title = request.form["title"]
 
     if image:
+
+        # decode base64
         img_type, img_b64data = image.split(",", 1)
         image_data = base64.b64decode(img_b64data)
+
+        # write to a file using the song id as the filename
         fout = open(os.path.join("static/uploads", song_id), "wb")
         fout.write(image_data)
         fout.close()
+
+
 
     return "Foo"
 

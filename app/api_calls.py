@@ -9,76 +9,207 @@ from time import sleep
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 
-def get_song_data(artist, title):
+def get_song_data(artist=None, title=None):
 	"""
-	Takes two strings (artist name, song title) and returns a dictionary of song information.
+	Takes two strings (artist name, song title) and returns a dictionary of song 
+	information.
 
 	"""
 	# get general song info
 	#######################
-	try:
-		r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
 
-	except requests.exceptions.RequestException as e:
-		return "I'm sorry, that song is not available. Please try a different one."
+	if not artist:
 
-	results = json.loads(r.content)
+		try:
+			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
 
-	songs = results["response"]["songs"]
+		except requests.exceptions.RequestException as e:
+			return "I'm sorry, that song is not available. Please try a different one."
 
-	song_data = {}
+		results = json.loads(r.content)
 
-	# Filter for a result that has track info and a Spotify track uri (used in web player)
-	for song in songs:
-		tracks = song["tracks"]
-		if tracks == []:
-			continue
-		else:
-			for track in tracks:
-				if "foreign_id" in track:
-					song_data["spotify_track_uri"] = track["foreign_id"]
-					break
-				else:
-					continue
-		
+		songs = results["response"]["songs"]
 
-			for key, value in song.iteritems():
+		song_data = {}
 
-				# skip unneeded items
-				if key == "tracks" or key == "artist_foreign_ids":
-					continue
+		# Filter for a result that has track info and a Spotify track uri (used in web player)
+		for song in songs:
+			tracks = song["tracks"]
+			if tracks == []:
+				continue
+			else:
+				for track in tracks:
+					if "foreign_id" in track:
+						song_data["spotify_track_uri"] = track["foreign_id"]
+						break
+					else:
+						continue
+			
 
-				# skip audio_summary, which we're getting in the next for loop
-				if key == "audio_summary":
-					continue
-				
-				# rename "id" key for clarity purposes
-				if key == "id":
-					key = "song_id"
+				for key, value in song.iteritems():
 
-				song_data[key] = value
+					# skip unneeded items
+					if key == "tracks" or key == "artist_foreign_ids":
+						continue
 
-			# lowercase artist name and song title
-			song_data["artist_name"] = song_data["artist_name"].lower()
-			song_data["title"] = song_data["title"].lower()
+					# skip audio_summary, which we're getting in the next for loop
+					if key == "audio_summary":
+						continue
+					
+					# rename "id" key for clarity purposes
+					if key == "id":
+						key = "song_id"
 
-			# get detailed song info
-			###########################################	
-			try:
-				audio_summary = song["audio_summary"]
-			except:
-				"ERROR: No audio summary for %s" % song_data["title"]
+					song_data[key] = value
 
-			for key, value in audio_summary.iteritems():
-				# round to no more than 3 decimal places
-				if type(value) == float:
-					value = round(value, 3)
-				song_data[key] = value
+				# lowercase artist name and song title
+				song_data["artist_name"] = song_data["artist_name"].lower()
+				song_data["title"] = song_data["title"].lower()
 
-			break
-	return song_data
+				# get detailed song info
+				###########################################	
+				try:
+					audio_summary = song["audio_summary"]
+				except:
+					"ERROR: No audio summary for %s" % song_data["title"]
 
-def collapse_sections(artist, title):
+				for key, value in audio_summary.iteritems():
+					# round to no more than 3 decimal places
+					if type(value) == float:
+						value = round(value, 3)
+					song_data[key] = value
+
+				break
+		return song_data
+
+	elif not title:
+
+		try:
+			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]})
+
+		except requests.exceptions.RequestException as e:
+			return "I'm sorry, that song is not available. Please try a different one."
+
+		results = json.loads(r.content)
+
+		songs = results["response"]["songs"]
+
+		song_data = {}
+
+		# Filter for a result that has track info and a Spotify track uri (used in web player)
+		for song in songs:
+			tracks = song["tracks"]
+			if tracks == []:
+				continue
+			else:
+				for track in tracks:
+					if "foreign_id" in track:
+						song_data["spotify_track_uri"] = track["foreign_id"]
+						break
+					else:
+						continue
+			
+
+				for key, value in song.iteritems():
+
+					# skip unneeded items
+					if key == "tracks" or key == "artist_foreign_ids":
+						continue
+
+					# skip audio_summary, which we're getting in the next for loop
+					if key == "audio_summary":
+						continue
+					
+					# rename "id" key for clarity purposes
+					if key == "id":
+						key = "song_id"
+
+					song_data[key] = value
+
+				# lowercase artist name and song title
+				song_data["artist_name"] = song_data["artist_name"].lower()
+				song_data["title"] = song_data["title"].lower()
+
+				# get detailed song info
+				###########################################	
+				try:
+					audio_summary = song["audio_summary"]
+				except:
+					"ERROR: No audio summary for %s" % song_data["title"]
+
+				for key, value in audio_summary.iteritems():
+					# round to no more than 3 decimal places
+					if type(value) == float:
+						value = round(value, 3)
+					song_data[key] = value
+
+				break
+		return song_data
+
+	else:
+		try:
+			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
+
+		except requests.exceptions.RequestException as e:
+			return "I'm sorry, that song is not available. Please try a different one."
+
+		results = json.loads(r.content)
+
+		songs = results["response"]["songs"]
+
+		song_data = {}
+
+		# Filter for a result that has track info and a Spotify track uri (used in web player)
+		for song in songs:
+			tracks = song["tracks"]
+			if tracks == []:
+				continue
+			else:
+				for track in tracks:
+					if "foreign_id" in track:
+						song_data["spotify_track_uri"] = track["foreign_id"]
+						break
+					else:
+						continue
+			
+
+				for key, value in song.iteritems():
+
+					# skip unneeded items
+					if key == "tracks" or key == "artist_foreign_ids":
+						continue
+
+					# skip audio_summary, which we're getting in the next for loop
+					if key == "audio_summary":
+						continue
+					
+					# rename "id" key for clarity purposes
+					if key == "id":
+						key = "song_id"
+
+					song_data[key] = value
+
+				# lowercase artist name and song title
+				song_data["artist_name"] = song_data["artist_name"].lower()
+				song_data["title"] = song_data["title"].lower()
+
+				# get detailed song info
+				###########################################	
+				try:
+					audio_summary = song["audio_summary"]
+				except:
+					"ERROR: No audio summary for %s" % song_data["title"]
+
+				for key, value in audio_summary.iteritems():
+					# round to no more than 3 decimal places
+					if type(value) == float:
+						value = round(value, 3)
+					song_data[key] = value
+
+				break
+		return song_data
+
+def collapse_sections(artist=None, title=None):
 	song_data = get_song_data(artist, title)
 
 	# get analyses of song sections
@@ -192,7 +323,7 @@ def collapse_sections(artist, title):
 	song_data["value_list"] = value_list
 	return song_data
 
-def algorithm(artist, title):
+def algorithm(artist=None, title=None):
 	song_data = collapse_sections(artist, title)
 
 	patterns = []
