@@ -98,15 +98,18 @@ fieldset[disabled] .btn-custom.active {
 }
 
 
-canvas{
-    position: absolute;
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 100s;
     -moz-transition-property: -moz-transform;
     -moz-transition-duration: 100s;
-}
-canvas:hover {
+
     -webkit-animation-name: rotate; 
     -webkit-animation-duration: 100s; 
     -webkit-animation-iteration-count: infinite;

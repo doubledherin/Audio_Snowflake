@@ -3,8 +3,6 @@ ArrayList<Hypotrochoid> hypotrochoids ;
 Pattern hypotrochoid;
 Hypotrochoid[] hypotrochoids = new Hypotrochoid[5]; 
 
-
-
 // FUNCTION CALLS
 void setup() {
   hypotrochoids = new ArrayList<Hypotrochoid>();
@@ -16,7 +14,6 @@ void setup() {
   ellipseMode(CENTER);
   colorMode(HSB, 360, 100, 100, 100);
   background(0);
-  // scale(.01);
   smooth();
 }
 
