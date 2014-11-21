@@ -35,11 +35,13 @@ def add_song_to_db(session, song_data):
     db_session.add(track)
     db_session.commit()
 
-def add_image_to_db(session, filename):
+def add_image_to_db(session, filename, artist_name, title):
 
     image = model.Image()
 
     image.filename = filename
+    image.artist_name = artist_name
+    image.title = title
 
     db_session.add(image)
     db_session.commit()

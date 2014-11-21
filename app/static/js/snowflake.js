@@ -7,26 +7,41 @@ function jsUpdateSize(){
                  document.documentElement.clientHeight ||
                  document.body.clientHeight;
 
+    width = Math.min(width, height)
+    height = Math.min(width, height)
+    $("#snowflake").width = width;
+    $("#snowflake").height = height;
+    // console.log(sized, typeof sized)
+
 };
-window.onload = jsUpdateSize;       // When the page first loads
-window.onresize = jsUpdateSize;     // When the browser changes size
+
+// $("canvas").height(sized);
+// $("canvas").width(sized);
 
 
 // Bind Processing to JavaScript to get access to snowflake.pde script
 $(document).ready(function() {
+    window.onload = jsUpdateSize();       // When the page first loads
+    window.onresize = jsUpdateSize();     // When the browser changes size
+
     setTimeout(function() {
         var patterns = $("#patterns").data().patterns;    
         bindDataToProcessing(patterns); 
     }, 1000);
+
 });
 
 function bindDataToProcessing(patterns) {
+    $("#snowflake").width = sized;
+    $("#snowflake").height = sized;
     var pjs = Processing.getInstanceById('snowflake');
     pjs.setup();
     for (var i=0; i < patterns.length; i++) {
         pattern = patterns[i];
         pjs.setUpHypotrochoid(pattern.a, pattern.b, pattern.h, pattern.hue, pattern.saturation, pattern.brightness, pattern.transparency);
     }
+
+    console.log($("#snowflake").width(), $("#snowflake").height());
 }
 
 // Adds snapshot of current canvas state to gallery
@@ -47,6 +62,8 @@ $( "#add_button" ).click(function(event) {
               },
         success: function() {
             alert("Image saved.");
+
+        // console.log($("#snowflake").width(), $("#snowflake").height());
         }
     });
   });

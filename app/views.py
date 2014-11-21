@@ -85,8 +85,8 @@ def get_pattern():
 def add_snowflake():
     filename = request.form["song_id"] + ".png"
     image = request.form["img"]
-    artist_name = request.form["artist_name"]
-    title = request.form["title"]
+    artist_name = request.form["artist_name"].title()
+    title = request.form["title"].title()
 
     if image:
 
@@ -99,10 +99,9 @@ def add_snowflake():
         fout.write(image_data)
         fout.close()
 
-        add_image_to_db(db_session, filename)
+        add_image_to_db(db_session, filename, artist_name, title)
 
-
-    return "Foo"
+    return "FOO"
 
 
 
@@ -112,7 +111,9 @@ def about_page():
 
 @app.route("/gallery")
 def gallery_page():
-    return render_template("gallery.html")    
+
+    images = db_session.query(m.Image).all()
+    return render_template("gallery.html", images=images)    
 
 
 if __name__ == "__main__":

@@ -44,5 +44,7 @@ class Image(Base):
 
     id = Column(Integer, primary_key = True)
     filename = Column(String(50))
+    artist_name = Column(String(100))
+    title = Column(String(100))
 
 
