@@ -23,12 +23,15 @@
 
   {% for image in images %}
 
-    <a href="/get_patterns?artist_name={{ image.artist_name }}&title={{ image.title }}"><div id="foo">
-      <img src="/static/uploads/{{ image.filename }}" width="400", height="400">
-      <p id="caption">{{ image.artist_name }}, "{{ image.title }}"</p>
-    </div>
-   </a>
-  
+  <!-- <div style="width:200px; font-size:80%; text-align:center;"> -->
+  <figure>
+    <a href="/get_patterns?artist_name={{ image.artist_name }}&title={{ image.title }}" alt= "{{ image.title}}, by {{ image.artist_name }}">
+    <img src="/static/uploads/{{ image.filename }}" width="200", height="200" style="padding-bottom:0.5em;">
+    <figcaption>"{{ image.title }}," {{ image.artist_name }}</figcaption>
+    </a>
+  </figure>
+
+  <!-- </div> -->
 
   {% endfor %}
 

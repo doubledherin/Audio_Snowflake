@@ -1,18 +1,20 @@
 
 body {
     background-color: black;
+    display: inline-block;
 }
 
 a:hover {
   color: #bebab3;
 }
 
-#caption {
+figcaption {
   color: #bebab3;
-  font-size: 20px;
-/*  position: relative;
-*/  /*text-align: center;*/
+  font-family: "Didot", serif;
+  width: 200px;
+  text-align: center;
 }
+
 .breadcrumb {
   background-color: black;
   font-size: 20px;
@@ -23,114 +25,3 @@ a:hover {
 .breadcrumb .active {
   color: white;
 }
-
-
-.form-horizontal .form-group {
-  margin-right: 0;
-  margin-left: 0;
-
-}
-
-.form-group {
-  margin-bottom: 2px;
-  padding-bottom: 2px;
-}
-
-#box {
-
-    color: black;
-    width: 250px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  
-}
-#error {
-  color: #bebab3;
-}
-
-#save-button {
-  margin-bottom: 40px;
-}
-
-input {
-    background-color: #3B393B;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    width: 250px;
-    margin-top: 1px;
-    border-radius: 5px;
-    border-color: black;
-    padding-bottom: 6px;
-    padding-top: 6px;
-}
-
-#enter_button {
-  font-size: 20px;
-  padding-bottom: 15px;
-  padding-top: 3px;
-}
-
-.btn-custom {
-  background-color: #a6adb0;
-  border-color: #a6adb0;
-  color: black;
-  font-weight: bold;
-}
-
-.btn-custom:hover,
-.btn-custom:focus,
-.btn-custom:active,
-.btn-custom.active {
-  background-color: #98a1a4;
-  border-color: #8b9498;
-}
-
-.btn-custom.disabled:hover,
-.btn-custom.disabled:focus,
-.btn-custom.disabled:active,
-.btn-custom.disabled.active,
-.btn-custom[disabled]:hover,
-.btn-custom[disabled]:focus,
-.btn-custom[disabled]:active,
-.btn-custom[disabled].active,
-fieldset[disabled] .btn-custom:hover,
-fieldset[disabled] .btn-custom:focus,
-fieldset[disabled] .btn-custom:active,
-fieldset[disabled] .btn-custom.active {
-  background-color: #a6adb0;
-  border-color: #a6adb0;
-}
-
-
-
-/*
-canvas{
-    position: absolute;
-
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 5s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 5s;
-}
-canvas:hover {
-    -webkit-animation-name: rotate; 
-    -webkit-animation-duration: 6s; 
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-    -moz-animation-name: rotate; 
-    -moz-animation-duration: 6s; 
-    -moz-animation-iteration-count: infinite;
-    -moz-animation-timing-function: linear;
-}
-@-webkit-keyframes rotate {
-    from {-webkit-transform: rotate(0deg);}
-    to {-webkit-transform: rotate(360deg);}
-}
-
-@-moz-keyframes rotate {
-    from {-moz-transform: rotate(0deg);}
-    to {-moz-transform: rotate(360deg);}
-}*/

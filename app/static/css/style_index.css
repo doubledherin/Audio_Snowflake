@@ -97,22 +97,22 @@ fieldset[disabled] .btn-custom.active {
   border-color: #a6adb0;
 }
 
-/*
+
 canvas{
     position: absolute;
 
     -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 5s;
+    -webkit-transition-duration: 100s;
     -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 5s;
+    -moz-transition-duration: 100s;
 }
 canvas:hover {
     -webkit-animation-name: rotate; 
-    -webkit-animation-duration: 6s; 
+    -webkit-animation-duration: 100s; 
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
     -moz-animation-name: rotate; 
-    -moz-animation-duration: 6s; 
+    -moz-animation-duration: 100s; 
     -moz-animation-iteration-count: infinite;
     -moz-animation-timing-function: linear;
 }
@@ -124,4 +124,4 @@ canvas:hover {
 @-moz-keyframes rotate {
     from {-moz-transform: rotate(0deg);}
     to {-moz-transform: rotate(360deg);}
-}*/
+}
