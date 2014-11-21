@@ -8,9 +8,13 @@
     <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
     
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- <link href="/static/css/bootstrap/bootstrap-lightbox/bootstrap-lightbox.min.css" rel="stylesheet"/> -->
     <link rel="stylesheet" type="text/css" href="../static/css/style_gallery.css".>
+    
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
+    <!-- <script type="text/javascript" src="/static/css/bootstrap/bootstrap-lightbox/bootstrap-lightbox.min.js"/></script> -->
+
 </head>
 
 <body>
@@ -23,17 +27,18 @@
 
   {% for image in images %}
 
-  <!-- <div style="width:200px; font-size:80%; text-align:center;"> -->
+
   <figure>
     <a href="/get_patterns?artist_name={{ image.artist_name }}&title={{ image.title }}" alt= "{{ image.title}}, by {{ image.artist_name }}">
-    <img src="/static/uploads/{{ image.filename }}" width="200", height="200" style="padding-bottom:0.5em;">
+    <img src="/static/uploads/{{ image.filename }}">
     <figcaption>"{{ image.title }}," {{ image.artist_name }}</figcaption>
     </a>
   </figure>
 
-  <!-- </div> -->
 
   {% endfor %}
+
+
 
 
 </body>
