@@ -50,6 +50,7 @@
               {% else %}
               <div id="error">I'm sorry, that song is not available.<br>Please try a different song.</div>
               {% endif %}
+
             </div>
             <img src="../static/images/echonest_logo.gif">
             {% if track %}
@@ -58,20 +59,21 @@
         </div>
 
     </div>
+    
     {% if track %}
         <div class="col-sm-4" id="save_button">
 
             <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
-            <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
-            <input type="hidden" id="title" name="title" value="{{ track.title }}">
-            <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
+                <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
+                <input type="hidden" id="title" name="title" value="{{ track.title }}">
+                <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
 
-            <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
-          </form>
-
+                <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
+            </form>
 
         </div>
     {% endif %}
+
 </body>
 <script src="../static/js/snowflake.js"></script>
 </html>

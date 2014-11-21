@@ -7,7 +7,6 @@ a:hover {
   color: #bebab3;
 }
 
-
 .breadcrumb {
   background-color: black;
   font-size: 20px;
@@ -62,13 +61,10 @@ input {
     padding-top: 6px;
 }
 
-
-
 #enter_button {
   font-size: 20px;
   padding-bottom: 15px;
   padding-top: 3px;
-
 
 }
 
@@ -100,8 +96,6 @@ fieldset[disabled] .btn-custom.active {
   background-color: #a6adb0;
   border-color: #a6adb0;
 }
-
-
 
 /*
 canvas{

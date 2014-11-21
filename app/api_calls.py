@@ -11,11 +11,10 @@ api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 def get_song_data(artist=None, title=None):
 	"""
-	Takes two strings (artist name, song title) and returns a dictionary of song 
-	information.
-
+	Takes up to two optional strings (artist name, song title) and returns a dictionary of song information.
 	"""
-	# get general song info
+
+	# Get general song info
 	#######################
 
 	if not artist:
@@ -48,25 +47,25 @@ def get_song_data(artist=None, title=None):
 
 				for key, value in song.iteritems():
 
-					# skip unneeded items
+					# Skip unneeded items
 					if key == "tracks" or key == "artist_foreign_ids":
 						continue
 
-					# skip audio_summary, which we're getting in the next for loop
+					# Skip audio_summary, which we're getting in the next for loop
 					if key == "audio_summary":
 						continue
 					
-					# rename "id" key for clarity purposes
+					# Rename "id" key for clarity purposes
 					if key == "id":
 						key = "song_id"
 
 					song_data[key] = value
 
-				# lowercase artist name and song title
+				# Lowercase artist name and song title
 				song_data["artist_name"] = song_data["artist_name"].lower()
 				song_data["title"] = song_data["title"].lower()
 
-				# get detailed song info
+				# Get detailed song info
 				###########################################	
 				try:
 					audio_summary = song["audio_summary"]
@@ -79,6 +78,7 @@ def get_song_data(artist=None, title=None):
 						value = round(value, 3)
 					song_data[key] = value
 
+				######COMMENT THIS OUT?#######
 				break
 		return song_data
 
@@ -212,7 +212,7 @@ def get_song_data(artist=None, title=None):
 def collapse_sections(artist=None, title=None):
 	song_data = get_song_data(artist, title)
 
-	# get analyses of song sections
+	# Get analyses of song sections
 	###########################################
 	analysis_url = str(song_data["analysis_url"])
 
@@ -226,7 +226,7 @@ def collapse_sections(artist=None, title=None):
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
 
-	# collapse song sections
+	# Collapse song sections
 	###########################################
 
 	collapsed = {}
@@ -238,7 +238,7 @@ def collapse_sections(artist=None, title=None):
 		collapsed[(key, mode, time_sig)].append(sections[i])
 
 	new_collapsed = {}
-	# get total duration for each collapsed section
+	# Get total duration for each collapsed section
 	for key, value in collapsed.iteritems():
 		total_duration = 0
 		
@@ -247,15 +247,15 @@ def collapse_sections(artist=None, title=None):
 		
 		total_duration = int(round(total_duration))
 		
-		# recreate key so that it starts with total duration
+		# Recreate key so that it starts with total duration
 		key = list(key)
 		key.insert(0, total_duration)
 		key = tuple(key)
 
-		# key is now (total_duration, key, mode, time sig)
+		# Key is now (total_duration, key, mode, time sig)
 		new_collapsed[key] = value
 
-	# for each collapsed section, collapse list of values into averages
+	# For each collapsed section, collapse list of values into averages
 	newer_collapsed = {}
 
 
@@ -264,7 +264,7 @@ def collapse_sections(artist=None, title=None):
 	for key, value in items:
 		newer_collapsed[key] = {}
 
-		# get totals for each item in a collapsed section's values
+		# Get totals for each item in a collapsed section's values
 		total_confidence = 0 
 		total_key_confidence = 0 
 		total_mode_confidence = 0 
@@ -280,12 +280,13 @@ def collapse_sections(artist=None, title=None):
 			total_tempo += item["tempo"]
 			total_loudness += item["loudness"]
 		
-		# put the totals in a list to use map function for averages
+		# Put the totals into a list
 		totals = [total_confidence, total_key_confidence, total_mode_confidence, total_time_signature_confidence, total_tempo, total_loudness]
 
+		# Yay list comprehension
 		averages = map(lambda x: round(x / len(value), 3), totals)
 
-		# add the averaged values to the newer_collapsed dictionary
+		# Add the averaged values to the newer_collapsed dictionary
 		newer_collapsed[key]["avg_confidence"] = averages[0]
 		newer_collapsed[key]["avg_key_confidence"] = averages[1]
 		newer_collapsed[key]["avg_mode_confidence"] = averages[2]
@@ -293,15 +294,15 @@ def collapse_sections(artist=None, title=None):
 		newer_collapsed[key]["avg_tempo"] = averages[4]
 		newer_collapsed[key]["avg_loudness"] = averages[5]
 
-	# shrink to 5 or fewer sections
+	# Shrink to 5 or fewer sections
 	while len(newer_collapsed) > 5:
 		
-		# remove item with the shortest duration
+		# Remove item with the shortest duration
 		sorted_keys = sorted(newer_collapsed.keys())
 		shortest_duration = sorted_keys.pop(0)
 		del newer_collapsed[shortest_duration]
 
-	# create list of dictionaries, each dictionary stores one section's data
+	# Create list of dictionaries, each dictionary stores one section's data
 	value_list = []
 	sorted_keys = sorted(newer_collapsed.keys())
 	for i in range(len(sorted_keys)):
@@ -328,7 +329,7 @@ def algorithm(artist=None, title=None):
 
 	patterns = []
 
-	# for the epitrochoid (outer ring)
+	# For the epitrochoid (outer ring)
 	epi_duration = song_data["duration"]
 	epi_tempo = song_data["tempo"]
 	epi_key = song_data["key"]
@@ -340,7 +341,7 @@ def algorithm(artist=None, title=None):
 
 	
 
-	# for hypotrochoids (inner rings)
+	# For hypotrochoids (inner rings)
 	value_list = song_data["value_list"]
 
 	section_durations = []
@@ -367,52 +368,51 @@ def algorithm(artist=None, title=None):
 		section_avg_mode_confidence = v[0]["avg_mode_confidence"]
 		section_avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
 
-
-
-		"""
-		Linear scaling section:
-
-		uses the following formula:
 		
-		Where [A, B] is the current range and [C, D] is the desired range:
-		
-		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
-		"""
-		# Duration determines size of hypotrochoid
-
+		# Duration of song determines radius of larger circle ("a")
 		unscaled_a = float(epi_duration) 
-
-
-		# a is mapped to song duration--min of 60; max of 600
-		#[100, 600] => [500, 900]
 		
-		# First chuck outliers
+		# Set minimum and maximum song duration (100 min; 600 max)
 		if unscaled_a < 100:
 			unscaled_a = 100
 		if unscaled_a > 600:
 			unscaled_a = 600
 
+		# Scale "a" to a reasonable size using the equation below
+		"""
+		Linear scaling section
+
+		Uses the following formula:
+		
+		Where [A, B] is the current range and [C, D] is the desired range:
+		
+		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
+		"""
+
+		# Scale as follows: [100, 600] => [500, 900]
 		a = 500 * (1 - ((unscaled_a - 100) / (600 - 100))) + 900 * ((unscaled_a - 100) / (600 - 100))
 
 
-		# b is mapped to section duration and has to be less than min and max of a
-		# [5, (unscaled_a-10)] => [275, 675]
-
-		# Chuck outliers
+		# Duration of section determines radius of smaller circle ("b")
 		unscaled_b = section_duration
+
+		# Set minimum and maximum section duration (5 min; a-10 max)
 		if unscaled_b < 5:
 			unscaled_b = 5
 		if unscaled_b > (unscaled_a - 10):
 			unscaled_b = (unscaled_a - 10)		
 
+		# Scale as follows: # [5, (unscaled_a-10)] => [275, 675]
 		b = 275 * (1 - ((unscaled_b - 5) / ((unscaled_a - 10) - 5))) + 675 * ((unscaled_b - 5) / ((unscaled_a - 10) - 5))
 
+		# Difference between "a" and "b" determines distance between center of smaller circle and point P ("h")
 		h = a - b
 
-
-
+		# Section key determines hue
 		unscaled_hue = section_key
-		# [0, 11] to [0, 330]
+
+		# Scale as follows [0, 11] => [0, 330]
+		
 		# hue = 0 * (1 - (unscaled_hue / 11.0)) + 330 * (unscaled_hue / 11.0 )
 		hue = 330 * (unscaled_hue / 11.0 )
 		hue = int(hue)

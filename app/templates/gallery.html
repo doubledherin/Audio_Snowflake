@@ -24,7 +24,7 @@
   {% for image in images %}
 
     <a href="/get_patterns?artist_name={{ image.artist_name }}&title={{ image.title }}"><div id="foo">
-      <img src="/static/uploads/{{ image.filename }}" width="800", height="400">
+      <img src="/static/uploads/{{ image.filename }}" width="400", height="400">
       <p id="caption">{{ image.artist_name }}, "{{ image.title }}"</p>
     </div>
    </a>

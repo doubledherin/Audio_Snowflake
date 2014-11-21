@@ -1,17 +1,14 @@
 import base64, json, os, random
-import model as m 
 from time import sleep
 
 from flask import Flask, jsonify, render_template, redirect, request, flash, url_for
-
 from sqlalchemy import desc
 from werkzeug import secure_filename
 
+import model as m 
 from model import db_session
 from api_calls import algorithm
 from add_to_db import add_song_to_db, add_image_to_db
-
-
 
 app = Flask(__name__)
 
@@ -31,19 +28,19 @@ def get_pattern():
     title = request.args.get("title").lower()
     artist_name = request.args.get("artist_name").lower()
     
-    # If nothing entered into form, get random song from database
+    # If nothing entered into form
     if artist_name == "" and title == "":
         return redirect("/")
 
-    # If only title entered, check database for that title
+    # If only title entered
     elif artist_name == "":
         track = db_session.query(m.Track).filter_by(title=title).first()
 
-    # If only artist name entered, check database for that artist
+    # If only artist name entered
     elif title == "":
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).first()
 
-    # If both artist and title entered, check database
+    # If both artist and title entered
     else:
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).filter_by(title=title).first()
 
@@ -53,25 +50,25 @@ def get_pattern():
     # If not, call Echonest to get it
     else:
         try:
-            print "MADE IT TO HERE"  
             song_data = algorithm(artist_name, title)
 
-            # Check if the track is in the database 
-            # (using the song id supplied by Echonest)
+            # Check if the track is in the database, using song id 
+            # (gets around slight misspellings and missing accents)
             song_id = song_data["song_id"]
 
             track = db_session.query(m.Track).filter_by(song_id=song_id).first()
 
 
-            # If it is in the database
+            # If song id is in the database
             if track:
                 return render_template("index.html", track=track)
 
+            # If song id is not in the database
             else:
                 # Add it to the database
                 add_song_to_db(db_session, song_data)
 
-                # Get it from the database
+                # Get it from the database (using song id)
                 track = db_session.query(m.Track).filter_by(song_id=song_id).first()
                 
                 return render_template("index.html", track=track) 

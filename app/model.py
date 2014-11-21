@@ -11,9 +11,6 @@ db_session = scoped_session(sessionmaker(bind=engine,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-# def search(artist_name, title):
-#     return db_session.query(Track).filter_by(title=title).filter_by(artist_name=artist_name).first()
-
 class Track(Base):
     __tablename__ = "tracks"
 

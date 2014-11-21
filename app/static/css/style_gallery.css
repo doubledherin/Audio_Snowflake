@@ -10,9 +10,8 @@ a:hover {
 #caption {
   color: #bebab3;
   font-size: 20px;
-  /*font-weight: bold;*/
-  position: relative;
-  /*text-align: center;*/
+/*  position: relative;
+*/  /*text-align: center;*/
 }
 .breadcrumb {
   background-color: black;
@@ -68,14 +67,10 @@ input {
     padding-top: 6px;
 }
 
-
-
 #enter_button {
   font-size: 20px;
   padding-bottom: 15px;
   padding-top: 3px;
-
-
 }
 
 .btn-custom {
@@ -84,6 +79,7 @@ input {
   color: black;
   font-weight: bold;
 }
+
 .btn-custom:hover,
 .btn-custom:focus,
 .btn-custom:active,
@@ -91,6 +87,7 @@ input {
   background-color: #98a1a4;
   border-color: #8b9498;
 }
+
 .btn-custom.disabled:hover,
 .btn-custom.disabled:focus,
 .btn-custom.disabled:active,
