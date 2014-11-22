@@ -32,9 +32,9 @@ $( "#add_button" ).click(function(event) {
                 artist_name : artist_name,
                 title: title
               },
-        success: function() {
-            alert("Image saved.");
-        }
+        // success: function() {
+        //     alert("Image saved.");
+        // }
     });
   });
 

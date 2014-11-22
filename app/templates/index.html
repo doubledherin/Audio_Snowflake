@@ -8,13 +8,20 @@
     <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
     
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/static/css/bootstrap/bootstrap-lightbox/bootstrap-lightbox.min.css" rel="stylesheet"/>
+
     <link rel="stylesheet" type="text/css" href="../static/css/style_index.css".>
-    
+
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
-    <!-- <script type="text/javascript" src="/static/css/bootstrap/bootstrap-lightbox/bootstrap-lightbox.min.js"/></script> -->
-
+    
+    <style>
+    canvas {
+        -webkit-transition-duration: {{ track.rotation_speed }}s;
+        -moz-transition-duration: {{ track.rotation_speed }}s;
+        -webkit-animation-duration: {{ track.rotation_speed }}s; 
+        -moz-animation-duration: {{ track.rotation_speed }}s;
+    }
+    </style>
 </head>
 
 <body>
@@ -51,15 +58,16 @@
 
               {% if track %}
               <iframe src="https://embed.spotify.com/?uri={{ track.spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
+              <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
               {% else %}
               <div id="error">I'm sorry, that song is not available.<br>Please try a different song.</div>
               {% endif %}
 
             </div>
             <img src="../static/images/echonest_logo.gif">
-            {% if track %}
+<!--             {% if track %}
             <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
-            {% endif %}
+            {% endif %} -->
         </div>
 
     </div>

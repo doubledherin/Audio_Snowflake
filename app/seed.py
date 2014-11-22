@@ -20,8 +20,7 @@ def add_song_to_db(session):
              ("Mozart", "Symphony No. 40 in G Minor"),
              ("Madonna", "La Isla Bonita"), 
              ("Jose Gonzalez", "Heartbeats"), 
-             ("Erik Satie", "Gymnopedie No. 1"),
-             ("Metallica", "Enter Sandman")]
+             ("Erik Satie", "Gymnopedie No. 1")]
 
     for song in songs:
 
@@ -53,6 +52,7 @@ def add_song_to_db(session):
         track.instrumentalness = song_data["instrumentalness"]
         track.spotify_track_uri = song_data["spotify_track_uri"]
         track.patterns = values_json
+        track.rotation_speed = song_data["rotation_speed"]
 
         db_session.add(track)
         db_session.commit()

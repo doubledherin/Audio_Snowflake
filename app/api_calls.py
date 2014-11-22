@@ -339,7 +339,31 @@ def algorithm(artist=None, title=None):
 	epi_loudness = song_data["loudness"]
 	epi_valence = song_data["valence"]
 
+
+	"""
+	Linear scaling section
+
+	Uses the following formula:
 	
+	Where [A, B] is the current range and [C, D] is the desired range:
+	
+	f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
+	"""
+
+	# Scale tempo to rotation
+	# Set min tempo at 70 and max tempo at 200; min rotation at 5 and max at 100
+	
+	unscaled_rotation_speed = epi_tempo
+
+	if unscaled_rotation_speed < 70:
+		unscaled_rotation_speed = 70
+	if unscaled_rotation_speed > 200:
+		unscaled_rotation_speed = 200
+
+	rotation_speed = 5.0 * (1 - ((unscaled_rotation_speed - 70) / (200 - 70))) + 100.0 * (((unscaled_rotation_speed - 70) / (200 - 70)))
+
+	song_data["rotation_speed"] = rotation_speed
+
 
 	# For hypotrochoids (inner rings)
 	value_list = song_data["value_list"]

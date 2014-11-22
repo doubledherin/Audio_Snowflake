@@ -35,6 +35,7 @@ class Track(Base):
     instrumentalness = Column(Float)
     spotify_track_uri = Column(String(50))
     patterns = Column(String(300))
+    rotation_speed = Column(Float)
 
 class Image(Base):
     __tablename__ = "images"
