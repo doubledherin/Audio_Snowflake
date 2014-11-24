@@ -36,7 +36,7 @@ Energy is a property of the loudness and frequency of change within a song. As f
 >The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.
 
 
-<img style="padding-left:100px" src="app/static/images/energy_valence_info.png" alt="The Valence-Arousal space"/>
+<img style="padding-left:100px" src="/app/static/images/energy_valence_info.png" alt="The Valence-Arousal space"/>
 
 For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.
 
@@ -70,8 +70,8 @@ Note that with Spirograph, the value of ***h*** must necessarily be less than th
 
 ###### A hypotrochoid in which the value of *h* is less than the radius *b*. 
 
-![image](app/static/images/HypotrochoidDiagram2.eps "Hypotrochoid diagram in which h is less than radius b")
-![image](app/static/images/hypotroc2.gif "Hypotrochoid animation in which radius b is less than h")
+![image](/app/static/images/HypotrochoidDiagram2.eps "Hypotrochoid diagram in which h is less than radius b")
+![image](/app/static/images/hypotroc2.gif "Hypotrochoid animation in which radius b is less than h")
 
 ###### A hypotrochoid in which the value of *h* is greater than the radius *b*. 
 Images from [Wolfram MathWorld](http://mathworld.wolfram.com/Hypotrochoid.html).
