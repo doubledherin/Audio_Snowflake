@@ -65,7 +65,7 @@ For Audio Snowflake, these values are determined as follows:
 
 Note that with Spirograph, the value of ***h*** must necessarily be less than the value of ***b***, because you have to place the pen somewhere inside the smaller circle. That's not the case with digital renderings: the "pen" can be outside the smaller circle, yet still attached to its rotation. The drawings below make this clear.
 
-![image](app/static/images/HypotrochoidDiagram1.eps "Hypotrochoid diagram in which h is less than radius b")
+![image](/app/static/images/HypotrochoidDiagram1.eps "Hypotrochoid diagram in which h is less than radius b")
 ![image](app/static/images/hypotroc1.gif "Hypotrochoid animation in which radius b is less than h")
 
 ###### A hypotrochoid in which the value of *h* is less than the radius *b*. 
