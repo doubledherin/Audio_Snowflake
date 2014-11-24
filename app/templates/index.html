@@ -16,11 +16,14 @@
     
     <style>
     canvas {
-        -webkit-transition-duration: {{ track.rotation_speed }}s;
-        -moz-transition-duration: {{ track.rotation_speed }}s;
-        -webkit-animation-duration: {{ track.rotation_speed }}s; 
-        -moz-animation-duration: {{ track.rotation_speed }}s;
+        -webkit-transition-duration: {{ track.rotation_duration }}s;
+        -moz-transition-duration: {{ track.rotation_duration }}s;
+        -webkit-animation-duration: {{ track.rotation_duration }}s; 
+        -moz-animation-duration: {{ track.rotation_duration }};
     }
+    
+
+
     </style>
 </head>
 
@@ -36,8 +39,128 @@
 
 
 <canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
+    {% if track %}
+    <div id="box1">
+        <div class="container">
+                
+                <div class="row">
+                  <div class="col-sm-4">
+                    <p>Song duration: {{ track.duration|int }} seconds</p>
+                    <p>Song tempo: {{ track.tempo|int }} beats per minute</p>
+                    <p>Song energy + valence: {{ track.energy + track.valence }}</p>
+                    <br>
+                    <br>
+                  </div>
+                </div>
 
-    <div id="box">
+                {% for section in sections %}
+                <div class="row">
+                  <div class="col-sm-4" id="section-legend">
+
+
+                    <div class="rect" style="background-color:hsla({{patterns[loop.index0].hue}}, {{patterns[loop.index0].saturation}}%, 77.5%, 0.{{patterns[loop.index0].transparency}})"></div>
+
+                    <p>Duration: {{ section.duration }} seconds
+                    </p>
+                    
+                    {% if section.key == 0 and section.mode == 0 %} 
+                    <p>Key: C minor</p>
+                    
+                    {% elif section.key == 0 and section.mode == 1 %}
+                    <p>Key: C major</p>
+                    
+                    {% elif section.key == 1 and section.mode == 0 %}
+                    <p>Key: C♯ minor</p>
+                    
+                    {% elif section.key == 1 and section.mode == 1 %}
+                    <p>Key: C♯ major</p>
+                    
+                    {% elif section.key == 2 and section.mode == 0 %}
+                    <p>Key: D minor</p>
+                    
+                    {% elif section.key == 2 and section.mode == 1 %}
+                    <p>Key: D major</p>
+                    
+                    {% elif section.key == 3 and section.mode == 0 %}
+                    <p>Key: E♭ minor</p>
+                    
+                    {% elif section.key == 3 and section.mode == 1 %}
+                    <p>Key: E♭ major</p>
+                    
+                    {% elif section.key == 4 and section.mode == 0 %}
+                    <p>Key: E minor</p>
+                    
+                    {% elif section.key == 4 and section.mode == 1 %}
+                    <p>Key: E major</p>
+                    
+                    {% elif section.key == 5 and section.mode == 0 %}
+                    <p>Key: F minor</p>
+                    
+                    {% elif section.key == 5 and section.mode == 1 %}
+                    <p>Key: F major</p>
+                    
+                    {% elif section.key == 6 and section.mode == 0 %}
+                    <p>Key: F♯ minor</p>
+                    
+                    {% elif section.key == 6 and section.mode == 1 %}
+                    <p>Key: F♯ major</p>
+                    
+                    {% elif section.key == 7 and section.mode == 0 %}
+                    <p>Key: G minor</p>
+                    
+                    {% elif section.key == 7 and section.mode == 1 %}
+                    <p>Key: G major</p>
+                    
+                    {% elif section.key == 8 and section.mode == 0 %}
+                    <p>Key: A♭ minor</p>
+                    
+                    {% elif section.key == 8 and section.mode == 1 %}
+                    <p>Key: A♭ major</p>
+                    
+                    {% elif section.key == 9 and section.mode == 0 %}
+                    <p>Key: A minor</p>
+                    
+                    {% elif section.key == 9 and section.mode == 1 %}
+                    <p>Key: A major</p>
+                    
+                    {% elif section.key == 10 and section.mode == 0 %}
+                    <p>Key: B♭ minor</p>
+                    
+                    {% elif section.key == 10 and section.mode == 1 %}
+                    <p>Key: B♭ major</p>
+                    
+                    {% elif section.key == 11 and section.mode == 0 %}
+                    <p>Key: B minor</p>
+                    
+                    {% elif section.key == 11 and section.mode == 1 %}
+                    <p>Key: B major</p>
+
+                    {% endif %}
+
+                    <p>Loudness: {{ section.loudness }}</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+        
+        
+        <div class="col-sm-4" id="save_button">
+
+            <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
+                <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
+                <input type="hidden" id="title" name="title" value="{{ track.title }}">
+                <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
+
+                <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
+            </form>
+
+        </div>
+    {% endif %}
+
+        
+    <div id="box2">
         <div id="bottom_right_box" class="container">
 
 
@@ -54,6 +177,8 @@
                 </div>
               </div>
             </form>
+
+
             <div id="web_player">
 
               {% if track %}
@@ -64,27 +189,15 @@
               {% endif %}
 
             </div>
+
+            
             <img src="../static/images/echonest_logo.gif">
-<!--             {% if track %}
-            <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
-            {% endif %} -->
+
         </div>
 
     </div>
     
-    {% if track %}
-        <div class="col-sm-4" id="save_button">
-
-            <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
-                <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
-                <input type="hidden" id="title" name="title" value="{{ track.title }}">
-                <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
-
-                <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
-            </form>
-
-        </div>
-    {% endif %}
+    
 
 </body>
 <script src="../static/js/snowflake.js"></script>

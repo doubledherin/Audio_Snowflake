@@ -5,13 +5,20 @@ body {
 
 a:hover {
   color: #bebab3;
+  font-weight: bold;
+}
+
+.breadcrumb a {
+  color: #bebab3;
 }
 
 .breadcrumb {
+
   background-color: black;
+  font-family: "Didot", serif;
   font-size: 20px;
   position: fixed;
-  right: 0;
+  left: 0;
 }
 
 .breadcrumb .active {
@@ -28,15 +35,48 @@ a:hover {
 .form-group {
   margin-bottom: 2px;
   padding-bottom: 2px;
+
 }
 
-#box {
+#box1 {
+    color: #bebab3;
+    font-family: "Didot", serif;
+    font-size: 120%;
+    line-height: 0.5;
+    width: 250px;
+    position: absolute;
+    top: 10%;
+    left: 0;
+}
 
+#box1 p {
+  padding-top: 10px;
+}
+
+#section-legend {
+  padding-bottom: 25px;
+}
+
+.rect {
+    /*border-radius: 50%;*/
+    /*behavior: url(PIE.htc);  remove if you don't care about IE8 */
+    /*#circle {*/
+    width: 50%;
+    height: 20px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    padding-bottom: 15px; 
+}
+
+
+#box2 {
     color: black;
     width: 250px;
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 20px;
+
   
 }
 #error {
@@ -44,15 +84,18 @@ a:hover {
 }
 
 #save-button {
-  margin-bottom: 40px;
+  top: 50%;
+  right: 0;
+  font-family: "Didot", serif;
 }
 
 input {
     background-color: #3B393B;
     color: white;
     text-align: center;
-    font-size: 14px;
-    font-weight: bold;
+    font-family: "Didot", serif;
+    font-size: 16px;
+    /*font-weight: bold;*/
     width: 250px;
     margin-top: 1px;
     border-radius: 5px;
@@ -62,9 +105,10 @@ input {
 }
 
 #enter_button {
-  font-size: 20px;
+ 
   padding-bottom: 15px;
   padding-top: 3px;
+  font-family: "Didot", serif;
 
 }
 
@@ -73,6 +117,7 @@ input {
   border-color: #a6adb0;
   color: black;
   font-weight: bold;
+  font-size: 18px;
 }
 .btn-custom:hover,
 .btn-custom:focus,
