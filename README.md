@@ -35,7 +35,7 @@ The saturation (vividness) is determined by the sum of the song's energy and val
 Energy is a property of the loudness and frequency of change within a song. As for valence, according to Paul Lamere (Director of Developer Platform at The Echo Nest), 
 >The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.
 
-![image](/static/images/energy_valence_info.png)
+![image](app/static/images/energy_valence_info.png)
 <img style="padding-left:100px" src="/static/images/energy_valence_info.png" alt="The Valence-Arousal space"/>
 
 For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.
