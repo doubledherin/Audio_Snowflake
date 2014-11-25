@@ -22,8 +22,6 @@ def get_song_data(artist=None, title=None):
 		try:
 			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
 
-			# print "URL: ", r.url
-
 		except requests.exceptions.RequestException as e:
 			return "I'm sorry, that song is not available. Please try a different one."
 
@@ -42,10 +40,9 @@ def get_song_data(artist=None, title=None):
 				continue
 			else:
 				for track in tracks:
-					# print "HELLO"
+
 					if "foreign_id" in track:
 						song_data["spotify_track_uri"] = track["foreign_id"]
-						# print "URI: ", song_data["spotify_track_uri"]
 						break
 					else:
 						continue
@@ -75,7 +72,7 @@ def get_song_data(artist=None, title=None):
 				###########################################	
 				try:
 					audio_summary = song["audio_summary"]
-					# print audio_summary
+					
 				except:
 					"ERROR: No audio summary for %s" % song_data["title"]
 
@@ -88,7 +85,7 @@ def get_song_data(artist=None, title=None):
 				######COMMENT THIS OUT?#######
 				break
 
-		# print "SONG DATA: ", song_data
+
 		return song_data
 
 	elif not title:
@@ -220,7 +217,6 @@ def get_song_data(artist=None, title=None):
 
 def collapse_sections(artist=None, title=None):
 	song_data = get_song_data(artist, title)
-	# print "COLLAPSE SECTIONS SONG DATA", song_data
 
 	# Get analyses of song sections
 	###########################################
@@ -232,7 +228,6 @@ def collapse_sections(artist=None, title=None):
 		return "Error accessing analysis url. Status code %d" % r.status_code
 
 	results = json.loads(r.content)
-	# print "RESULTS", results
 
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
@@ -335,11 +330,10 @@ def collapse_sections(artist=None, title=None):
 
 	song_data["value_list"] = value_list
 
-	# print "VALUE LIST", song_data["value_list"]
 	return song_data
 
 def algorithm(artist=None, title=None):
-	print "in algorithm"
+	
 
 	song_data = collapse_sections(artist, title)
 
@@ -352,7 +346,7 @@ def algorithm(artist=None, title=None):
 	song_loudness = song_data["loudness"]
 	song_valence = song_data["valence"]
 
-	# print 111
+
 	"""
 	Linear scaling section
 
@@ -363,9 +357,9 @@ def algorithm(artist=None, title=None):
 	f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
 	"""
 
-	# Scale tempo to rotation
-	# Set min tempo at 70 and max tempo at 200; min rotation at 5 and max at 100
+	# Scale tempo to rotation (inversely proportional)
 	
+	# Set min tempo at 70 and max tempo at 200
 	unscaled_rotation_duration = song_tempo
 
 	if unscaled_rotation_duration < 70:
@@ -373,23 +367,21 @@ def algorithm(artist=None, title=None):
 	if unscaled_rotation_duration > 200:
 		unscaled_rotation_duration = 200
 
-	# print 111
-	rotation_duration = 5.0 * (1 - ((unscaled_rotation_duration - 70) / (200 - 70))) + 100.0 * (((unscaled_rotation_duration - 70) / (200 - 70)))
+	# [70, 200] => [100, 5]
+	rotation_duration = 100.0 * (1 - ((unscaled_rotation_duration - 70) / (200 - 70))) + 5.0 * (((unscaled_rotation_duration - 70) / (200 - 70)))
 
 	song_data["rotation_duration"] = rotation_duration
 
-	# print 111
 
 	# For hypotrochoids
 	value_list = song_data["value_list"]
 
-	print "value_list", value_list
+
 	section_durations = []
 
 	for section in value_list:
-		# print "SECTION", section
+
 		v = section.values()
-		# print "V", v
 		section_durations.append(v[0]["duration"])
 	min_section_duration = float(min(section_durations))
 	max_section_duration = float(max(section_durations))
@@ -397,7 +389,7 @@ def algorithm(artist=None, title=None):
 
 	sections = []
 	patterns = []
-	# print "MIN MAX", min_section_duration, max_section_duration
+
 	for section in value_list:
 
 		v = section.values()
@@ -409,10 +401,6 @@ def algorithm(artist=None, title=None):
 		section_time_signature = v[0]["time_signature"]
 		section_avg_loudness = v[0]["avg_loudness"]
 
-		# section_avg_confidence = v[0]["avg_confidence"]
-		# section_avg_key_confidence = v[0]["avg_key_confidence"]
-		# section_avg_mode_confidence = v[0]["avg_mode_confidence"]
-		# section_avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
 
 		sections_dict = {}
 
@@ -423,10 +411,6 @@ def algorithm(artist=None, title=None):
 
 
 		sections.append(sections_dict)
-
-
-		# print "SECTIONS", song_data["sections"]
-
 
 		# Duration of song determines radius of larger circle ("a")
 		unscaled_a = float(song_duration) 
@@ -505,9 +489,7 @@ def algorithm(artist=None, title=None):
 	song_data["sections"] = sections
 	song_data["patterns"] = patterns
 
-	for key, value in song_data.iteritems():
-		print key, ": ", value
-	print "I'm RITH HEREE"
+
 	return song_data
 
 
