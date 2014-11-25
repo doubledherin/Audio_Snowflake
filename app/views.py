@@ -19,7 +19,14 @@ def index():
     rand = random.randrange(0, db_session.query(m.Track).count()) 
     track = db_session.query(m.Track)[rand]
 
-    return render_template("index.html", track=track)
+    patterns = track.patterns
+    patterns = json.loads(patterns)
+
+    sections = track.sections
+    sections = json.loads(sections)    
+
+
+    return render_template("index.html", track=track, patterns=patterns, sections=sections)
 
 @app.route("/get_patterns")
 def get_pattern():
@@ -45,7 +52,16 @@ def get_pattern():
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).filter_by(title=title).first()
 
     if track:
-        return render_template("index.html", track=track)
+
+        patterns = track.patterns
+        patterns = json.loads(patterns)
+
+        sections = track.sections
+        sections = json.loads(sections)    
+
+
+        return render_template("index.html", track=track, patterns=patterns, sections=sections)
+    
 
     # If not, call Echonest to get it
     else:
@@ -61,7 +77,14 @@ def get_pattern():
 
             # If song id is in the database
             if track:
-                return render_template("index.html", track=track)
+                patterns = track.patterns
+                patterns = json.loads(patterns)
+
+                sections = track.sections
+                sections = json.loads(sections)    
+
+
+                return render_template("index.html", track=track, patterns=patterns, sections=sections)
 
             # If song id is not in the database
             else:
@@ -71,7 +94,14 @@ def get_pattern():
                 # Get it from the database (using song id)
                 track = db_session.query(m.Track).filter_by(song_id=song_id).first()
                 
-                return render_template("index.html", track=track) 
+                patterns = track.patterns
+                patterns = json.loads(patterns)
+
+                sections = track.sections
+                sections = json.loads(sections)    
+
+
+                return render_template("index.html", track=track, patterns=patterns, sections=sections)
 
         except:
 

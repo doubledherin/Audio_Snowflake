@@ -26,8 +26,11 @@ def add_song_to_db(session):
 
         song_data = algorithm(song[0], song[1])
 
-        values = song_data["patterns"]
-        values_json = json.dumps(values)
+        patterns = song_data["patterns"]
+        patterns_json = json.dumps(patterns)
+
+        sections = song_data["sections"]
+        sections_json = json.dumps(sections)
 
 
         track = model.Track()
@@ -51,7 +54,8 @@ def add_song_to_db(session):
         track.audio_md5 = song_data["audio_md5"]
         track.instrumentalness = song_data["instrumentalness"]
         track.spotify_track_uri = song_data["spotify_track_uri"]
-        track.patterns = values_json
+        track.patterns = patterns_json
+        track.sections = sections_json
         track.rotation_speed = song_data["rotation_speed"]
 
         db_session.add(track)
