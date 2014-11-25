@@ -74,7 +74,8 @@ def get_pattern():
         # print "IM HERE"
         # print "IM HERE"
         song_data = algorithm(artist_name, title)
-
+        if not song_data:
+            return render_template("index.html", track=None, patterns=None, sections=None)
 
         # Check if the track is in the database, using song id 
         # (gets around slight misspellings and missing accents)

@@ -53,9 +53,9 @@ class Hypotrochoid implements Pattern {
     stroke(hue, saturation, brightness, transparency);
     float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t));//+1200;  
     float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t));//+1000;
-    scale(.5);
+    scale(.4);
     ellipse(x ,y,1,1);
-    scale(2);
+    scale(2.5);
     t += 0.01;
   };
 }

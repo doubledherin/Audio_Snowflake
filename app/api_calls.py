@@ -10,6 +10,7 @@ api_key = os.environ.get("ECHO_NEST_API_KEY")
 
 
 def get_song_data(artist=None, title=None):
+
 	"""
 	Takes up to two optional strings (artist name, song title) and returns a dictionary of song information.
 	"""
@@ -19,204 +20,91 @@ def get_song_data(artist=None, title=None):
 
 	if not artist:
 
-		try:
-			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
+		params = {"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
-		except requests.exceptions.RequestException as e:
-			return "I'm sorry, that song is not available. Please try a different one."
+	if not title:
 
-		results = json.loads(r.content)
-
-		songs = results["response"]["songs"]
-
-
-
-		song_data = {}
-
-		# Filter for a result that has track info and a Spotify track uri (used in web player)
-		for song in songs:
-			tracks = song["tracks"]
-			if tracks == []:
-				continue
-			else:
-				for track in tracks:
-
-					if "foreign_id" in track:
-						song_data["spotify_track_uri"] = track["foreign_id"]
-						break
-					else:
-						continue
-			
-
-				for key, value in song.iteritems():
-
-					# Skip unneeded items
-					if key == "tracks" or key == "artist_foreign_ids":
-						continue
-
-					# Skip audio_summary, which we're getting in the next for loop
-					if key == "audio_summary":
-						continue
-					
-					# Rename "id" key for clarity purposes
-					if key == "id":
-						key = "song_id"
-
-					song_data[key] = value
-
-				# Lowercase artist name and song title
-				song_data["artist_name"] = song_data["artist_name"].lower()
-				song_data["title"] = song_data["title"].lower()
-
-				# Get detailed song info
-				###########################################	
-				try:
-					audio_summary = song["audio_summary"]
-					
-				except:
-					"ERROR: No audio summary for %s" % song_data["title"]
-
-				for key, value in audio_summary.iteritems():
-					# round to no more than 3 decimal places
-					if type(value) == float:
-						value = round(value, 3)
-					song_data[key] = value
-
-				######COMMENT THIS OUT?#######
-				break
-
-
-		return song_data
-
-	elif not title:
-
-		try:
-			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]})
-
-		except requests.exceptions.RequestException as e:
-			return "I'm sorry, that song is not available. Please try a different one."
-
-		results = json.loads(r.content)
-
-		songs = results["response"]["songs"]
-
-		song_data = {}
-
-		# Filter for a result that has track info and a Spotify track uri (used in web player)
-		for song in songs:
-			tracks = song["tracks"]
-			if tracks == []:
-				continue
-			else:
-				for track in tracks:
-					if "foreign_id" in track:
-						song_data["spotify_track_uri"] = track["foreign_id"]
-						break
-					else:
-						continue
-			
-
-				for key, value in song.iteritems():
-
-					# skip unneeded items
-					if key == "tracks" or key == "artist_foreign_ids":
-						continue
-
-					# skip audio_summary, which we're getting in the next for loop
-					if key == "audio_summary":
-						continue
-					
-					# rename "id" key for clarity purposes
-					if key == "id":
-						key = "song_id"
-
-					song_data[key] = value
-
-				# lowercase artist name and song title
-				song_data["artist_name"] = song_data["artist_name"].lower()
-				song_data["title"] = song_data["title"].lower()
-
-				# get detailed song info
-				###########################################	
-				try:
-					audio_summary = song["audio_summary"]
-				except:
-					"ERROR: No audio summary for %s" % song_data["title"]
-
-				for key, value in audio_summary.iteritems():
-					# round to no more than 3 decimal places
-					if type(value) == float:
-						value = round(value, 3)
-					song_data[key] = value
-
-				break
-		return song_data
-
+		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]}
 	else:
-		try:
-			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
 
-		except requests.exceptions.RequestException as e:
-			return "I'm sorry, that song is not available. Please try a different one."
+		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
-		results = json.loads(r.content)
+	try:
+		r = requests.get("http://developer.echonest.com/api/v4/song/search", params=params)
 
-		songs = results["response"]["songs"]
+	except requests.exceptions.RequestException as e:
+		return "I'm sorry, that song is not available. Please try a different one."
 
-		song_data = {}
+	results = json.loads(r.content)
+  
+	songs = results["response"].get("songs", [])
 
-		# Filter for a result that has track info and a Spotify track uri (used in web player)
-		for song in songs:
-			tracks = song["tracks"]
-			if tracks == []:
-				continue
-			else:
-				for track in tracks:
-					if "foreign_id" in track:
-						song_data["spotify_track_uri"] = track["foreign_id"]
-						break
-					else:
-						continue
-			
+	song_data = {}
 
-				for key, value in song.iteritems():
+	# Filter for a result that has track info and a Spotify track uri (used in web player)
+	for song in songs:
+		tracks = song["tracks"]
+		if tracks == []:
+			continue
+		else:
+			for track in tracks:
 
-					# skip unneeded items
-					if key == "tracks" or key == "artist_foreign_ids":
-						continue
+				if "foreign_id" in track:
+					song_data["spotify_track_uri"] = track["foreign_id"]
+					break
+				else:
+					continue
+		
 
-					# skip audio_summary, which we're getting in the next for loop
-					if key == "audio_summary":
-						continue
-					
-					# rename "id" key for clarity purposes
-					if key == "id":
-						key = "song_id"
+			for key, value in song.iteritems():
 
-					song_data[key] = value
+				# Skip unneeded items
+				if key == "tracks" or key == "artist_foreign_ids":
+					continue
 
-				# lowercase artist name and song title
-				song_data["artist_name"] = song_data["artist_name"].lower()
-				song_data["title"] = song_data["title"].lower()
+				# Skip audio_summary, which we're getting in the next for loop
+				if key == "audio_summary":
+					continue
+				
+				# Rename "id" key for clarity purposes
+				if key == "id":
+					key = "song_id"
 
-				# get detailed song info
-				###########################################	
-				try:
-					audio_summary = song["audio_summary"]
-				except:
-					"ERROR: No audio summary for %s" % song_data["title"]
+				song_data[key] = value
 
-				for key, value in audio_summary.iteritems():
-					# round to no more than 3 decimal places
-					if type(value) == float:
-						value = round(value, 3)
-					song_data[key] = value
+			# Lowercase artist name and song title
+			song_data["artist_name"] = song_data["artist_name"].lower()
+			song_data["title"] = song_data["title"].lower()
 
-				break
-		return song_data
+			# Get detailed song info
+			###########################################	
+			try:
+				audio_summary = song["audio_summary"]
+				
+			except:
+				"ERROR: No audio summary for %s" % song_data["title"]
+
+			for key, value in audio_summary.iteritems():
+				# round to no more than 3 decimal places
+				if type(value) == float:
+					value = round(value, 3)
+				song_data[key] = value
+
+			######COMMENT THIS OUT?#######
+			break
+
+
+	if not song_data:
+		return {}
+
+	return song_data
 
 def collapse_sections(artist=None, title=None):
+
 	song_data = get_song_data(artist, title)
+
+	if not song_data:
+		return None
 
 	# Get analyses of song sections
 	###########################################
@@ -337,6 +225,8 @@ def algorithm(artist=None, title=None):
 	
 
 	song_data = collapse_sections(artist, title)
+	if not song_data:
+		return None
 
 	song_duration = song_data["duration"]
 	song_tempo = song_data["tempo"]
@@ -471,10 +361,10 @@ def algorithm(artist=None, title=None):
 		
 		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
 		"""
-		# [0, 2] to [0, 40]
+		# [0, 2] to [0, 50]
 		unscaled_saturation = song_energy + song_valence
 
-		saturation = 40 * ((unscaled_saturation) / 2)
+		saturation = 50 * ((unscaled_saturation) / 2)
 
 		brightness = 100
 		
