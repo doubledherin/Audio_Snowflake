@@ -39,6 +39,7 @@ a:hover {
 }
 
 #box1 {
+    display: none;
     color: #bebab3;
     font-family: "Didot", serif;
     font-size: 120%;

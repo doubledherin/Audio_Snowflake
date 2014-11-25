@@ -1,3 +1,32 @@
+
+
+
+a {
+  color: #FFFFFF;
+}
+
+a:hover {
+  color: #bebab3;
+  font-weight: bold;
+}
+
+.breadcrumb a {
+  color: #bebab3;
+}
+
+.breadcrumb {
+
+  background-color: black;
+  font-family: "Didot", serif;
+  font-size: 20px;
+  position: fixed;
+  left: 0;
+}
+
+.breadcrumb .active {
+  color: white;
+}
+
 body {
 
     background-repeat: no-repeat;
@@ -9,17 +38,27 @@ body {
 }
 h1 {
   color: #e7e6e3;
-  font-size: 40px;
   font-family: "Didot", serif;
 }
-a {
-  color: #FFFFFF;
+
+h2 {
+  color: #e7e6e3;
+  
+  font-family: "Didot", serif;
 }
 
-a:hover {
-  color: #bebab3;
+h4 {
+  color: #e7e6e3;
+  font-family: "Didot", serif;
 }
 
+#text {
+  margin-left: 25%
+}
+
+em {
+  color: white;
+}
 .container-fluid {
   margin-top: 30px;
   margin-right: 0;
@@ -37,22 +76,13 @@ a:hover {
   float: top-right;
 }
 
-.breadcrumb {
-  background-color: black;
-  font-size: 20px;
-  position: fixed;
-  padding-bottom: 10px;
-  right: 0;
-}
 
-.breadcrumb .active {
-  color: white;
-}
+
 
 p {
   color: #b1aca3;
   text-align: left;
-  font-size: 24px;
+  /*font-size: 24px;*/
 
 }
 

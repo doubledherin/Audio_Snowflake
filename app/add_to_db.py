@@ -6,8 +6,11 @@ from sys import argv
 
 def add_song_to_db(session, song_data):
 
-    values = song_data["patterns"]
-    values_json = json.dumps(values)
+    patterns = song_data["patterns"]
+    patterns_json = json.dumps(patterns)
+
+    sections = song_data["sections"]
+    sections_json = json.dumps(sections)
 
     track = model.Track()
 
@@ -16,22 +19,22 @@ def add_song_to_db(session, song_data):
     track.title = song_data["title"]
     track.tempo = song_data["tempo"]
     track.energy = song_data["energy"]
-    track.liveness = song_data["liveness"]
-    track.speechiness = song_data["speechiness"]
+    # track.liveness = song_data["liveness"]
+    # track.speechiness = song_data["speechiness"]
     track.artist_name = song_data["artist_name"]
     track.mode = song_data["mode"]
-    track.acousticness = song_data["acousticness"]
-    track.danceability = song_data["danceability"]
+    # track.acousticness = song_data["acousticness"]
+    # track.danceability = song_data["danceability"]
     track.time_signature = song_data["time_signature"]
     track.duration = song_data["duration"]
     track.loudness = song_data["loudness"]
     track.artist_id = song_data["artist_id"]
     track.valence = song_data["valence"]    
     track.audio_md5 = song_data["audio_md5"]
-    track.instrumentalness = song_data["instrumentalness"]
+    # track.instrumentalness = song_data["instrumentalness"]
     track.spotify_track_uri = song_data["spotify_track_uri"]
-    track.patterns = values_json
-    track.rotation_speed = song_data["rotation_speed"]
+    track.patterns = patterns_json
+    track.rotation_duration = song_data["rotation_duration"]
 
     db_session.add(track)
     db_session.commit()

@@ -20,13 +20,18 @@ def index():
     track = db_session.query(m.Track)[rand]
 
     patterns = track.patterns
-    patterns = json.loads(patterns)
+    # print 0, patterns
+    # print type(patterns)
+
+    json_patterns = json.loads(patterns)
+    # print 00, json_patterns
+    # print type(json_patterns)
 
     sections = track.sections
-    sections = json.loads(sections)    
+    json_sections = json.loads(sections) 
 
 
-    return render_template("index.html", track=track, patterns=patterns, sections=sections)
+    return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
 
 @app.route("/get_patterns")
 def get_pattern():
@@ -106,7 +111,7 @@ def get_pattern():
         except:
 
             # Print error message to screen
-            return render_template("index.html", track=None)
+            return render_template("index.html", track=None, patterns=None, sections=None)
 
 @app.route("/add_snowflake", methods=["POST"])
 def add_snowflake():
@@ -128,7 +133,7 @@ def add_snowflake():
 
         add_image_to_db(db_session, filename, artist_name, title)
 
-    return "FOO"
+    return "OK"
 
 
 

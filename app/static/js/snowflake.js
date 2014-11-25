@@ -15,6 +15,28 @@ function bindDataToProcessing(patterns) {
     }
 }
 
+// Make legend fade in/out when mouse enters/exits canvas
+// $("#box1").hide(function() {
+//     console.log(".hide called")
+// });
+
+
+$( "canvas" ).mouseenter(function() {
+  
+  $( "#box1" ).fadeIn( "slow", "linear" );
+  $( "canvas").unbind( "mouseleave" );
+
+  console.log(".mouseenter called")
+
+
+  setTimeout(function() {
+    $( "canvas" ).mouseleave(function() {        
+      $( "#box1" ).fadeOut( "slow", "linear" );
+      console.log(".mouseleave called")
+    });
+    }, 5000);
+});
+
 
 // Adds snapshot of current canvas state to gallery
 $( "#add_button" ).click(function(event) {
@@ -32,9 +54,9 @@ $( "#add_button" ).click(function(event) {
                 artist_name : artist_name,
                 title: title
               },
-        // success: function() {
-        //     alert("Image saved.");
-        // }
+        success: function() {
+            alert("Image saved to gallery.");
+        }
     });
   });
 
