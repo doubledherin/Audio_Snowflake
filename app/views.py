@@ -20,12 +20,8 @@ def index():
     track = db_session.query(m.Track)[rand]
 
     patterns = track.patterns
-    # print 0, patterns
-    # print type(patterns)
-
     json_patterns = json.loads(patterns)
-    # print 00, json_patterns
-    # print type(json_patterns)
+
 
     sections = track.sections
     json_sections = json.loads(sections) 
@@ -46,10 +42,12 @@ def get_pattern():
 
     # If only title entered
     elif artist_name == "":
+
         track = db_session.query(m.Track).filter_by(title=title).first()
 
     # If only artist name entered
     elif title == "":
+
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).first()
 
     # If both artist and title entered
@@ -59,59 +57,66 @@ def get_pattern():
     if track:
 
         patterns = track.patterns
-        patterns = json.loads(patterns)
+        json_patterns = json.loads(patterns)
 
         sections = track.sections
-        sections = json.loads(sections)    
+        print "sections", sections
+        json_sections = []
+        if sections:
+            json_sections = json.loads(sections)    
 
 
-        return render_template("index.html", track=track, patterns=patterns, sections=sections)
+        return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
     
 
     # If not, call Echonest to get it
     else:
-        try:
-            song_data = algorithm(artist_name, title)
+        # print "IM HERE"
+        # print "IM HERE"
+        song_data = algorithm(artist_name, title)
 
-            # Check if the track is in the database, using song id 
-            # (gets around slight misspellings and missing accents)
-            song_id = song_data["song_id"]
 
+        # Check if the track is in the database, using song id 
+        # (gets around slight misspellings and missing accents)
+        song_id = song_data["song_id"]
+
+        track = db_session.query(m.Track).filter_by(song_id=song_id).first()
+
+
+        # If song id is in the database
+        if track:
+
+            patterns = track.patterns
+            json_patterns = json.loads(patterns)
+
+            sections = track.sections
+            json_sections = json.loads(sections)    
+
+
+            return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
+
+        # If song id is not in the database
+        else:
+
+            # Add it to the database
+            add_song_to_db(db_session, song_data)
+
+            # Get it from the database (using song id)
             track = db_session.query(m.Track).filter_by(song_id=song_id).first()
+            
+            patterns = track.patterns
+            json_patterns = json.loads(patterns)
+
+            sections = track.sections
+            json_sections = json.loads(sections)    
 
 
-            # If song id is in the database
-            if track:
-                patterns = track.patterns
-                patterns = json.loads(patterns)
+            return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
 
-                sections = track.sections
-                sections = json.loads(sections)    
+        # except:
 
-
-                return render_template("index.html", track=track, patterns=patterns, sections=sections)
-
-            # If song id is not in the database
-            else:
-                # Add it to the database
-                add_song_to_db(db_session, song_data)
-
-                # Get it from the database (using song id)
-                track = db_session.query(m.Track).filter_by(song_id=song_id).first()
-                
-                patterns = track.patterns
-                patterns = json.loads(patterns)
-
-                sections = track.sections
-                sections = json.loads(sections)    
-
-
-                return render_template("index.html", track=track, patterns=patterns, sections=sections)
-
-        except:
-
-            # Print error message to screen
-            return render_template("index.html", track=None, patterns=None, sections=None)
+        #     # Print error message to screen
+        #     return render_template("index.html", track=None, patterns=None, sections=None)
 
 @app.route("/add_snowflake", methods=["POST"])
 def add_snowflake():

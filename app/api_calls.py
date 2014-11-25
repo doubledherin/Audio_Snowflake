@@ -22,12 +22,16 @@ def get_song_data(artist=None, title=None):
 		try:
 			r = requests.get("http://developer.echonest.com/api/v4/song/search", params={"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]})
 
+			# print "URL: ", r.url
+
 		except requests.exceptions.RequestException as e:
 			return "I'm sorry, that song is not available. Please try a different one."
 
 		results = json.loads(r.content)
 
 		songs = results["response"]["songs"]
+
+
 
 		song_data = {}
 
@@ -38,8 +42,10 @@ def get_song_data(artist=None, title=None):
 				continue
 			else:
 				for track in tracks:
+					# print "HELLO"
 					if "foreign_id" in track:
 						song_data["spotify_track_uri"] = track["foreign_id"]
+						# print "URI: ", song_data["spotify_track_uri"]
 						break
 					else:
 						continue
@@ -69,6 +75,7 @@ def get_song_data(artist=None, title=None):
 				###########################################	
 				try:
 					audio_summary = song["audio_summary"]
+					# print audio_summary
 				except:
 					"ERROR: No audio summary for %s" % song_data["title"]
 
@@ -80,6 +87,8 @@ def get_song_data(artist=None, title=None):
 
 				######COMMENT THIS OUT?#######
 				break
+
+		# print "SONG DATA: ", song_data
 		return song_data
 
 	elif not title:
@@ -211,6 +220,7 @@ def get_song_data(artist=None, title=None):
 
 def collapse_sections(artist=None, title=None):
 	song_data = get_song_data(artist, title)
+	# print "COLLAPSE SECTIONS SONG DATA", song_data
 
 	# Get analyses of song sections
 	###########################################
@@ -222,9 +232,11 @@ def collapse_sections(artist=None, title=None):
 		return "Error accessing analysis url. Status code %d" % r.status_code
 
 	results = json.loads(r.content)
+	# print "RESULTS", results
 
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
+
 
 	# Collapse song sections
 	###########################################
@@ -322,24 +334,25 @@ def collapse_sections(artist=None, title=None):
 		value_list.append(d)
 
 	song_data["value_list"] = value_list
+
+	# print "VALUE LIST", song_data["value_list"]
 	return song_data
 
 def algorithm(artist=None, title=None):
+	print "in algorithm"
+
 	song_data = collapse_sections(artist, title)
 
-	patterns = []
+	song_duration = song_data["duration"]
+	song_tempo = song_data["tempo"]
+	song_key = song_data["key"]
+	song_mode = song_data["mode"]
+	song_time_signature = song_data["time_signature"]
+	song_energy = song_data["energy"]
+	song_loudness = song_data["loudness"]
+	song_valence = song_data["valence"]
 
-	# For the epitrochoid (outer ring)
-	epi_duration = song_data["duration"]
-	epi_tempo = song_data["tempo"]
-	epi_key = song_data["key"]
-	epi_mode = song_data["mode"]
-	epi_time_signature = song_data["time_signature"]
-	epi_energy = song_data["energy"]
-	epi_loudness = song_data["loudness"]
-	epi_valence = song_data["valence"]
-
-
+	# print 111
 	"""
 	Linear scaling section
 
@@ -353,29 +366,38 @@ def algorithm(artist=None, title=None):
 	# Scale tempo to rotation
 	# Set min tempo at 70 and max tempo at 200; min rotation at 5 and max at 100
 	
-	unscaled_rotation_speed = epi_tempo
+	unscaled_rotation_duration = song_tempo
 
-	if unscaled_rotation_speed < 70:
-		unscaled_rotation_speed = 70
-	if unscaled_rotation_speed > 200:
-		unscaled_rotation_speed = 200
+	if unscaled_rotation_duration < 70:
+		unscaled_rotation_duration = 70
+	if unscaled_rotation_duration > 200:
+		unscaled_rotation_duration = 200
 
-	rotation_speed = 5.0 * (1 - ((unscaled_rotation_speed - 70) / (200 - 70))) + 100.0 * (((unscaled_rotation_speed - 70) / (200 - 70)))
+	# print 111
+	rotation_duration = 5.0 * (1 - ((unscaled_rotation_duration - 70) / (200 - 70))) + 100.0 * (((unscaled_rotation_duration - 70) / (200 - 70)))
 
-	song_data["rotation_speed"] = rotation_speed
+	song_data["rotation_duration"] = rotation_duration
 
+	# print 111
 
-	# For hypotrochoids (inner rings)
+	# For hypotrochoids
 	value_list = song_data["value_list"]
 
+	print "value_list", value_list
 	section_durations = []
 
 	for section in value_list:
+		# print "SECTION", section
 		v = section.values()
+		# print "V", v
 		section_durations.append(v[0]["duration"])
 	min_section_duration = float(min(section_durations))
 	max_section_duration = float(max(section_durations))
 
+
+	sections = []
+	patterns = []
+	# print "MIN MAX", min_section_duration, max_section_duration
 	for section in value_list:
 
 		v = section.values()
@@ -387,14 +409,27 @@ def algorithm(artist=None, title=None):
 		section_time_signature = v[0]["time_signature"]
 		section_avg_loudness = v[0]["avg_loudness"]
 
-		section_avg_confidence = v[0]["avg_confidence"]
-		section_avg_key_confidence = v[0]["avg_key_confidence"]
-		section_avg_mode_confidence = v[0]["avg_mode_confidence"]
-		section_avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
+		# section_avg_confidence = v[0]["avg_confidence"]
+		# section_avg_key_confidence = v[0]["avg_key_confidence"]
+		# section_avg_mode_confidence = v[0]["avg_mode_confidence"]
+		# section_avg_time_signature_confidence = v[0]["avg_time_signature_confidence"]
 
-		
+		sections_dict = {}
+
+		sections_dict["duration"] = section_duration
+		sections_dict["loudness"] = section_avg_loudness 
+		sections_dict["mode"] = section_mode
+		sections_dict["key"] = section_key
+
+
+		sections.append(sections_dict)
+
+
+		# print "SECTIONS", song_data["sections"]
+
+
 		# Duration of song determines radius of larger circle ("a")
-		unscaled_a = float(epi_duration) 
+		unscaled_a = float(song_duration) 
 		
 		# Set minimum and maximum song duration (100 min; 600 max)
 		if unscaled_a < 100:
@@ -444,7 +479,7 @@ def algorithm(artist=None, title=None):
 
 
 		# [0, 2] to [0, 40]
-		unscaled_saturation = epi_energy + epi_valence
+		unscaled_saturation = song_energy + song_valence
 
 		saturation = 40 * ((unscaled_saturation - 2) / 2)
 
@@ -455,20 +490,24 @@ def algorithm(artist=None, title=None):
 		transparency = 50 * (1 - ((unscaled_transparency + 20) / 20)) + 100 * ((unscaled_transparency + 20) / 20)
 		transparency = int(transparency)
 
-		d = {}
+		patterns_dict = {}
 
-		d["a"] = a
-		d["b"] = b 
-		d["h"] = h
-		d["hue"] = hue
-		d["saturation"] = saturation
-		d["brightness"] = brightness
-		d["transparency"] = transparency
+		patterns_dict["a"] = a
+		patterns_dict["b"] = b 
+		patterns_dict["h"] = h
+		patterns_dict["hue"] = hue
+		patterns_dict["saturation"] = saturation
+		patterns_dict["brightness"] = brightness
+		patterns_dict["transparency"] = transparency
 
-		patterns.append(d)
+		patterns.append(patterns_dict)
 
+	song_data["sections"] = sections
 	song_data["patterns"] = patterns
 
+	for key, value in song_data.iteritems():
+		print key, ": ", value
+	print "I'm RITH HEREE"
 	return song_data
 
 
