@@ -15,10 +15,7 @@ function bindDataToProcessing(patterns) {
     }
 }
 
-// Make legend fade in/out when mouse enters/exits canvas
-// $("#box1").hide(function() {
-//     console.log(".hide called")
-// });
+
 
 
 $( "canvas" ).mouseenter(function() {

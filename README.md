@@ -17,7 +17,7 @@ An image's rotation speed is directly proportional to the song's tempo (the fast
 You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.
 
 #### Lines
-Each line in a snowflake represents a different "section" of a song. A "section" can be defined as a point in the song when the music changes in some significant way. This change is usually a key change, but it can also be a mode change (from minor to major, or vice versa), or a change in time signature, tempo, or loudness. 
+Each line in a snowflake represents a different "section" of a song. A "section" can be defined as a point in the song when the music changes in some significant way. (For more on sections, see **The Data**, below.) This change is usually a key change, but it can also be a mode change (from minor to major, or vice versa), or a change in time signature, tempo, or loudness. 
 
 Oftentimes a song will change key (for a bridge, for example) and then go back to a key it was in before. As such, it is often the case that several of a song's sections may actually be identical in terms of key, mode, time signature, and loudness. For the purposes of Audio Snowflake, I collapse such sections into one composite section and compute the total duration for it.
 
@@ -35,8 +35,7 @@ The saturation (vividness) is determined by the sum of the song's energy and val
 Energy is a property of the loudness and frequency of change within a song. As for valence, according to Paul Lamere (Director of Developer Platform at The Echo Nest), 
 >The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.
 
-![image](app/static/images/energy_valence_info.png)
-<img style="padding-left:100px" src="/static/images/energy_valence_info.png" alt="The Valence-Arousal space"/>
+![image](https://raw.githubusercontent.com/doubledherin/Audio_Snowflake/master/app/static/images/energy_valence_grid.png)
 
 For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.
 
@@ -65,13 +64,13 @@ For Audio Snowflake, these values are determined as follows:
 
 Note that with Spirograph, the value of ***h*** must necessarily be less than the value of ***b***, because you have to place the pen somewhere inside the smaller circle. That's not the case with digital renderings: the "pen" can be outside the smaller circle, yet still attached to its rotation. The drawings below make this clear.
 
-![image](/app/static/images/HypotrochoidDiagram1.eps "Hypotrochoid diagram in which h is less than radius b")
+![image](app/static/images/HypotrochoidDiagram1.eps "Hypotrochoid diagram in which h is less than radius b")
 ![image](app/static/images/hypotroc1.gif "Hypotrochoid animation in which radius b is less than h")
 
 ###### A hypotrochoid in which the value of *h* is less than the radius *b*. 
 
-![image](/app/static/images/HypotrochoidDiagram2.eps "Hypotrochoid diagram in which h is less than radius b")
-![image](/app/static/images/hypotroc2.gif "Hypotrochoid animation in which radius b is less than h")
+![image](app/static/images/HypotrochoidDiagram2.eps "Hypotrochoid diagram in which h is less than radius b")
+![image](app/static/images/hypotroc2.gif "Hypotrochoid animation in which radius b is less than h")
 
 ###### A hypotrochoid in which the value of *h* is greater than the radius *b*. 
 Images from [Wolfram MathWorld](http://mathworld.wolfram.com/Hypotrochoid.html).
@@ -90,6 +89,14 @@ The hypotrochoids are rendered as x,y coordinates on a Cartesian grid using the 
 The Cartesian grid is scaled according to the window size at the time the page loads.
 
 
+The Data
+--------
+
+[The Echo Nest Analyze API](http://developer.echonest.com/docs/v4/_static/AnalyzeDocumentation.pdf) supplies extremely detailed song data, measuring as finely as the onset and duration of each microbeat of a song. Other qualities, such as key, mode (major or minor), tempo, time signature, etc. are provided as well, as are more nuanced qualities, such as "danceability," "speechiness," "acousticness," "liveness," and so on.
+
+The song data is analyzed on several different scales: segments, sections, beats, and tatums (sub-beats). The grouping I chose to focus on for this project are "sections." In Echo Nest's data, a new "section" denotes a significant change in the music. This change can be a change in key, mode, tempo, loudness, time signature, and so forth.
+
+The sections data was more relevant to Audio Snowflake, as one of my goals was to visually represent the composition of a song.
 
 The Acknowledgments
 ---------------------
