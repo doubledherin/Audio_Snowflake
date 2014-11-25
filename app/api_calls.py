@@ -222,6 +222,7 @@ def collapse_sections(artist=None, title=None):
 	###########################################
 	analysis_url = str(song_data["analysis_url"])
 
+	print 0, analysis_url
 	r = requests.get(analysis_url)
 
 	if r.status_code != 200:
@@ -461,11 +462,19 @@ def algorithm(artist=None, title=None):
 		hue = int(hue)
 
 
+		"""
+		Linear scaling section
 
+		Uses the following formula:
+		
+		Where [A, B] is the current range and [C, D] is the desired range:
+		
+		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
+		"""
 		# [0, 2] to [0, 40]
 		unscaled_saturation = song_energy + song_valence
 
-		saturation = 40 * ((unscaled_saturation - 2) / 2)
+		saturation = 40 * ((unscaled_saturation) / 2)
 
 		brightness = 100
 		
