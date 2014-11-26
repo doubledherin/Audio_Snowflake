@@ -15,12 +15,32 @@ from api_calls import algorithm
 def add_song_to_db(session):
 
     songs = [("Radiohead", "Weird Fishes"), 
-             ("Elliott Smith", "XO"),
+             ("Elliott Smith", "Waltz #2"),
              ("Cyndi Lauper", "True Colors"), 
              ("Mozart", "Symphony No. 40 in G Minor"),
              ("Madonna", "La Isla Bonita"), 
              ("Jose Gonzalez", "Heartbeats"), 
-             ("Erik Satie", "Gymnopedie No. 1")]
+             ("Erik Satie", "Gymnopedie No. 1")
+             ("Radiohead", "Black Star"), 
+             ("Radiohead", "True Love Waits"), 
+             ("Christopher O'Riley", "Black Star"), 
+             ("Christopher O'Riley", "True Love Waits"), 
+             ("charles atlas"), ("the snow before us")
+             ("Beirut", "Elephant Gun"), 
+             ("Neutral Milk Hotel", "Oh Comely"),
+             ("Arcade Fire", "Neighborhood #1"), 
+             ("Leonard Cohen", "Famous Blue Raincoat"),
+             ("Pinback", "Penelope"), 
+             ("Sigur Rós", "Starálfur"), 
+             ("Excuses for Skipping", "Gravity"),
+             ("Cake", "Never There"), 
+             ("Cake", "The Distance"),
+             ("the chameleons", "silence sea and sky"), 
+             ("cocteau twins", "aikea-guinea"), 
+             ("henryk górecki", "quasi una fantasia: string quartet no. 2")
+             ("descendents"), ("wendy")
+             ("clint mansell"), ("together we will live forever")
+             ]
 
     for song in songs:
 
@@ -40,19 +60,14 @@ def add_song_to_db(session):
         track.title = song_data["title"]
         track.tempo = song_data["tempo"]
         track.energy = song_data["energy"]
-        # track.liveness = song_data["liveness"]
-        # track.speechiness = song_data["speechiness"]
         track.artist_name = song_data["artist_name"]
         track.mode = song_data["mode"]
-        # track.acousticness = song_data["acousticness"]
-        # track.danceability = song_data["danceability"]
         track.time_signature = song_data["time_signature"]
         track.duration = song_data["duration"]
         track.loudness = song_data["loudness"]
         track.artist_id = song_data["artist_id"]
         track.valence = song_data["valence"]    
         track.audio_md5 = song_data["audio_md5"]
-        # track.instrumentalness = song_data["instrumentalness"]
         track.spotify_track_uri = song_data["spotify_track_uri"]
         track.patterns = patterns_json
         track.sections = sections_json
@@ -65,5 +80,5 @@ def add_song_to_db(session):
 
 if __name__ == "__main__":
 
-    # script, artist, title = argv
+
     add_song_to_db(db_session)
