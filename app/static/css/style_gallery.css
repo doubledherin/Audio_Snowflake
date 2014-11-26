@@ -1,4 +1,3 @@
-
 body {
     background-color: black;
     padding-left: 5%;
@@ -14,7 +13,6 @@ a:hover {
 }
 
 .breadcrumb {
-
   background-color: black;
   font-family: "Didot", serif;
   font-size: 20px;
@@ -31,11 +29,12 @@ img {
   height: 300px;
   padding-bottom: 0.5em;
   border-color: white;
-
 }
+
 figure {
   display: inline-block;
 }
+
 figcaption {
   color: #bebab3;
   font-family: "Didot", serif;

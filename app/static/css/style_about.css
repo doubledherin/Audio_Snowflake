@@ -1,5 +1,3 @@
-
-
 a:hover {
   color: #bebab3;
   font-weight: bold;
@@ -22,16 +20,18 @@ a:hover {
   color: white;
 }
 body {
-/*    background-image: url("../images/55Hz_Square_wave_and_water.png");
+    /*background-image: url("../images/55Hz_Square_wave_and_water.png");
     background-repeat: no-repeat;
-    /*background-position: 10% 90%;*/
-/*    background-size: 200px 200px;
-*/    background-color: black;
+    background-position: 10% 90%;
+    background-size: 200px 200px;*/
+  
+    background-color: black;
     color: #bebab3;
     text-align: left;
     font-family: "Helvetica", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    padding: 20px;
+    padding-left: 20px;
 }
+
 h1 {
   color: #e7e6e3;
   font-family: "Didot", serif;
@@ -39,7 +39,6 @@ h1 {
 
 h2 {
   color: #e7e6e3;
-  
   font-family: "Didot", serif;
 }
 
@@ -48,13 +47,10 @@ h4 {
   font-family: "Didot", serif;
 }
 
-#text {
-  /*margin-left: 25%*/
-}
-
 em {
   color: white;
 }
+
 .container-fluid {
   margin-top: 30px;
   margin-right: 0;

@@ -15,9 +15,6 @@ function bindDataToProcessing(patterns) {
     }
 }
 
-
-
-
 $( "canvas" ).mouseenter(function() {
   
   $( "#box1" ).fadeIn( "slow", "linear" );
