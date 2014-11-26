@@ -15,22 +15,14 @@ function bindDataToProcessing(patterns) {
     }
 }
 
-$( "canvas" ).mouseenter(function() {
-  
-  $( "#box1" ).fadeIn( "slow", "linear" );
-  $( "canvas").unbind( "mouseleave" );
-
-  console.log(".mouseenter called")
-
-
-  setTimeout(function() {
-    $( "canvas" ).mouseleave(function() {        
-      $( "#box1" ).fadeOut( "slow", "linear" );
-      console.log(".mouseleave called")
-    });
-    }, 5000);
+// Fades in/out legend on canvas enter/leave
+$( "canvas" ).mouseenter(function() {  
+  $( "#box1" ).stop().fadeIn( "slow", "linear" );
 });
 
+$( "canvas" ).mouseleave(function() {        
+  $( "#box1" ).stop().fadeOut( "slow", "linear" );
+});
 
 // Adds snapshot of current canvas state to gallery
 $( "#add_button" ).click(function(event) {
