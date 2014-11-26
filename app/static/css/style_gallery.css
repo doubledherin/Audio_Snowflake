@@ -1,11 +1,29 @@
 
 body {
     background-color: black;
-
+    padding-left: 5%;
 }
 
 a:hover {
   color: #bebab3;
+  font-weight: bold;
+}
+
+.breadcrumb a {
+  color: #bebab3;
+}
+
+.breadcrumb {
+
+  background-color: black;
+  font-family: "Didot", serif;
+  font-size: 20px;
+  position: fixed;
+  right: 0;
+}
+
+.breadcrumb .active {
+  color: white;
 }
 
 img {
@@ -26,13 +44,3 @@ figcaption {
   font-size: 120%;
 }
 
-.breadcrumb {
-  background-color: black;
-  font-size: 100%;
-  position: fixed;
-  right: 0;
-}
-
-.breadcrumb .active {
-  color: white;
-}

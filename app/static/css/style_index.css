@@ -18,7 +18,7 @@ a:hover {
   font-family: "Didot", serif;
   font-size: 20px;
   position: fixed;
-  left: 0;
+  right: 0;
 }
 
 .breadcrumb .active {
@@ -38,6 +38,7 @@ a:hover {
 
 }
 
+/* legend */
 #box1 {
     display: none;
     color: #bebab3;
@@ -46,7 +47,7 @@ a:hover {
     line-height: 0.5;
     width: 250px;
     position: absolute;
-    top: 10%;
+    top: 5%;
     left: 0;
 }
 
@@ -55,7 +56,7 @@ a:hover {
 }
 
 #section-legend {
-  padding-bottom: 25px;
+  padding-bottom: 20px;
 }
 
 .rect {
@@ -70,7 +71,7 @@ a:hover {
     padding-bottom: 15px; 
 }
 
-
+/* bottom right form */
 #box2 {
     color: black;
     width: 250px;
@@ -85,9 +86,12 @@ a:hover {
 }
 
 #save-button {
-  top: 50%;
-  right: 0;
+  /*top: 50%;*/
+  /*width: 250px;*/
+  /*right: 20px;*/
   font-family: "Didot", serif;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 input {

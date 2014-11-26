@@ -1,10 +1,5 @@
 
 
-
-a {
-  color: #FFFFFF;
-}
-
 a:hover {
   color: #bebab3;
   font-weight: bold;
@@ -20,17 +15,18 @@ a:hover {
   font-family: "Didot", serif;
   font-size: 20px;
   position: fixed;
-  left: 0;
+  right: 0;
 }
 
 .breadcrumb .active {
   color: white;
 }
-
 body {
-
+/*    background-image: url("../images/55Hz_Square_wave_and_water.png");
     background-repeat: no-repeat;
-    background-color: black;
+    /*background-position: 10% 90%;*/
+/*    background-size: 200px 200px;
+*/    background-color: black;
     color: #bebab3;
     text-align: left;
     font-family: "Helvetica", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -53,7 +49,7 @@ h4 {
 }
 
 #text {
-  margin-left: 25%
+  /*margin-left: 25%*/
 }
 
 em {
@@ -65,25 +61,10 @@ em {
   margin-left: 0;
 }
 
-.col-md-4 {
-  border-radius: 10px;
-
-}
-
-.col-md-4 p {
+.col-md-7 p {
   color: #bebab3;
-  font-size: 20px;
+  font-size: 120%;
   float: top-right;
-}
-
-
-
-
-p {
-  color: #b1aca3;
-  text-align: left;
-  /*font-size: 24px;*/
-
 }
 
 #credit {
@@ -92,3 +73,17 @@ p {
   text-align: right;
   padding-bottom: 0px;
 }
+
+
+/*#snowflake-right {
+  width: 200px;
+  height: 200px;
+  margin-left: 10px;
+}
+
+#snowflake-left {
+  width: 200px;
+  height: 200px;
+  float: bottom;
+  
+}*/

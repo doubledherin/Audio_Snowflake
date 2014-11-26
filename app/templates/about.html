@@ -28,8 +28,9 @@
 
 
 <div id="text" class="container-fluid">
-  <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-7">
+   <div class="row">
+  <!-- <div class="col-md-5"> -->
     <h1>Audio Snowflake</h1>
       <p>Audio Snowflake is a music visualizer inspired by Spirograph and by the principles of <a href="http://en.wikipedia.org/wiki/Cymatics">cymatics</a>. Enter an artist name and song title, and Audio Snowflake retrieves detailed data on the song from the Echo Nest Analyzer API.</p>
 
@@ -37,11 +38,11 @@
 
       <p>The result is a beautiful visual representation of each song’s unique qualities, rendered before your eyes as you listen to the song via an embedded Spotify web player.</p>
 </div>
-</div>
+<!-- </div> -->
 
 
   <div class="row">
-  <div class="col-md-5">
+  <!-- <div class="col-md-5"> -->
     <h1>The Mapping</h1>
 
     <p>The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image.</p>
@@ -82,10 +83,10 @@
     <p>The transparency (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.</p>
 
 </div>
-</div>
+<!-- </div> -->
 
   <div class="row">
-  <div class="col-md-5">
+  <!-- <div class="col-md-5"> -->
     <h1>The Geometry</h1>
 
       <p>Each line forms a geometric shape called a <em>hypotrochoid</em> (pronounced hai-po-<em>tro</em>-koid).</p>
@@ -114,7 +115,6 @@
       <figcaption>Hypotrochoid diagram in which <em>h</em> is less than the radius <em>b</em>.</figcaption>
       
 
-      <figcaption>Hypotrochoid animation in which radius b is less than h.</figcaption>
 
       <img src="/static/images/HypotrochoidDiagram2_negative.png"/>
       <img src="/static/images/hypotroc2_negative.gif"/>
@@ -122,10 +122,10 @@
       <figcaption>Hypotrochoid diagram in which <em>h</em> is greater than the radius <em>b</em>.</figcaption>
       <figcaption>Images from <a href="http://mathworld.wolfram.com/Hypotrochoid.html">Wolfram MathWorld</a>.</figcaption>
 </div>
-</div>
+<!-- </div> -->
 
   <div class="row">
-  <div class="col-md-5">
+  <!-- <div class="col-md-5"> -->
     <h1>The Math</h1>
 
     <p>The hypotrochoids are rendered as x,y coordinates on a Cartesian grid using the following trigonometric equation and the values described in the above section on the geometry. (The value <em>t</em> is an angle that increments very slightly after each x,y coordinate is computed.)</p>
@@ -136,10 +136,10 @@
     <p>The Cartesian grid is scaled according to the window size at the time the page loads.</p>
 
 </div>
-</div>
+<!-- </div> -->
 
   <div class="row">
-  <div class="col-md-5">
+  <!-- <div class="col-md-5"> -->
     <h1><a name="thedata">The Data</a></h1>
 
     <p><a href="http://developer.echonest.com/docs/v4/_static/AnalyzeDocumentation.pdf" target="_blank">The Echo Nest Analyze API</a> supplies extremely detailed song data, measuring as finely as the onset and duration of each microbeat of a song. Other qualities, such as key, mode (major or minor), tempo, time signature, etc. are provided as well, as are more nuanced qualities, such as "danceability," "speechiness," "acousticness," "liveness," and so on.</p>
@@ -148,10 +148,10 @@
 
     <p>The sections data was more relevant to Audio Snowflake, as one of my goals was to visually represent the composition of a song.</p>
 </div>
-</div>
+<!-- </div> -->
 
   <div class="row">
-  <div class="col-md-5">
+  <!-- <div class="col-md-5"> -->
     <h1>The Acknowledgments</h1>
 
       <p>Audio Snowflake is a music visualizer created by Wendy Dherin in 2014.</p>
@@ -195,8 +195,23 @@
         </ul>
   </div>
 
+<!-- </div> -->
 </div>
+
+<!-- 
+<div class="container-fluid">
+  <div class="col-mid-4">
+    <div class="row">
+      <img src="/static/images/55Hz_Square_wave_and_water.png" id="snowflake-right">
+    </div>
+
+    <div class="row">
+      <img src="/static/images/55Hz_Square_wave_and_water.png" id="snowflake-left">
+    </div>
+
+  </div>  
 </div>
-   
+ -->
+
 </body>
 </html>

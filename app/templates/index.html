@@ -19,7 +19,7 @@
         -webkit-transition-duration: {{ track.rotation_duration }}s;
         -moz-transition-duration: {{ track.rotation_duration }}s;
         -webkit-animation-duration: {{ track.rotation_duration }}s; 
-        -moz-animation-duration: {{ track.rotation_duration }}s;
+        -moz-animation-duration: {{ track.rotation_duration }};
     }
     
 
@@ -145,22 +145,13 @@
     </div>
         
         
-        <div class="col-sm-4" id="save_button">
-
-            <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
-                <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
-                <input type="hidden" id="title" name="title" value="{{ track.title }}">
-                <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
-
-                <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
-            </form>
-
-        </div>
+        
     {% endif %}
 
         
     <div id="box2">
         <div id="bottom_right_box" class="container">
+
 
 
             <form id="get_snowflake" class="form-horizontal" role="form" action="/get_patterns" method="GET" >
@@ -176,7 +167,7 @@
                 </div>
               </div>
             </form>
-
+        
 
             <div id="web_player">
 
@@ -189,9 +180,22 @@
 
             </div>
 
+        <div class="row">
+            <div class="col-sm-4" id="save-button">
+
+            <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
+                <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
+                <input type="hidden" id="title" name="title" value="{{ track.title }}">
+                <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
+
+                <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
+            </form>
+            </div>
+        </div>
             
             <img src="../static/images/echonest_logo.gif">
 
+        </div>
         </div>
 
     </div>
