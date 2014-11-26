@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>Audio Snowflake</title>
-    <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
     
+    <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
     <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-
     <link rel="stylesheet" type="text/css" href="../static/css/style_index.css".>
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
     
     <style>
-    canvas {
-        -webkit-transition-duration: {{ track.rotation_duration }}s;
-        -moz-transition-duration: {{ track.rotation_duration }}s;
-        -webkit-animation-duration: {{ track.rotation_duration }}s; 
-        -moz-animation-duration: {{ track.rotation_duration }};
-    }
-    
-
-
+        canvas {
+            -webkit-transition-duration: {{ track.rotation_duration }}s;
+            -moz-transition-duration: {{ track.rotation_duration }}s;
+            -webkit-animation-duration: {{ track.rotation_duration }}s; 
+            -moz-animation-duration: {{ track.rotation_duration }};
+        }
     </style>
 </head>
 
@@ -33,155 +29,145 @@
     <li class="active">Home</li>
     <li><a href="/about">About</a></li>
     <li><a href="/gallery">Gallery</a></li>
-
- 
   </ul>
 
-
-<canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
+    <canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
+    
     {% if track %}
     <div id="box1">
-        <div class="container">
+      <div class="container">
                 
-                <div class="row">
-                  <div class="col-sm-4">
-                    <p>Song duration: {{ track.duration|int }} seconds</p>
-                    <p>Song tempo: {{ track.tempo|int }} beats per minute</p>
-                    <p>Song energy + valence: {{ track.energy + track.valence }}</p>
-                    <br>
-                    <br>
-                  </div>
-                </div>
-
-                {% for section in sections %}
-                <div class="row">
-                  <div class="col-sm-4" id="section-legend">
-
-                    <div class="rect" style="background-color:hsla({{section.hsla[0] }}, {{ section.hsla[1] }}%, {{ section.hsla[2]}}%, {{ section.hsla[3] }})"></div>
-
-                    <p>Duration: {{ section.duration }} seconds
-                    </p>
-                    
-                    {% if section.key == 0 and section.mode == 0 %} 
-                    <p>Key: C minor</p>
-                    
-                    {% elif section.key == 0 and section.mode == 1 %}
-                    <p>Key: C major</p>
-                    
-                    {% elif section.key == 1 and section.mode == 0 %}
-                    <p>Key: C♯ minor</p>
-                    
-                    {% elif section.key == 1 and section.mode == 1 %}
-                    <p>Key: C♯ major</p>
-                    
-                    {% elif section.key == 2 and section.mode == 0 %}
-                    <p>Key: D minor</p>
-                    
-                    {% elif section.key == 2 and section.mode == 1 %}
-                    <p>Key: D major</p>
-                    
-                    {% elif section.key == 3 and section.mode == 0 %}
-                    <p>Key: E♭ minor</p>
-                    
-                    {% elif section.key == 3 and section.mode == 1 %}
-                    <p>Key: E♭ major</p>
-                    
-                    {% elif section.key == 4 and section.mode == 0 %}
-                    <p>Key: E minor</p>
-                    
-                    {% elif section.key == 4 and section.mode == 1 %}
-                    <p>Key: E major</p>
-                    
-                    {% elif section.key == 5 and section.mode == 0 %}
-                    <p>Key: F minor</p>
-                    
-                    {% elif section.key == 5 and section.mode == 1 %}
-                    <p>Key: F major</p>
-                    
-                    {% elif section.key == 6 and section.mode == 0 %}
-                    <p>Key: F♯ minor</p>
-                    
-                    {% elif section.key == 6 and section.mode == 1 %}
-                    <p>Key: F♯ major</p>
-                    
-                    {% elif section.key == 7 and section.mode == 0 %}
-                    <p>Key: G minor</p>
-                    
-                    {% elif section.key == 7 and section.mode == 1 %}
-                    <p>Key: G major</p>
-                    
-                    {% elif section.key == 8 and section.mode == 0 %}
-                    <p>Key: A♭ minor</p>
-                    
-                    {% elif section.key == 8 and section.mode == 1 %}
-                    <p>Key: A♭ major</p>
-                    
-                    {% elif section.key == 9 and section.mode == 0 %}
-                    <p>Key: A minor</p>
-                    
-                    {% elif section.key == 9 and section.mode == 1 %}
-                    <p>Key: A major</p>
-                    
-                    {% elif section.key == 10 and section.mode == 0 %}
-                    <p>Key: B♭ minor</p>
-                    
-                    {% elif section.key == 10 and section.mode == 1 %}
-                    <p>Key: B♭ major</p>
-                    
-                    {% elif section.key == 11 and section.mode == 0 %}
-                    <p>Key: B minor</p>
-                    
-                    {% elif section.key == 11 and section.mode == 1 %}
-                    <p>Key: B major</p>
-
-                    {% endif %}
-
-                    <p>Loudness: {{ section.loudness }}</p>
-                    </div>
-
-                </div>
-                {% endfor %}
+        <div class="row">
+          <div class="col-sm-4">
+            <p>Song duration: {{ track.duration|int }} seconds</p>
+            <p>Song tempo: {{ track.tempo|int }} beats per minute</p>
+            <p>Song energy + valence: {{ track.energy + track.valence }}</p>
+            <br>
+            <br>
+          </div>
         </div>
+
+        {% for section in sections %}
+        <div class="row">
+          <div class="col-sm-4" id="section-legend">
+
+            <div class="rect" style="background-color:hsla({{section.hsla[0] }}, {{ section.hsla[1] }}%, {{ section.hsla[2]}}%, {{ section.hsla[3] }})"></div>
+
+            <p>Duration: {{ section.duration }} seconds
+            </p>
+            
+            {% if section.key == 0 and section.mode == 0 %} 
+            <p>Key: C minor</p>
+            
+            {% elif section.key == 0 and section.mode == 1 %}
+            <p>Key: C major</p>
+            
+            {% elif section.key == 1 and section.mode == 0 %}
+            <p>Key: C♯ minor</p>
+            
+            {% elif section.key == 1 and section.mode == 1 %}
+            <p>Key: C♯ major</p>
+            
+            {% elif section.key == 2 and section.mode == 0 %}
+            <p>Key: D minor</p>
+            
+            {% elif section.key == 2 and section.mode == 1 %}
+            <p>Key: D major</p>
+            
+            {% elif section.key == 3 and section.mode == 0 %}
+            <p>Key: E♭ minor</p>
+            
+            {% elif section.key == 3 and section.mode == 1 %}
+            <p>Key: E♭ major</p>
+            
+            {% elif section.key == 4 and section.mode == 0 %}
+            <p>Key: E minor</p>
+            
+            {% elif section.key == 4 and section.mode == 1 %}
+            <p>Key: E major</p>
+            
+            {% elif section.key == 5 and section.mode == 0 %}
+            <p>Key: F minor</p>
+            
+            {% elif section.key == 5 and section.mode == 1 %}
+            <p>Key: F major</p>
+            
+            {% elif section.key == 6 and section.mode == 0 %}
+            <p>Key: F♯ minor</p>
+            
+            {% elif section.key == 6 and section.mode == 1 %}
+            <p>Key: F♯ major</p>
+            
+            {% elif section.key == 7 and section.mode == 0 %}
+            <p>Key: G minor</p>
+            
+            {% elif section.key == 7 and section.mode == 1 %}
+            <p>Key: G major</p>
+            
+            {% elif section.key == 8 and section.mode == 0 %}
+            <p>Key: A♭ minor</p>
+            
+            {% elif section.key == 8 and section.mode == 1 %}
+            <p>Key: A♭ major</p>
+            
+            {% elif section.key == 9 and section.mode == 0 %}
+            <p>Key: A minor</p>
+            
+            {% elif section.key == 9 and section.mode == 1 %}
+            <p>Key: A major</p>
+            
+            {% elif section.key == 10 and section.mode == 0 %}
+            <p>Key: B♭ minor</p>
+            
+            {% elif section.key == 10 and section.mode == 1 %}
+            <p>Key: B♭ major</p>
+            
+            {% elif section.key == 11 and section.mode == 0 %}
+            <p>Key: B minor</p>
+            
+            {% elif section.key == 11 and section.mode == 1 %}
+            <p>Key: B major</p>
+
+            {% endif %}
+
+            <p>Loudness: {{ section.loudness }}</p>
+          
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
     </div>
-        
-        
-        
     {% endif %}
 
-        
     <div id="box2">
-        <div id="bottom_right_box" class="container">
+      <div id="bottom_right_box" class="container">
 
-
-
-            <form id="get_snowflake" class="form-horizontal" role="form" action="/get_patterns" method="GET" >
-              <div class="form-group">
-                <div class="row">
-                <div class="col-sm-4" id="artist_name"><input type="text" placeholder="Enter artist" name="artist_name"></div>
-                </div>
-                <div class="row">
-                <div class="col-sm-4" id="song_title"><input type="text" placeholder="Enter song" name="title"></div>
-                </div>
-                <div class="row">
-                <div class="col-sm-4" id="enter_button"><input type="submit" value="Get Snowflake" class="btn btn-custom"></input></div>
-                </div>
-              </div>
-            </form>
-        
-
-            <div id="web_player">
-
-              {% if track %}
-              <iframe src="https://embed.spotify.com/?uri={{ track.spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
-              <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
-              {% else %}
-              <div id="error">I'm sorry, that song is not available.<br>Please try a different song.</div>
-              {% endif %}
-
+        <form id="get_snowflake" class="form-horizontal" role="form" action="/get_patterns" method="GET" >
+          <div class="form-group">
+            <div class="row">
+            <div class="col-sm-4" id="artist_name"><input type="text" placeholder="Enter artist" name="artist_name"></div>
             </div>
+            <div class="row">
+            <div class="col-sm-4" id="song_title"><input type="text" placeholder="Enter song" name="title"></div>
+            </div>
+            <div class="row">
+            <div class="col-sm-4" id="enter_button"><input type="submit" value="Get Snowflake" class="btn btn-custom"></input></div>
+            </div>
+          </div>
+        </form>
+        
+        <div id="web_player">
+          {% if track %}
+          <iframe src="https://embed.spotify.com/?uri={{ track.spotify_track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
+          <span id="patterns" type="hidden" data-patterns="{{ track.patterns }}"></span>
+          {% else %}
+          <div id="error">I'm sorry, that song is not available.<br>Please try a different song.</div>
+          {% endif %}
+        </div>
 
         <div class="row">
-            <div class="col-sm-4" id="save-button">
+          <div class="col-sm-4" id="save-button">
 
             <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
                 <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
@@ -190,18 +176,15 @@
 
                 <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
             </form>
-            </div>
+
+          </div>
         </div>
             
-            <img src="../static/images/echonest_logo.gif">
+        <img src="../static/images/echonest_logo.gif">
 
-        </div>
-        </div>
-
+      </div>
     </div>
-    
-    
-
+   
 </body>
 <script src="../static/js/snowflake.js"></script>
 </html>

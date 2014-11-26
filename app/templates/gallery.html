@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>Audio Snowflake</title>
-    <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
-    
-    <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
+    <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
+    <link href="/static/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../static/css/style_gallery.css".>
     
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
-
-
 </head>
 
 <body>
@@ -26,20 +23,13 @@
   </ul>
 
   {% for image in images %}
-
-
   <figure>
     <a href="/get_patterns?artist_name={{ image.artist_name }}&title={{ image.title }}" alt= "{{ image.title}}, by {{ image.artist_name }}">
     <img src="/static/uploads/{{ image.filename }}">
     <figcaption>"{{ image.title }}," {{ image.artist_name }}</figcaption>
     </a>
   </figure>
-
-
   {% endfor %}
-
-
-
 
 </body>
 </html>

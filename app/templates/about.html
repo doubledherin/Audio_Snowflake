@@ -29,66 +29,62 @@
 
 <div id="text" class="container-fluid">
   <div class="col-md-7">
-   <div class="row">
-  <!-- <div class="col-md-5"> -->
-    <h1>Audio Snowflake</h1>
-      <p>Audio Snowflake is a music visualizer inspired by Spirograph and by the principles of <a href="http://en.wikipedia.org/wiki/Cymatics">cymatics</a>. Enter an artist name and song title, and Audio Snowflake retrieves detailed data on the song from the Echo Nest Analyzer API.</p>
+    <div class="row">
 
-      <p>After processing and scaling the data, the app uses Processing (a Java-based language commonly used in digital art) and a trigonometric equation to plot a series of hypotrochoids (Spirograph-like images) to the screen.</p>
+      <h1>Audio Snowflake</h1>
+        <p>Audio Snowflake is a music visualizer inspired by Spirograph and by the principles of <a href="http://en.wikipedia.org/wiki/Cymatics">cymatics</a>. Enter an artist name and song title, and Audio Snowflake retrieves detailed data on the song from the Echo Nest Analyzer API.</p>
 
-      <p>The result is a beautiful visual representation of each song’s unique qualities, rendered before your eyes as you listen to the song via an embedded Spotify web player.</p>
-</div>
-<!-- </div> -->
+        <p>After processing and scaling the data, the app uses Processing (a Java-based language commonly used in digital art) and a trigonometric equation to plot a series of hypotrochoids (Spirograph-like images) to the screen.</p>
 
+        <p>The result is a beautiful visual representation of each song’s unique qualities, rendered before your eyes as you listen to the song via an embedded Spotify web player.</p>
 
-  <div class="row">
-  <!-- <div class="col-md-5"> -->
-    <h1>The Mapping</h1>
+    </div>
 
-    <p>The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image.</p>
+    <div class="row">
 
-    <h2>Rotation</h2>
-    <p>An image's rotation speed is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy.</p>
+      <h1>The Mapping</h1>
+      <p>The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image.</p>
 
-    <p>You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.</p>
+      <h2>Rotation</h2>
+      <p>An image's rotation speed is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy.</p>
 
-    <h2>Lines</h2>
-    <p>Each line in a snowflake represents a different "section" of a song. A "section" can be defined as a point in the song when the music changes in some significant way. (For more on sections, see <a href="#thedata">The Data</a>, below.) This change is usually a key change, but it can also be a mode change (from minor to major, or vice versa), or a change in time signature, tempo, or loudness.</p> 
+      <p>You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.</p>
 
-    <p>Oftentimes a song will change key (for a bridge, for example) and then go back to a key it was in before. As such, it is often the case that several of a song's sections may actually be identical in terms of key, mode, time signature, and loudness. For the purposes of Audio Snowflake, I collapse such sections into one composite section and compute the total duration for it.</p>
+      <h2>Lines</h2>
+      <p>Each line in a snowflake represents a different "section" of a song. A "section" can be defined as a point in the song when the music changes in some significant way. (For more on sections, see <a href="#thedata">The Data</a>, below.) This change is usually a key change, but it can also be a mode change (from minor to major, or vice versa), or a change in time signature, tempo, or loudness.</p> 
 
-    <p>I then compute the total number of sections. If there are more than five, I remove those of least duration until there are no more than five. This is an aesthetic choice--too many line drawings can start to be overwhelming.</p>
+      <p>Oftentimes a song will change key (for a bridge, for example) and then go back to a key it was in before. As such, it is often the case that several of a song's sections may actually be identical in terms of key, mode, time signature, and loudness. For the purposes of Audio Snowflake, I collapse such sections into one composite section and compute the total duration for it.</p>
 
-    <h2>Colors</h2>
-    <p>Each line (section) is colored using HSBa (hue, saturation, brightness, transparency/alpha) color values.</p>
+      <p>I then compute the total number of sections. If there are more than five, I remove those of least duration until there are no more than five. This is an aesthetic choice--too many line drawings can start to be overwhelming.</p>
 
-    <h4>Hue</h4>
-    <p>The hue (color) is determined by the section's key. C gets a hue of 0 (red), and as the chromatic scale progresses, the hue progresses through the color spectrum (orange, yellow, and so forth).</p>
+      <h2>Colors</h2>
+      <p>Each line (section) is colored using HSBa (hue, saturation, brightness, transparency/alpha) color values.</p>
 
-    <h4>Saturation</h4>
-    <p>The saturation (vividness) is determined by the sum of the song's energy and valence, which together are a good approximation of a song's mood.</p> 
+      <h4>Hue</h4>
+      <p>The hue (color) is determined by the section's key. C gets a hue of 0 (red), and as the chromatic scale progresses, the hue progresses through the color spectrum (orange, yellow, and so forth).</p>
 
-    <p>Energy is a property of the loudness and frequency of change within a song. As for valence, according to Paul Lamere (Director of Developer Platform at The Echo Nest),</p> 
-    
-    <quote>The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.<quote>
+      <h4>Saturation</h4>
+      <p>The saturation (vividness) is determined by the sum of the song's energy and valence, which together are a good approximation of a song's mood.</p> 
 
-    <img src="/static/images/energy_valence_grid_negative.png" alt="The Valence-Arousal space"/>
+      <p>Energy is a property of the loudness and frequency of change within a song. As for valence, according to Paul Lamere (Director of Developer Platform at The Echo Nest),</p> 
+      
+      <quote>The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.<quote>
 
-    <p>For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.</p>
+      <img src="/static/images/energy_valence_grid_negative.png" alt="The Valence-Arousal space"/>
 
-    <h4>Brightness</h4>
-    <p>The brightness is a constant: all songs have the maximum brightness value. Because I chose to use a black background and low saturation, maintaining brightness at the maximum is necessary (otherwise, some lines would be challenging or even impossible to see).</p>
+      <p>For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.</p>
 
-    <h4>Transparency</h4>
-    <p>The transparency (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.</p>
+      <h4>Brightness</h4>
+      <p>The brightness is a constant: all songs have the maximum brightness value. Because I chose to use a black background and low saturation, maintaining brightness at the maximum is necessary (otherwise, some lines would be challenging or even impossible to see).</p>
 
-</div>
-<!-- </div> -->
+      <h4>Transparency</h4>
+      <p>The transparency (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.</p>
 
-  <div class="row">
-  <!-- <div class="col-md-5"> -->
-    <h1>The Geometry</h1>
+    </div>
 
+    <div class="row">
+
+      <h1>The Geometry</h1>
       <p>Each line forms a geometric shape called a <em>hypotrochoid</em> (pronounced hai-po-<em>tro</em>-koid).</p>
 
       <p>Hypotrochoids are mathematical roulettes traced by a point <em>P</em> that is attached to circle which rolls around the interior of a larger circle. If you have played with Spirograph, you may be familiar with the concept.</p>
@@ -114,89 +110,85 @@
 
       <figcaption>Hypotrochoid diagram in which <em>h</em> is less than the radius <em>b</em>.</figcaption>
       
-
-
       <img src="/static/images/HypotrochoidDiagram2_negative.png"/>
       <img src="/static/images/hypotroc2_negative.gif"/>
 
       <figcaption>Hypotrochoid diagram in which <em>h</em> is greater than the radius <em>b</em>.</figcaption>
       <figcaption>Images from <a href="http://mathworld.wolfram.com/Hypotrochoid.html">Wolfram MathWorld</a>.</figcaption>
-</div>
-<!-- </div> -->
 
-  <div class="row">
-  <!-- <div class="col-md-5"> -->
-    <h1>The Math</h1>
+    </div>
 
-    <p>The hypotrochoids are rendered as x,y coordinates on a Cartesian grid using the following trigonometric equation and the values described in the above section on the geometry. (The value <em>t</em> is an angle that increments very slightly after each x,y coordinate is computed.)</p>
+    <div class="row">
 
-    <p><em>x</em> = (<em> a−b </em>)cos<em> t</em> + <em>h </em> cos((( <em>a−b</em> ) ÷ <em>b</em> )<em> t </em>)</p>
-    <p><em>y</em> = (<em> a−b </em>) sin<em> t</em>  − <em>h </em>sin ((( <em>a−b</em> ) ÷ <em>b</em> )<em> t </em>)</p>
+      <h1>The Math</h1>
 
-    <p>The Cartesian grid is scaled according to the window size at the time the page loads.</p>
+      <p>The hypotrochoids are rendered as x,y coordinates on a Cartesian grid using the following trigonometric equation and the values described in the above section on the geometry. (The value <em>t</em> is an angle that increments very slightly after each x,y coordinate is computed.)</p>
 
-</div>
-<!-- </div> -->
+      <p><em>x</em> = (<em> a−b </em>)cos<em> t</em> + <em>h </em> cos((( <em>a−b</em> ) ÷ <em>b</em> )<em> t </em>)</p>
+      <p><em>y</em> = (<em> a−b </em>) sin<em> t</em>  − <em>h </em>sin ((( <em>a−b</em> ) ÷ <em>b</em> )<em> t </em>)</p>
 
-  <div class="row">
-  <!-- <div class="col-md-5"> -->
+      <p>The Cartesian grid is scaled according to the window size at the time the page loads.</p>
+
+    </div>
+
+    <div class="row">
+  
     <h1><a name="thedata">The Data</a></h1>
 
-    <p><a href="http://developer.echonest.com/docs/v4/_static/AnalyzeDocumentation.pdf" target="_blank">The Echo Nest Analyze API</a> supplies extremely detailed song data, measuring as finely as the onset and duration of each microbeat of a song. Other qualities, such as key, mode (major or minor), tempo, time signature, etc. are provided as well, as are more nuanced qualities, such as "danceability," "speechiness," "acousticness," "liveness," and so on.</p>
+      <p><a href="http://developer.echonest.com/docs/v4/_static/AnalyzeDocumentation.pdf" target="_blank">The Echo Nest Analyze API</a> supplies extremely detailed song data, measuring as finely as the onset and duration of each microbeat of a song. Other qualities, such as key, mode (major or minor), tempo, time signature, etc. are provided as well, as are more nuanced qualities, such as "danceability," "speechiness," "acousticness," "liveness," and so on.</p>
 
-    <p>The song data is analyzed on several different scales: segments, sections, beats, and tatums (sub-beats). The grouping I chose to focus on for this project are "sections." In Echo Nest's data, a new "section" denotes a significant change in the music. This change can be a change in key, mode, tempo, loudness, time signature, and so forth.</p>
+      <p>The song data is analyzed on several different scales: segments, sections, beats, and tatums (sub-beats). The grouping I chose to focus on for this project are "sections." In Echo Nest's data, a new "section" denotes a significant change in the music. This change can be a change in key, mode, tempo, loudness, time signature, and so forth.</p>
 
-    <p>The sections data was more relevant to Audio Snowflake, as one of my goals was to visually represent the composition of a song.</p>
-</div>
-<!-- </div> -->
+      <p>The sections data was more relevant to Audio Snowflake, as one of my goals was to visually represent the composition of a song.</p>
+    </div>
 
-  <div class="row">
-  <!-- <div class="col-md-5"> -->
-    <h1>The Acknowledgments</h1>
+    <div class="row">
 
-      <p>Audio Snowflake is a music visualizer created by Wendy Dherin in 2014.</p>
+      <h1>The Acknowledgments</h1>
 
-      <p>The images are inspired by Spirograph and were made possible by the detailed track analysis information supplied by the <a href="http://the.echonest.com/" target="_blank">Echo Nest API.</a> The embedded web player is made possible by <a href="http://www.spotify.com/" target="_blank">Spotify.</a></p>
+        <p>Audio Snowflake is a music visualizer created by Wendy Dherin in 2014.</p>
 
-      <p>The following people were instrumental to the project, providing mentorship, inspiration, and guidance:</p> 
+        <p>The images are inspired by Spirograph and were made possible by the detailed track analysis information supplied by the <a href="http://the.echonest.com/" target="_blank">Echo Nest API.</a> The embedded web player is made possible by <a href="http://www.spotify.com/" target="_blank">Spotify.</a></p>
 
-      <br>
-      
-      <h4>Hackbright Instructors</h4>
-        <ul>
-          <li>Nick Audo</li>
-          <li>Nick Avgerinos</li>
-          <li>Lindsay Cade</li>
-          <li>Cynthia Dueltgen</li>
-          <li>Joel Burton</li>
-          <li>Katie LeFevre</li>
-          <li>Meggie Mahnken</li>
-          <li>Sean Teague</li>
-        </ul>
+        <p>The following people were instrumental to the project, providing mentorship, inspiration, and guidance:</p> 
 
-        <hr>
-       
-      <h4>Mentors</h4>
-        <ul>
-          <li>Andy Bartholomew
-          <li>Kristin Henry</li>
-          <li>Beth Jubera</li>
-          <li>Lynn Root</li>
-          <li>Jeff Tchang</li>
-          <li>Steve Tjoa</li>
-        </ul>
+        <br>
+        
+        <h4>Hackbright Instructors</h4>
+          <ul>
+            <li>Nick Audo</li>
+            <li>Nick Avgerinos</li>
+            <li>Lindsay Cade</li>
+            <li>Cynthia Dueltgen</li>
+            <li>Joel Burton</li>
+            <li>Katie LeFevre</li>
+            <li>Meggie Mahnken</li>
+            <li>Sean Teague</li>
+          </ul>
 
-        <hr>
+          <hr>
+         
+        <h4>Mentors</h4>
+          <ul>
+            <li>Andy Bartholomew
+            <li>Kristin Henry</li>
+            <li>Beth Jubera</li>
+            <li>Lynn Root</li>
+            <li>Jeff Tchang</li>
+            <li>Steve Tjoa</li>
+          </ul>
 
-      <h4>Friends & Family</h4>
-        <ul>
-          <li>Benoit Dherin</li>
-          <li>Penelope Cameron</li>
-        </ul>
-  </div>
+          <hr>
 
-<!-- </div> -->
-</div>
+        <h4>Friends & Family</h4>
+          <ul>
+            <li>Benoit Dherin</li>
+            <li>Penelope Cameron</li>
+          </ul>
+      </div>
+    </div>
+  </div>  
+
 
 <!-- 
 <div class="container-fluid">

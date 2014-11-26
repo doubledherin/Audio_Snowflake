@@ -29,13 +29,10 @@ void setUpHypotrochoid(float a, float b, float h, float hue, float saturation, f
   hypotrochoids.add(hypotrochoid);
 }
 
-
-
 // CLASS AND METHOD DEFINITIONS
 interface Pattern {  
   void draw();
 }
-
 
 class Hypotrochoid implements Pattern {
   float a, b, h, hue, saturation, brightness, transparency;
