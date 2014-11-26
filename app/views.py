@@ -1,8 +1,7 @@
 import base64, json, os, random
-from time import sleep
 
-from flask import Flask, jsonify, render_template, redirect, request, flash, url_for
-from sqlalchemy import desc
+from flask import Flask, render_template, redirect, request
+
 from werkzeug import secure_filename
 
 import model as m 
@@ -12,6 +11,7 @@ from add_to_db import add_song_to_db, add_image_to_db
 
 app = Flask(__name__)
 
+# Does not use form entry
 @app.route("/")
 def index():
 
@@ -19,16 +19,9 @@ def index():
     rand = random.randrange(0, db_session.query(m.Track).count()) 
     track = db_session.query(m.Track)[rand]
 
-    patterns = track.patterns
-    json_patterns = json.loads(patterns)
+    return redirect("/render_template?song_id=%s" % track.song_id)
 
-
-    sections = track.sections
-    json_sections = json.loads(sections) 
-
-
-    return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
-
+# Uses form entry
 @app.route("/get_patterns")
 def get_pattern():
 
@@ -37,17 +30,15 @@ def get_pattern():
     artist_name = request.args.get("artist_name").lower()
     
     # If nothing entered into form
-    if artist_name == "" and title == "":
+    if not artist_name and not title:
         return redirect("/")
 
     # If only title entered
-    elif artist_name == "":
-
+    elif not artist_name:
         track = db_session.query(m.Track).filter_by(title=title).first()
 
     # If only artist name entered
-    elif title == "":
-
+    elif not title:
         track = db_session.query(m.Track).filter_by(artist_name=artist_name).first()
 
     # If both artist and title entered
@@ -56,45 +47,27 @@ def get_pattern():
 
     if track:
 
-        patterns = track.patterns
-        json_patterns = json.loads(patterns)
-
-        sections = track.sections
-        print "sections", sections
-        json_sections = []
-        if sections:
-            json_sections = json.loads(sections)    
-
-
-        return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
+        return redirect("/render_template?song_id=%s" % track.song_id)
     
-
-    # If not, call Echonest to get it
+    # If not in database, call Echo Nest
     else:
-        # print "IM HERE"
-        # print "IM HERE"
+
         song_data = algorithm(artist_name, title)
+        
+        # HTML prints message to screen saying sorry, no go
         if not song_data:
             return render_template("index.html", track=None, patterns=None, sections=None)
 
-        # Check if the track is in the database, using song id 
-        # (gets around slight misspellings and missing accents)
+
+        # Use song_id to see if song is already in the database
+        # (This avoids problems if user doesn't use accents or gives a partial entry [e.g., skips "the"])
         song_id = song_data["song_id"]
 
         track = db_session.query(m.Track).filter_by(song_id=song_id).first()
 
-
         # If song id is in the database
         if track:
-
-            patterns = track.patterns
-            json_patterns = json.loads(patterns)
-
-            sections = track.sections
-            json_sections = json.loads(sections)    
-
-
-            return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
+            return redirect("/render_template?song_id=%s" % track.song_id)
 
         # If song id is not in the database
         else:
@@ -105,20 +78,25 @@ def get_pattern():
             # Get it from the database (using song id)
             track = db_session.query(m.Track).filter_by(song_id=song_id).first()
             
-            patterns = track.patterns
-            json_patterns = json.loads(patterns)
+            return redirect("/render_template?song_id=%s" % track.song_id)
 
-            sections = track.sections
-            json_sections = json.loads(sections)    
+# Uses song id to query database and get data needed for index.html
+@app.route("/render_template")
+def render():
 
+    song_id=request.args.get('song_id')
 
-            return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
+    track = db_session.query(m.Track).filter_by(song_id=song_id).first()
 
-        # except:
+    patterns = track.patterns
+    json_patterns = json.loads(patterns)
 
-        #     # Print error message to screen
-        #     return render_template("index.html", track=None, patterns=None, sections=None)
+    sections = track.sections
+    json_sections = json.loads(sections) 
 
+    return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
+
+# Takes snapshot of canvas
 @app.route("/add_snowflake", methods=["POST"])
 def add_snowflake():
     filename = request.form["song_id"] + ".png"
@@ -128,29 +106,31 @@ def add_snowflake():
 
     if image:
 
-        # decode base64
+        # Decode base64
         img_type, img_b64data = image.split(",", 1)
         image_data = base64.b64decode(img_b64data)
 
-        # write to a file using the song id as the filename
+        # Write to a file using the song id as the filename
         fout = open(os.path.join("static/uploads", filename), "wb")
         fout.write(image_data)
         fout.close()
 
+        # Store in database
         add_image_to_db(db_session, filename, artist_name, title)
 
     return "OK"
-
 
 
 @app.route("/about")
 def about_page():
     return render_template("about.html")
 
+
 @app.route("/gallery")
 def gallery_page():
 
     images = db_session.query(m.Image).all()
+
     return render_template("gallery.html", images=images)    
 
 
