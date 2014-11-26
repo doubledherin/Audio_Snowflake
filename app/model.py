@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Float, PickleType
+from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 engine = create_engine("sqlite:///audiosnowflake.db", echo=False)
@@ -20,19 +20,14 @@ class Track(Base):
     title = Column(String(100))
     tempo = Column(Float)
     energy = Column(Float)
-    # liveness = Column(Float)
-    # speechiness = Column(Float)
     artist_name = Column(String(100))
     mode = Column(Integer)
-    # acousticness = Column(Float)
-    # danceability = Column(Float)
     time_signature = Column(Integer)
     duration = Column(Float)
     loudness = Column(Float)
     artist_id = Column(String(50))
     valence = Column(Float) 
     audio_md5 = Column(String(50))
-    # instrumentalness = Column(Float)
     spotify_track_uri = Column(String(50))
     patterns = Column(String(300))
     sections = Column(String(300))
