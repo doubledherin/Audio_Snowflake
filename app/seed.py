@@ -56,7 +56,7 @@ def add_song_to_db(session):
         track.spotify_track_uri = song_data["spotify_track_uri"]
         track.patterns = patterns_json
         track.sections = sections_json
-        track.rotation_speed = song_data["rotation_speed"]
+        track.rotation_duration = song_data["rotation_duration"]
 
         db_session.add(track)
         db_session.commit()

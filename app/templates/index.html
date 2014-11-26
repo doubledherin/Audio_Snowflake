@@ -19,7 +19,7 @@
         -webkit-transition-duration: {{ track.rotation_duration }}s;
         -moz-transition-duration: {{ track.rotation_duration }}s;
         -webkit-animation-duration: {{ track.rotation_duration }}s; 
-        -moz-animation-duration: {{ track.rotation_duration }};
+        -moz-animation-duration: {{ track.rotation_duration }}s;
     }
     
 
@@ -57,7 +57,7 @@
                 <div class="row">
                   <div class="col-sm-4" id="section-legend">
 
-                    <div class="rect" style="background-color:hsla({{patterns[loop.index0].hue}}, {{patterns[loop.index0].saturation}}%, 77.5%, 0.{{patterns[loop.index0].transparency}})"></div>
+                    <div class="rect" style="background-color:hsla({{section.hsla[0] }}, {{ section.hsla[1] }}%, {{ section.hsla[2]}}%, {{ section.hsla[3] }})"></div>
 
                     <p>Duration: {{ section.duration }} seconds
                     </p>

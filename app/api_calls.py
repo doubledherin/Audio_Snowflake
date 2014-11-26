@@ -109,14 +109,16 @@ def collapse_sections(artist=None, title=None):
 	# Get analyses of song sections
 	###########################################
 	analysis_url = str(song_data["analysis_url"])
-
 	print 0, analysis_url
+
 	r = requests.get(analysis_url)
 
 	if r.status_code != 200:
 		return "Error accessing analysis url. Status code %d" % r.status_code
 
 	results = json.loads(r.content)
+
+	# print 0, results.url
 
 	#TO DO: Build in handler in the case that sections data is limited.
 	sections = results["sections"]
@@ -301,7 +303,8 @@ def algorithm(artist=None, title=None):
 		sections_dict["key"] = section_key
 
 
-		sections.append(sections_dict)
+
+		# sections.append(sections_dict)
 
 		# Duration of song determines radius of larger circle ("a")
 		unscaled_a = float(song_duration) 
@@ -364,14 +367,14 @@ def algorithm(artist=None, title=None):
 		# [0, 2] to [0, 50]
 		unscaled_saturation = song_energy + song_valence
 
-		saturation = 50 * ((unscaled_saturation) / 2)
+		saturation = 40 * ((unscaled_saturation) / 2)
 
 		brightness = 100
 		
 		unscaled_transparency = section_avg_loudness
 		# Scale [-20, 0] to [50, 100]
 		transparency = 50 * (1 - ((unscaled_transparency + 20) / 20)) + 100 * ((unscaled_transparency + 20) / 20)
-		transparency = int(transparency)
+		transparency = int(round(transparency))
 
 		patterns_dict = {}
 
@@ -384,6 +387,36 @@ def algorithm(artist=None, title=None):
 		patterns_dict["transparency"] = transparency
 
 		patterns.append(patterns_dict)
+
+		# Convert colors to hex value for use in HTML
+
+		def hsv2hsl(hue,sat,val):
+
+			l = int(round((2 - sat / 100.0) * val / 2))
+			
+			# Avoid division by zero
+			if l == 0:
+				l == 0.1
+			elif l == 100:
+				l = 99.9
+	
+			if l < 50:
+				temp = l * 2.0
+				print "TEMP", temp
+	
+			else:
+				temp = 200 - l * 2.0
+				print "TEMP", temp
+			h = hue
+			s = int(round(sat * val / temp))
+			return [h, s, l]
+
+		hsla = hsv2hsl(hue, saturation, brightness)
+		hsla.append(transparency/100.0)
+
+		sections_dict["hsla"] = hsla
+		
+		sections.append(sections_dict)
 
 	song_data["sections"] = sections
 	song_data["patterns"] = patterns
