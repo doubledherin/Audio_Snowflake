@@ -131,20 +131,35 @@ def get_sections(song_data):
 	section_results = results["sections"]
 
 
-	##########################################################
-	# Combine similar sections and reduce to no more than five 
-	##########################################################
+	song_data["collapsed_sections"] = collapse_sections(section_results)
+	
+	
+	return song_data
+
+def collapse_sections(section_results):
+	"""
+	Takes a list of sections returns a collapsed /refined list of section data
+	"""
+
 	collapsed = {}
 
+	# Get relevant attributes from each section in the section results
 	for i in range(len(section_results)):
+
 		key = section_results[i]["key"]
 		mode = section_results[i]["mode"]
 		time_sig = section_results[i]["time_signature"]
+		
+		# Dedupe sections with same key, mode, and time signature
 		collapsed[(key, mode, time_sig)] = collapsed.setdefault((key, mode, time_sig), [])
+		
+		# Add deduped section to list
 		collapsed[(key, mode, time_sig)].append(section_results[i])
 
+
 	new_collapsed = {}
-	# Get total duration for each collapsed section
+
+	# Get sum-total duration for each collapsed section
 	for key, value in collapsed.iteritems():
 		total_duration = 0
 		
@@ -163,7 +178,6 @@ def get_sections(song_data):
 
 	# For each collapsed section, collapse list of values into averages
 	newer_collapsed = {}
-
 
 	items = new_collapsed.items()
 
@@ -209,7 +223,7 @@ def get_sections(song_data):
 		del newer_collapsed[shortest_duration]
 
 	# Create list of dictionaries, each dictionary stores one section's data
-	section_list = []
+	final_collapsed = []
 	sorted_keys = sorted(newer_collapsed.keys())
 	for i in range(len(sorted_keys)):
 		d = {}
@@ -225,11 +239,9 @@ def get_sections(song_data):
 		for key, value in v.iteritems():
 			d["hypo%d" % i][key] = value
 
-		section_list.append(d)
+		final_collapsed.append(d)
 
-
-
-	return section_list
+	return final_collapsed
 
 def scaler(x, a, b, c, d):
 	"""
@@ -244,7 +256,7 @@ def algorithm(artist=None, title=None):
 	
 	songs = get_matching_songs(artist, title)
 	song_data = get_song_data(songs)
-	
+
 	if not song_data:
 		
 		return None
@@ -294,7 +306,7 @@ def algorithm(artist=None, title=None):
 ###
 
 
-	section_list = song_data["section_list"]
+	section_list = song_data["collapsed_sections"]
 
 
 	section_durations = []
