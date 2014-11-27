@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import json, os, requests
-from math import pi
 from sys import argv
-from time import sleep
-
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
-
 def get_song_data(artist=None, title=None):
-
 	"""
 	Takes up to two optional strings (artist name, song title) and returns a dictionary of song information.
 	"""
@@ -223,52 +218,70 @@ def collapse_sections(artist=None, title=None):
 
 	return song_data
 
+def scaler(x, a, b, c, d):
+	"""
+	Takes a number x within range [a, b] and scales it according to the desired range [c, d]
+	"""
+
+	scaled = c * (1 - ((x - a) / (b - a))) + d * (((x - a) / (b - a)))
+
+	return scaled
+
 def algorithm(artist=None, title=None):
 	
-
 	song_data = collapse_sections(artist, title)
+	
 	if not song_data:
+		
 		return None
 
-	song_duration = song_data["duration"]
-	song_tempo = song_data["tempo"]
-	song_key = song_data["key"]
-	song_mode = song_data["mode"]
-	song_time_signature = song_data["time_signature"]
 	song_energy = song_data["energy"]
-	song_loudness = song_data["loudness"]
+
 	song_valence = song_data["valence"]
 
-
-	"""
-	Linear scaling section
-
-	Uses the following formula:
 	
-	Where [A, B] is the current range and [C, D] is the desired range:
+	sections = []
 	
-	f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
-	"""
 
-	# Scale tempo to rotation (inversely proportional)
+	patterns = []
 	
-	# Set min tempo at 70 and max tempo at 200
-	unscaled_rotation_duration = song_tempo
+	###########################################################
+	# Scale tempo to rotation duration (inversely proportional)
+	###########################################################
 
+	unscaled_rotation_duration = song_data["tempo"]
+
+	# Set min/mix
 	if unscaled_rotation_duration < 70:
 		unscaled_rotation_duration = 70
 	if unscaled_rotation_duration > 200:
 		unscaled_rotation_duration = 200
 
-	# [70, 200] => [100, 5]
-	rotation_duration = 100.0 * (1 - ((unscaled_rotation_duration - 70) / (200 - 70))) + 5.0 * (((unscaled_rotation_duration - 70) / (200 - 70)))
+	rotation_duration = scaler(unscaled_rotation_duration, 70, 200, 100, 5)
 
 	song_data["rotation_duration"] = rotation_duration
 
 
-	# For hypotrochoids
-	value_list = song_data["value_list"]
+	###########################################################
+	# Scale song duration to radius of large circle (a)
+	###########################################################
 
+	unscaled_a = float(song_data["duration"]) 
+	
+	# Set mix/max
+	if unscaled_a < 100:
+		unscaled_a = 100
+	if unscaled_a > 600:
+		unscaled_a = 600
+
+	a = scaler(unscaled_a, 100, 600, 500, 900)
+
+
+###
+
+
+	value_list = song_data["value_list"]
+	# print value_list
 
 	section_durations = []
 
@@ -276,12 +289,12 @@ def algorithm(artist=None, title=None):
 
 		v = section.values()
 		section_durations.append(v[0]["duration"])
+
 	min_section_duration = float(min(section_durations))
 	max_section_duration = float(max(section_durations))
 
 
-	sections = []
-	patterns = []
+
 
 	for section in value_list:
 
@@ -304,30 +317,6 @@ def algorithm(artist=None, title=None):
 
 
 
-		# sections.append(sections_dict)
-
-		# Duration of song determines radius of larger circle ("a")
-		unscaled_a = float(song_duration) 
-		
-		# Set minimum and maximum song duration (100 min; 600 max)
-		if unscaled_a < 100:
-			unscaled_a = 100
-		if unscaled_a > 600:
-			unscaled_a = 600
-
-		# Scale "a" to a reasonable size using the equation below
-		"""
-		Linear scaling section
-
-		Uses the following formula:
-		
-		Where [A, B] is the current range and [C, D] is the desired range:
-		
-		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
-		"""
-
-		# Scale as follows: [100, 600] => [500, 900]
-		a = 500 * (1 - ((unscaled_a - 100) / (600 - 100))) + 900 * ((unscaled_a - 100) / (600 - 100))
 
 
 		# Duration of section determines radius of smaller circle ("b")
@@ -355,15 +344,7 @@ def algorithm(artist=None, title=None):
 		hue = int(hue)
 
 
-		"""
-		Linear scaling section
 
-		Uses the following formula:
-		
-		Where [A, B] is the current range and [C, D] is the desired range:
-		
-		f(x) = C*(1 - ((x - A) / (B - A))) + D*(((x - A) / (B - A)))
-		"""
 		# [0, 2] to [0, 50]
 		unscaled_saturation = song_energy + song_valence
 

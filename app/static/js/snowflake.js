@@ -19,7 +19,6 @@ function bindDataToProcessing(patterns) {
 $( "canvas" ).mouseenter(function() {  
   $( "#box1" ).stop().fadeIn( "slow", "linear" );
 });
-
 $( "canvas" ).mouseleave(function() {        
   $( "#box1" ).stop().fadeOut( "slow", "linear" );
 });
