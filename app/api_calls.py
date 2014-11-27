@@ -5,23 +5,19 @@ from sys import argv
 
 api_key = os.environ.get("ECHO_NEST_API_KEY")
 
-def get_song_data(artist=None, title=None):
+def get_matching_songs(artist=None, title=None):
 	"""
-	Takes up to two optional strings (artist name, song title) and returns a dictionary of song information.
+	Takes one or two strings (artist name, song title) and returns a list of songs that match.
+
+	(If neither artist or title are passed in, this function does not get called.)
 	"""
 
-	# Get general song info
-	#######################
 
 	if not artist:
-
 		params = {"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
-
 	if not title:
-
 		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]}
 	else:
-
 		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
 	try:
@@ -31,26 +27,41 @@ def get_song_data(artist=None, title=None):
 		return "I'm sorry, that song is not available. Please try a different one."
 
 	results = json.loads(r.content)
-  
 	songs = results["response"].get("songs", [])
 
-	song_data = {}
+	# TO DO: HANDLE IF SONGS IS EMPTY
+	return songs
 
-	# Filter for a result that has track info and a Spotify track uri (used in web player)
+
+
+def get_song_data(songs):
+	"""
+	Takes a list of songs and returns a dictionary of song data for the 1st that meets certain criteria.
+	"""
+	song_data = {}
+	
+	# Filter for a result that has track info 
 	for song in songs:
+
 		tracks = song["tracks"]
+
 		if tracks == []:
 			continue
+
+		# Filter for a result that has a Spotify track uri (used in web player)	
 		else:
 			for track in tracks:
 
 				if "foreign_id" in track:
 					song_data["spotify_track_uri"] = track["foreign_id"]
 					break
+				
 				else:
 					continue
 		
-
+			###########################################
+			# Get general song info
+			###########################################
 			for key, value in song.iteritems():
 
 				# Skip unneeded items
@@ -67,10 +78,11 @@ def get_song_data(artist=None, title=None):
 
 				song_data[key] = value
 
-			# Lowercase artist name and song title
+			# Lowercase artist name and song title for database storage
 			song_data["artist_name"] = song_data["artist_name"].lower()
 			song_data["title"] = song_data["title"].lower()
 
+			###########################################
 			# Get detailed song info
 			###########################################	
 			try:
@@ -80,31 +92,33 @@ def get_song_data(artist=None, title=None):
 				"ERROR: No audio summary for %s" % song_data["title"]
 
 			for key, value in audio_summary.iteritems():
+
 				# round to no more than 3 decimal places
 				if type(value) == float:
 					value = round(value, 3)
+
 				song_data[key] = value
 
-			######COMMENT THIS OUT?#######
-			break
-
+	# Add sections to song_data
+	section_list = get_sections(song_data)
+	song_data["section_list"] = section_list
 
 	if not song_data:
+
 		return {}
 
 	return song_data
 
-def collapse_sections(artist=None, title=None):
+def get_sections(song_data):
+	"""
+	Takes a dictionary of song data and returns a list of data on sections.
+	"""
 
-	song_data = get_song_data(artist, title)
-
-	if not song_data:
+	if not song_data or not song_data["analysis_url"]:
+		
 		return None
 
-	# Get analyses of song sections
-	###########################################
 	analysis_url = str(song_data["analysis_url"])
-	print 0, analysis_url
 
 	r = requests.get(analysis_url)
 
@@ -113,22 +127,21 @@ def collapse_sections(artist=None, title=None):
 
 	results = json.loads(r.content)
 
-	# print 0, results.url
-
 	#TO DO: Build in handler in the case that sections data is limited.
-	sections = results["sections"]
+	section_results = results["sections"]
 
 
-	# Collapse song sections
-	###########################################
-
+	##########################################################
+	# Combine similar sections and reduce to no more than five 
+	##########################################################
 	collapsed = {}
-	for i in range(len(sections)):
-		key = sections[i]["key"]
-		mode = sections[i]["mode"]
-		time_sig = sections[i]["time_signature"]
+
+	for i in range(len(section_results)):
+		key = section_results[i]["key"]
+		mode = section_results[i]["mode"]
+		time_sig = section_results[i]["time_signature"]
 		collapsed[(key, mode, time_sig)] = collapsed.setdefault((key, mode, time_sig), [])
-		collapsed[(key, mode, time_sig)].append(sections[i])
+		collapsed[(key, mode, time_sig)].append(section_results[i])
 
 	new_collapsed = {}
 	# Get total duration for each collapsed section
@@ -196,7 +209,7 @@ def collapse_sections(artist=None, title=None):
 		del newer_collapsed[shortest_duration]
 
 	# Create list of dictionaries, each dictionary stores one section's data
-	value_list = []
+	section_list = []
 	sorted_keys = sorted(newer_collapsed.keys())
 	for i in range(len(sorted_keys)):
 		d = {}
@@ -212,11 +225,11 @@ def collapse_sections(artist=None, title=None):
 		for key, value in v.iteritems():
 			d["hypo%d" % i][key] = value
 
-		value_list.append(d)
+		section_list.append(d)
 
-	song_data["value_list"] = value_list
 
-	return song_data
+
+	return section_list
 
 def scaler(x, a, b, c, d):
 	"""
@@ -229,7 +242,8 @@ def scaler(x, a, b, c, d):
 
 def algorithm(artist=None, title=None):
 	
-	song_data = collapse_sections(artist, title)
+	songs = get_matching_songs(artist, title)
+	song_data = get_song_data(songs)
 	
 	if not song_data:
 		
@@ -280,12 +294,12 @@ def algorithm(artist=None, title=None):
 ###
 
 
-	value_list = song_data["value_list"]
-	# print value_list
+	section_list = song_data["section_list"]
+
 
 	section_durations = []
 
-	for section in value_list:
+	for section in section_list:
 
 		v = section.values()
 		section_durations.append(v[0]["duration"])
@@ -296,7 +310,7 @@ def algorithm(artist=None, title=None):
 
 
 
-	for section in value_list:
+	for section in section_list:
 
 		v = section.values()
 
@@ -409,8 +423,8 @@ def algorithm(artist=None, title=None):
 def main():
 	script, artist, title = argv
 	algorithm(artist, title)
-	# get_song_data(artist, title)
-	# collapse_sections(artist, title)
+	# get_matching_songs(artist, title)
+	# get_sections(artist, title)
 
 if __name__ == "__main__":
 	main()
