@@ -12,11 +12,15 @@ def get_matching_songs(artist=None, title=None):
 	(If neither artist or title are passed in, this function does not get called.)
 	"""
 
-
-	if not artist:
-		params = {"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
+	# Only the artist is passed in
 	if not title:
 		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]}
+
+	# Only the title is passed in
+	if not artist:
+		params = {"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
+
+	# Both artist and title are passed in
 	else:
 		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
@@ -27,20 +31,27 @@ def get_matching_songs(artist=None, title=None):
 		return "I'm sorry, that song is not available. Please try a different one."
 
 	results = json.loads(r.content)
+
 	songs = results["response"].get("songs", [])
 
-	# TO DO: HANDLE IF SONGS IS EMPTY
 	return songs
-
 
 
 def get_song_data(songs):
 	"""
-	Takes a list of songs and returns a dictionary of song data for the 1st that meets certain criteria.
+	Takes a list of songs and returns a dictionary of song data 
+	for the 1st song that meets the criteria.
 	"""
+
+	# Displays "no song available" message if songs is an empty list
+	if not songs:
+		
+		song_data = None
+		return song_data
+
 	song_data = {}
 	
-	# Filter for a result that has track info 
+	# Filter for a song that has track info 
 	for song in songs:
 
 		tracks = song["tracks"]
@@ -48,7 +59,7 @@ def get_song_data(songs):
 		if tracks == []:
 			continue
 
-		# Filter for a result that has a Spotify track uri (used in web player)	
+		# Filter for a track that has a Spotify track uri (used for the web player)	
 		else:
 			for track in tracks:
 
@@ -62,6 +73,8 @@ def get_song_data(songs):
 			###########################################
 			# Get general song info
 			###########################################
+			
+
 			for key, value in song.iteritems():
 
 				# Skip unneeded items
@@ -107,6 +120,10 @@ def get_song_data(songs):
 
 		return {}
 
+	for key, value in song_data.iteritems():
+		print "KEY:", key
+		print "VALUE: ", value
+
 	return song_data
 
 def get_sections(song_data):
@@ -133,12 +150,11 @@ def get_sections(song_data):
 
 	song_data["collapsed_sections"] = collapse_sections(section_results)
 	
-	
 	return song_data
 
 def collapse_sections(section_results):
 	"""
-	Takes a list of sections returns a collapsed /refined list of section data
+	Takes a list of sections returns a collapsed/refined list of section data
 	"""
 
 	collapsed = {}
@@ -150,7 +166,7 @@ def collapse_sections(section_results):
 		mode = section_results[i]["mode"]
 		time_sig = section_results[i]["time_signature"]
 		
-		# Dedupe sections with same key, mode, and time signature
+		# Dedupe sections that have the same key, mode, and time signature
 		collapsed[(key, mode, time_sig)] = collapsed.setdefault((key, mode, time_sig), [])
 		
 		# Add deduped section to list
@@ -168,12 +184,12 @@ def collapse_sections(section_results):
 		
 		total_duration = int(round(total_duration))
 		
-		# Recreate key so that it starts with total duration
+		# Recreate key so that it starts with the total duration
 		key = list(key)
 		key.insert(0, total_duration)
 		key = tuple(key)
 
-		# Key is now (total_duration, key, mode, time sig)
+		# Key will now be (total_duration, key, mode, time sig)
 		new_collapsed[key] = value
 
 	# For each collapsed section, collapse list of values into averages
@@ -243,14 +259,6 @@ def collapse_sections(section_results):
 
 	return final_collapsed
 
-def scaler(x, a, b, c, d):
-	"""
-	Takes a number x within range [a, b] and scales it according to the desired range [c, d]
-	"""
-
-	scaled = c * (1 - ((x - a) / (b - a))) + d * (((x - a) / (b - a)))
-
-	return scaled
 
 def algorithm(artist=None, title=None):
 	
@@ -265,10 +273,10 @@ def algorithm(artist=None, title=None):
 
 	song_valence = song_data["valence"]
 
-	
+	# This list will be passed to index.html through Jinja2 to create the legend
 	sections = []
 	
-
+	# This list will be passed to processing to render the images
 	patterns = []
 	
 	###########################################################
@@ -277,7 +285,7 @@ def algorithm(artist=None, title=None):
 
 	unscaled_rotation_duration = song_data["tempo"]
 
-	# Set min/mix
+	# Set min/max tempo (70, 200)
 	if unscaled_rotation_duration < 70:
 		unscaled_rotation_duration = 70
 	if unscaled_rotation_duration > 200:
@@ -289,12 +297,12 @@ def algorithm(artist=None, title=None):
 
 
 	###########################################################
-	# Scale song duration to radius of large circle (a)
+	# Scale song's duration to radius of large circle (a)
 	###########################################################
 
 	unscaled_a = float(song_data["duration"]) 
 	
-	# Set mix/max
+	# Set mix/max song duration (100, 600)
 	if unscaled_a < 100:
 		unscaled_a = 100
 	if unscaled_a > 600:
@@ -302,87 +310,83 @@ def algorithm(artist=None, title=None):
 
 	a = scaler(unscaled_a, 100, 600, 500, 900)
 
-
-###
-
-
+	# Extract relevant section information from song_data dictionary
 	collapsed_sections = song_data["collapsed_sections"]
-
-
-	section_durations = []
-
-	for section in collapsed_sections:
-
-		v = section.values()
-		section_durations.append(v[0]["duration"])
-
-	min_section_duration = float(min(section_durations))
-	max_section_duration = float(max(section_durations))
-
-
-
 
 	for section in collapsed_sections:
 
 		v = section.values()
 
 		section_duration = v[0]["duration"]
-		section_avg_tempo = v[0]["avg_tempo"]
 		section_key = v[0]["key"]
 		section_mode = v[0]["mode"]
-		section_time_signature = v[0]["time_signature"]
 		section_avg_loudness = v[0]["avg_loudness"]
 
+		###########################################################
+		# Scale section's duration to radius of small circle (b)
+		###########################################################
+		
+		unscaled_b = float(section_duration)
 
-		sections_dict = {}
-
-		sections_dict["duration"] = section_duration
-		sections_dict["loudness"] = section_avg_loudness 
-		sections_dict["mode"] = section_mode
-		sections_dict["key"] = section_key
-
-
-
-
-
-		# Duration of section determines radius of smaller circle ("b")
-		unscaled_b = section_duration
-
-		# Set minimum and maximum section duration (5 min; a-10 max)
+		# # Set mix/max section duration (in seconds; 5 min, (a-10) max)
 		if unscaled_b < 5:
 			unscaled_b = 5
 		if unscaled_b > (unscaled_a - 10):
 			unscaled_b = (unscaled_a - 10)		
 
-		# Scale as follows: # [5, (unscaled_a-10)] => [275, 675]
-		b = 275 * (1 - ((unscaled_b - 5) / ((unscaled_a - 10) - 5))) + 675 * ((unscaled_b - 5) / ((unscaled_a - 10) - 5))
-
-		# Difference between "a" and "b" determines distance between center of smaller circle and point P ("h")
+		b = scaler(unscaled_b, 5, unscaled_a - 10, 275, 675)
+		
+		###########################################################
+		# Map difference between a and b to distance h
+		###########################################################
+		
 		h = a - b
 
-		# Section key determines hue
+		###########################################################
+		# Scale section's key to hue 
+		###########################################################
+		
+		# Key is an int from 0 to 11 that maps to the chromatic scale (C to B)
 		unscaled_hue = section_key
 
-		# Scale as follows [0, 11] => [0, 330]
+		# Max hue is 330 to avoid two reds
+		hue = int(round(scaler(unscaled_hue, 0, 11.0, 0, 330.0)))
 		
-		# hue = 0 * (1 - (unscaled_hue / 11.0)) + 330 * (unscaled_hue / 11.0 )
-		hue = 330 * (unscaled_hue / 11.0 )
-		hue = int(hue)
+		###########################################################
+		# Scale sum of song's energy and valence to saturation
+		###########################################################
 
-
-
-		# [0, 2] to [0, 50]
+		# Min/max of energy + valence is [0, 2]
 		unscaled_saturation = song_energy + song_valence
 
-		saturation = 40 * ((unscaled_saturation) / 2)
+		# Max saturation set at 40 for aesthetics
+		saturation = scaler(unscaled_saturation, 0, 2, 0, 40.0)
+
+		###########################################################
+		# Keep brightness at a constant max 
+		###########################################################
 
 		brightness = 100
 		
-		unscaled_transparency = section_avg_loudness
-		# Scale [-20, 0] to [50, 100]
-		transparency = 50 * (1 - ((unscaled_transparency + 20) / 20)) + 100 * ((unscaled_transparency + 20) / 20)
-		transparency = int(round(transparency))
+		###########################################################
+		# Scale section's loudness to opacity 
+		###########################################################
 
+		unscaled_opacity = section_avg_loudness
+
+		# Set min/max loudness [-20, 0]
+		if unscaled_opacity < -20:
+			unscaled_opacity = -20
+		if unscaled_opacity > 0:
+			unscaled_opacity = 0
+
+		# Min opacity set at 40 for visibility
+		opacity = int(round(scaler(unscaled_opacity, -20, 0, 50, 100.0)))
+
+
+		###########################################################
+		# Add section's image-rendering information to patterns list 
+		###########################################################
 		patterns_dict = {}
 
 		patterns_dict["a"] = a
@@ -391,17 +395,23 @@ def algorithm(artist=None, title=None):
 		patterns_dict["hue"] = hue
 		patterns_dict["saturation"] = saturation
 		patterns_dict["brightness"] = brightness
-		patterns_dict["transparency"] = transparency
+		patterns_dict["opacity"] = opacity
 
 		patterns.append(patterns_dict)
 
-		# Convert colors to hex value for use in HTML
+		###########################################################
+		# Add section's legend information to patterns list 
+		###########################################################
+		sections_dict = {}
 
+		sections_dict["duration"] = section_duration
+		sections_dict["loudness"] = section_avg_loudness 
+		sections_dict["mode"] = section_mode
+		sections_dict["key"] = section_key
 
-
+		# Convert HSVa to HSLa for use in HTML/CSS
 		hsla = hsv2hsl(hue, saturation, brightness)
-		hsla.append(transparency/100.0)
-
+		hsla.append(opacity/100.0)
 		sections_dict["hsla"] = hsla
 		
 		sections.append(sections_dict)
@@ -409,8 +419,16 @@ def algorithm(artist=None, title=None):
 	song_data["sections"] = sections
 	song_data["patterns"] = patterns
 
-
 	return song_data
+
+def scaler(x, a, b, c, d):
+	"""
+	Takes a number x within range [a, b] and scales it according to the desired range [c, d]
+	"""
+
+	scaled = c * (1 - ((x - a) / (b - a))) + d * (((x - a) / (b - a)))
+
+	return scaled
 
 def hsv2hsl(hue,sat,val):
 
@@ -421,14 +439,16 @@ def hsv2hsl(hue,sat,val):
 		l == 0.1
 	elif l == 100:
 		l = 99.9
+
 	if l < 50:
 		temp = l * 2.0
-		print "TEMP", temp
 	else:
 		temp = 200 - l * 2.0
-		print "TEMP", temp
+	
 	h = hue
+	
 	s = int(round(sat * val / temp))
+	
 	return [h, s, l]
 
 def main():

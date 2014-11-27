@@ -24,8 +24,8 @@ void draw() {
   }
 }
 
-void setUpHypotrochoid(float a, float b, float h, float hue, float saturation, float brightness, float transparency) {
-  Hypotrochoid hypotrochoid = new Hypotrochoid(a, b, h, hue, saturation, brightness, transparency);
+void setUpHypotrochoid(float a, float b, float h, float hue, float saturation, float brightness, float opacity) {
+  Hypotrochoid hypotrochoid = new Hypotrochoid(a, b, h, hue, saturation, brightness, opacity);
   hypotrochoids.add(hypotrochoid);
 }
 
@@ -35,21 +35,21 @@ interface Pattern {
 }
 
 class Hypotrochoid implements Pattern {
-  float a, b, h, hue, saturation, brightness, transparency;
+  float a, b, h, hue, saturation, brightness, opacity;
   float t = 10.0;
-  Hypotrochoid(float a, float b, float h, float hue, float saturation, float brightness, float transparency) {
+  Hypotrochoid(float a, float b, float h, float hue, float saturation, float brightness, float opacity) {
     this.a = a;
     this.b = b;
     this.h = h;
     this.hue = hue;
     this.saturation = saturation;
     this.brightness = brightness; 
-    this.transparency = transparency;
+    this.opacity = opacity;
   };
   void draw() {
-    stroke(hue, saturation, brightness, transparency);
-    float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t));//+1200;  
-    float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t));//+1000;
+    stroke(hue, saturation, brightness, opacity);
+    float x  =  ((a-b) * cos(t)) + (h * cos(((a-b)/b) * t));  
+    float y  =  ((a-b) * sin(t)) - (h * sin(((a-b)/b) * t));
     scale(.4);
     ellipse(x ,y,1,1);
     scale(2.5);
