@@ -306,12 +306,12 @@ def algorithm(artist=None, title=None):
 ###
 
 
-	section_list = song_data["collapsed_sections"]
+	collapsed_sections = song_data["collapsed_sections"]
 
 
 	section_durations = []
 
-	for section in section_list:
+	for section in collapsed_sections:
 
 		v = section.values()
 		section_durations.append(v[0]["duration"])
@@ -322,7 +322,7 @@ def algorithm(artist=None, title=None):
 
 
 
-	for section in section_list:
+	for section in collapsed_sections:
 
 		v = section.values()
 
@@ -397,26 +397,7 @@ def algorithm(artist=None, title=None):
 
 		# Convert colors to hex value for use in HTML
 
-		def hsv2hsl(hue,sat,val):
 
-			l = int(round((2 - sat / 100.0) * val / 2))
-			
-			# Avoid division by zero
-			if l == 0:
-				l == 0.1
-			elif l == 100:
-				l = 99.9
-	
-			if l < 50:
-				temp = l * 2.0
-				print "TEMP", temp
-	
-			else:
-				temp = 200 - l * 2.0
-				print "TEMP", temp
-			h = hue
-			s = int(round(sat * val / temp))
-			return [h, s, l]
 
 		hsla = hsv2hsl(hue, saturation, brightness)
 		hsla.append(transparency/100.0)
@@ -431,6 +412,24 @@ def algorithm(artist=None, title=None):
 
 	return song_data
 
+def hsv2hsl(hue,sat,val):
+
+	l = int(round((2 - sat / 100.0) * val / 2))
+	
+	# Avoid division by zero
+	if l == 0:
+		l == 0.1
+	elif l == 100:
+		l = 99.9
+	if l < 50:
+		temp = l * 2.0
+		print "TEMP", temp
+	else:
+		temp = 200 - l * 2.0
+		print "TEMP", temp
+	h = hue
+	s = int(round(sat * val / temp))
+	return [h, s, l]
 
 def main():
 	script, artist, title = argv
