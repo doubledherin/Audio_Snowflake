@@ -11,39 +11,39 @@ The Mapping
 ----------
 The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image. 
 
-#### Rotation
+#### Rotation => Song Tempo
 An image's rotation speed is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy. 
 
 You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.
 
-#### Lines
+#### Lines => Song Sections
 Each line in a snowflake represents a different "section" of a song. A "section" can be defined as a point in the song when the music changes in some significant way. (For more on sections, see **The Data**, below.) This change is usually a key change, but it can also be a mode change (from minor to major, or vice versa), or a change in time signature, tempo, or loudness. 
 
 Oftentimes a song will change key (for a bridge, for example) and then go back to a key it was in before. As such, it is often the case that several of a song's sections may actually be identical in terms of key, mode, time signature, and loudness. For the purposes of Audio Snowflake, I collapse such sections into one composite section and compute the total duration for it.
 
 I then compute the total number of sections. If there are more than five, I remove those of least duration until there are no more than five. This is an aesthetic choice--too many line drawings can start to be overwhelming.
 
-#### Colors
-Each line (section) is colored using HSBa (hue, saturation, brightness, transparency/alpha) color values. 
+#### Colors (HSBa)
+Each line (section) is colored using HSBa (hue, saturation, brightness, opacity/alpha) color values. 
 
-###### Hue 
+###### Hue => Section Key
 The hue (color) is determined by the section's key. C gets a hue of 0 (red), and as the chromatic scale progresses, the hue progresses through the color spectrum (orange, yellow, and so forth).
 
-###### Saturation
+###### Saturation => Song Valence + Energy
 The saturation (vividness) is determined by the sum of the song's energy and valence, which together are a good approximation of a song's mood. 
 
-Energy is a property of the loudness and frequency of change within a song. As for valence, according to Paul Lamere (Director of Developer Platform at The Echo Nest), 
+Energy is a property of the loudness and frequency of change within a song. Valence is a measure of emotion within a song. (The Echo Nest determines valence using machine learning: a human defines the emotion on a set of songs, and that information is used to train the model.) According to Paul Lamere (Director of Developer Platform at The Echo Nest), 
 >The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.
 
 ![image](https://raw.githubusercontent.com/doubledherin/Audio_Snowflake/master/app/static/images/energy_valence_grid.png)
 
 For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.
 
-###### Brightness
+###### Brightness => (Constant Max)
 The brightness is a constant: all songs have the maximum brightness value. Because I chose to use a black background and low saturation, maintaining brightness at the maximum is necessary (otherwise, some lines would be challenging or even impossible to see).
 
-###### Transparency
-The transparency (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.
+###### Opacity => Section Loudness
+The opacity (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.
 
 
 The Geometry

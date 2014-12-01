@@ -45,40 +45,40 @@
       <h1>The Mapping</h1>
       <p>The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image.</p>
 
-      <h2>Rotation</h2>
+      <h2>Rotation => Song Tempo</h2>
       <p>An image's rotation speed is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy.</p>
 
       <p>You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.</p>
 
-      <h2>Lines</h2>
+      <h2>Lines => Song Sections</h2>
       <p>Each line in a snowflake represents a different "section" of a song. A "section" can be defined as a point in the song when the music changes in some significant way. (For more on sections, see <a href="#thedata">The Data</a>, below.) This change is usually a key change, but it can also be a mode change (from minor to major, or vice versa), or a change in time signature, tempo, or loudness.</p> 
 
       <p>Oftentimes a song will change key (for a bridge, for example) and then go back to a key it was in before. As such, it is often the case that several of a song's sections may actually be identical in terms of key, mode, time signature, and loudness. For the purposes of Audio Snowflake, I collapse such sections into one composite section and compute the total duration for it.</p>
 
       <p>I then compute the total number of sections. If there are more than five, I remove those of least duration until there are no more than five. This is an aesthetic choice--too many line drawings can start to be overwhelming.</p>
 
-      <h2>Colors</h2>
-      <p>Each line (section) is colored using HSBa (hue, saturation, brightness, transparency/alpha) color values.</p>
+      <h2>Colors (HSBa)</h2>
+      <p>Each line (section) is colored using HSBa (hue, saturation, brightness, opacity/alpha) color values.</p>
 
-      <h4>Hue</h4>
+      <h4>Hue => Section Key</h4>
       <p>The hue (color) is determined by the section's key. C gets a hue of 0 (red), and as the chromatic scale progresses, the hue progresses through the color spectrum (orange, yellow, and so forth).</p>
 
-      <h4>Saturation</h4>
+      <h4>Saturation => Song Valence + Energy</h4>
       <p>The saturation (vividness) is determined by the sum of the song's energy and valence, which together are a good approximation of a song's mood.</p> 
 
-      <p>Energy is a property of the loudness and frequency of change within a song. As for valence, according to Paul Lamere (Director of Developer Platform at The Echo Nest),</p> 
+      <p>Energy is a property of the loudness and frequency of change within a song. Valence is a measure of emotion within a song. (The Echo Nest determines valence using machine learning: a human defines the emotion on a set of songs, and that information is used to train the model.) According to Paul Lamere (Director of Developer Platform at The Echo Nest),</p> 
       
       <quote>The term "valence" comes from psychology. It is a measure of the emotional content of a song. A value close to one indicates a positive emotion, while a value close to zero is a negative emotion. Valence is often combined with energy to yield a four-quadrant mood.<quote>
 
       <img src="/static/images/energy_valence_grid_negative.png" alt="The Valence-Arousal space"/>
 
-      <p>For this reason, I chose to make energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.</p>
+      <p>For this reason, I chose to make the combination of energy and valence relate to how saturated, or vivid, a color is. The maximum saturation level is still quite low (currently at 40); this was an aesthetic choice. If saturation is much higher, the snowflakes are less pleasing to look at, and the colors are more likely to clash with each other.</p>
 
-      <h4>Brightness</h4>
+      <h4>Brightness => (Constant Max)</h4>
       <p>The brightness is a constant: all songs have the maximum brightness value. Because I chose to use a black background and low saturation, maintaining brightness at the maximum is necessary (otherwise, some lines would be challenging or even impossible to see).</p>
 
-      <h4>Transparency</h4>
-      <p>The transparency (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.</p>
+      <h4>Opacity => Section Loudness</h4>
+      <p>The opacity (alpha) value is determined by a section's loudness: the quieter a song, the more transparent the line/color. Loudness is measured in decibels and is almost always a negative number for music.</p>
 
     </div>
 
