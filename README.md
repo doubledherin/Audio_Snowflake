@@ -82,9 +82,9 @@ The Math
 
 The hypotrochoids are rendered as x,y coordinates on a Cartesian grid using the following trigonometric equation and the values described in the above section on the geometry. (The value ***t*** is an angle that increments very slightly after each x,y coordinate is computed.)
 
-*x* = (*a−b*) x cos*t* + *h* x cos( (*a−b*) ÷ *b*) x *t*)
+*x* = (*a−b*) x cos *t* + *h* x cos( (*a−b*) ÷ *b*) x *t*)
 
-*y* = (*a−b*) x sin*t* - *h* x sin( (*a−b*) ÷ *b*) x *t*)
+*y* = (*a−b*) x sin *t* - *h* x sin( (*a−b*) ÷ *b*) x *t*)
 
 The Cartesian grid is scaled according to the window size at the time the page loads.
 
