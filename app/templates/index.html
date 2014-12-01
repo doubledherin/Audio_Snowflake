@@ -18,7 +18,7 @@
             -webkit-transition-duration: {{ track.rotation_duration }}s;
             -moz-transition-duration: {{ track.rotation_duration }}s;
             -webkit-animation-duration: {{ track.rotation_duration }}s; 
-            -moz-animation-duration: {{ track.rotation_duration }};
+            -moz-animation-duration: {{ track.rotation_duration }}s;
         }
     </style>
 </head>
@@ -31,7 +31,9 @@
     <li><a href="/gallery">Gallery</a></li>
   </ul>
 
+    <div id="canvas_container">
     <canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
+    </div>
     
     {% if track %}
     <div id="box1">
