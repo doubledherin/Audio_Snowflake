@@ -261,7 +261,9 @@ def collapse_sections(section_results):
 
 
 def algorithm(artist=None, title=None):
-	
+	"""
+	Takes an artist name and song title and returns a complete dictionary of song data
+	"""
 	songs = get_matching_songs(artist, title)
 	song_data = get_song_data(songs)
 
@@ -431,6 +433,10 @@ def scaler(x, a, b, c, d):
 	return scaled
 
 def hsv2hsl(hue,sat,val):
+	"""
+	Takes 3 numbers representing an HSV color and returns a list of 3 numbers representing the equivalent color as HSL
+	"""
+
 
 	l = int(round((2 - sat / 100.0) * val / 2))
 	
