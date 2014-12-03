@@ -15,7 +15,8 @@ Audio Snowflake will be deployed to www.audiosnowflake.com in the near future.
 
 If you go to that URL and it's not up yet, you can install the app on your machine by following these steps:
 
-1. Create a directory on your machine and clone the repo on [Github](https://github.com/doubledherin/Audio_Snowflake) into that directory.
+1. You'll need SQLite if you don't have it already. Go [here](http://www.sqlite.org/download.html) to download it if you need it.
+2. Create a directory on your machine and clone the repo on [Github](https://github.com/doubledherin/Audio_Snowflake) into that directory.
 2. In your terminal, navigate to that directory, create a virtual environment, and activate it. If you need help with this, try reading [this documentation](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 3. Make sure you're at the level of the requirements.txt file, then install the required packages by typing `pip install -r requirements.txt`.
 2. Get an Echo Nest API secret key [here](https://developer.echonest.com/account/register). In your cloned repo, navigate to the api_calls.py file, and in the line that says `api_key = os.environ.get("ECHO_NEST_API_KEY")`, replace the string in the parentheses with your API secret key (your key should also be in quotes).
