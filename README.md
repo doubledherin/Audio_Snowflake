@@ -24,7 +24,7 @@ If you go to that URL and it's not up yet, you can install the app on your machi
 3. Make sure you're at the level of views.py. Then type `$ python views.py` and hit Enter.
 4. In a browser, enter localhost:5000.
 
-From there, you should be all set. If you have problems, feel free to contact me--my gmail is just my first and last name (Wendy Dherin)with nothing in between.
+From there, you should be all set. If you have problems, feel free to contact me--my gmail is just my first and last name (Wendy Dherin) with nothing in between.
 
 
 The Mapping
