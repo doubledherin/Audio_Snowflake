@@ -6,6 +6,7 @@ SQLAlchemy==0.9.8
 Werkzeug==0.9.6
 backports.ssl-match-hostname==3.4.0.2
 certifi==14.05.14
+colour==0.0.6
 gnureadline==6.3.3
 ipython==2.3.0
 itsdangerous==0.24

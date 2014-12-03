@@ -1,18 +1,42 @@
 Audio Snowflake
 ===============
 
+
 Audio Snowflake is a music visualizer inspired by Spirograph and by the principles of [cymatics](http://en.wikipedia.org/wiki/Cymatics). Enter an artist name and song title, and Audio Snowflake retrieves detailed data on the song from the Echo Nest Analyzer API. 
 
 After processing and scaling the data, the app uses Processing (a Java-based language commonly used in digital art) and a trigonometric equation to plot a series of hypotrochoids (Spirograph-like images) to the screen. 
 
 The result is a beautiful visual representation of each song’s unique qualities, rendered before your eyes as you listen to the song via an embedded Spotify web player.
 
+
+How to Install
+--------------
+Audio Snowflake will be deployed to www.audiosnowflake.com in the near future. 
+
+If you go to that URL and it's not up yet, you can install the app on your machine by following these steps:
+
+1. Create a directory on your machine and clone the repo on [Github](https://github.com/doubledherin/Audio_Snowflake) into that directory.
+2. In your terminal, navigate to that directory, create a virtual environment, and activate it. If you need help with this, try reading [this documentation](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+3. Make sure you're at the level of the requirements.txt file, then install the required packages by typing `pip install -r requirements.txt`.
+2. Get an Echo Nest API secret key [here](https://developer.echonest.com/account/register). In your cloned repo, navigate to the api_calls.py file, and in the line that says `api_key = os.environ.get("ECHO_NEST_API_KEY")`, replace the string in the parentheses with your API secret key (your key should also be in quotes).
+2. Log in to a Spotify account (this is so that the web player will work, but the app will still run without the web player if you don't want to do this part).
+3. Make sure you're at the level of views.py. Then type `$ python views.py` and hit Enter.
+4. In a browser, enter localhost:5000.
+
+From there, you should be all set. If you have problems, feel free to contact me--my gmail is just my first and last name (Wendy Dherin)with nothing in between.
+
+
 The Mapping
 ----------
 The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image. 
 
+Below is a sample snowflake ("Neighborhood #1" by Arcade Fire).
+
+
+![image](app/static/images/NeighborhoodNo1_forREADME.png) 
+
 #### Rotation => Song Tempo
-An image's rotation speed is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy. 
+Snowflake spin in the browser at a rotation speed that is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy. 
 
 You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.
 
@@ -22,6 +46,8 @@ Each line in a snowflake represents a different "section" of a song. A "section"
 Oftentimes a song will change key (for a bridge, for example) and then go back to a key it was in before. As such, it is often the case that several of a song's sections may actually be identical in terms of key, mode, time signature, and loudness. For the purposes of Audio Snowflake, I collapse such sections into one composite section and compute the total duration for it.
 
 I then compute the total number of sections. If there are more than five, I remove those of least duration until there are no more than five. This is an aesthetic choice--too many line drawings can start to be overwhelming.
+
+
 
 #### Colors (HSBa)
 Each line (section) is colored using HSBa (hue, saturation, brightness, opacity/alpha) color values. 
