@@ -3,6 +3,10 @@ a:hover {
   font-weight: bold;
 }
 
+a {
+  color: white;
+  font-weight: bold;
+}
 .breadcrumb a {
   color: #bebab3;
 }
@@ -20,10 +24,6 @@ a:hover {
   color: white;
 }
 body {
-    /*background-image: url("../images/55Hz_Square_wave_and_water.png");
-    background-repeat: no-repeat;
-    background-position: 10% 90%;
-    background-size: 200px 200px;*/
   
     background-color: black;
     color: #bebab3;
@@ -52,7 +52,7 @@ em {
 }
 
 .container-fluid {
-  margin-top: 30px;
+  /*margin-top: 30px;*/
   margin-right: 0;
   margin-left: 0;
 }
@@ -71,15 +71,3 @@ em {
 }
 
 
-/*#snowflake-right {
-  width: 200px;
-  height: 200px;
-  margin-left: 10px;
-}
-
-#snowflake-left {
-  width: 200px;
-  height: 200px;
-  float: bottom;
-  
-}*/
