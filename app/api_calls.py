@@ -14,15 +14,19 @@ def get_matching_songs(artist=None, title=None):
 
 	# Only the artist is passed in
 	if not title:
-		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]}
+		print "HELLO"
+		params = {"api_key":api_key, "results":100, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]}
+		print params
 
 	# Only the title is passed in
-	if not artist:
-		params = {"api_key":api_key, "results":10, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
+	elif not artist:
+		print "HELLO THERE"
+		params = {"api_key":api_key, "results":100, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
 	# Both artist and title are passed in
 	else:
-		params = {"api_key":api_key, "results":10, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
+		print "HELLO THERE2"
+		params = {"api_key":api_key, "results":100, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
 	try:
 		r = requests.get("http://developer.echonest.com/api/v4/song/search", params=params)
@@ -30,7 +34,11 @@ def get_matching_songs(artist=None, title=None):
 	except requests.exceptions.RequestException as e:
 		return "I'm sorry, that song is not available. Please try a different one."
 
+	print r.url
+	
 	results = json.loads(r.content)
+
+
 
 	songs = results["response"].get("songs", [])
 
