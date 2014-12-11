@@ -14,18 +14,14 @@ def get_matching_songs(artist=None, title=None):
 
 	# Only the artist is passed in
 	if not title:
-		print "HELLO"
 		params = {"api_key":api_key, "results":100, "limit": True, "artist":artist, "bucket":["audio_summary", "id:spotify", "tracks"]}
-		print params
 
 	# Only the title is passed in
 	elif not artist:
-		print "HELLO THERE"
 		params = {"api_key":api_key, "results":100, "limit": True, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
 	# Both artist and title are passed in
 	else:
-		print "HELLO THERE2"
 		params = {"api_key":api_key, "results":100, "limit": True, "artist":artist, "title":title, "bucket":["audio_summary", "id:spotify", "tracks"]}
 
 	try:
@@ -34,8 +30,6 @@ def get_matching_songs(artist=None, title=None):
 	except requests.exceptions.RequestException as e:
 		return "I'm sorry, that song is not available. Please try a different one."
 
-	print r.url
-	
 	results = json.loads(r.content)
 
 
@@ -129,10 +123,8 @@ def get_song_data(songs):
 		return {}
 
 	for key, value in song_data.iteritems():
-		print "KEY:", key
-		print "VALUE: ", value
 
-	return song_data
+		return song_data
 
 def get_sections(song_data):
 	"""
