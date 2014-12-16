@@ -8,7 +8,7 @@ After processing and scaling the data, the app uses Processing (a Java-based lan
 
 The result is a beautiful visual representation of each song’s unique qualities, rendered before your eyes as you listen to the song via an embedded Spotify web player.
 
-Below is a selection of songs from the Gallery page. As you can see, each song really a unique image. 
+Below is a selection of songs from the Gallery page. 
 
 ![image](https://raw.githubusercontent.com/doubledherin/Audio_Snowflake/master/app/static/images/gallery.png)
 
