@@ -10,7 +10,7 @@ The result is a beautiful visual representation of each song’s unique qualitie
 
 Below is a selection of songs from the Gallery page. As you can see, each song really a unique image. 
 
-![image](https://raw.githubusercontent.com/doubledherin/Audio_Snowflake/master/app/static/images/gallery.png)
+![image](app/static/images/gallery.png)
 
 
 Relationships between the images and the song's acoustics and composition are detailed below.
