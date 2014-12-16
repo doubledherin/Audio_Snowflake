@@ -8,6 +8,11 @@ After processing and scaling the data, the app uses Processing (a Java-based lan
 
 The result is a beautiful visual representation of each song’s unique qualities, rendered before your eyes as you listen to the song via an embedded Spotify web player.
 
+Below is a selection of songs from the Gallery page. As you can see, each song really a unique image. 
+
+![image](app/static/images/gallery.png) 
+
+Relationships between the images and the song's acoustics and composition are detailed below.
 
 How to Install
 --------------
