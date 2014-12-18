@@ -11,7 +11,7 @@ from add_to_db import add_song_to_db, add_image_to_db
 
 app = Flask(__name__)
 
-# Does not use form entry
+
 @app.route("/")
 def index():
 
@@ -139,5 +139,6 @@ if __name__ == "__main__":
     PORT = int(os.environ.get("PORT", 5000))
     DEBUG = "NO_DEBUG" not in os.environ
     app.run(debug=DEBUG, host="0.0.0.0", port=PORT)
+
 
 
