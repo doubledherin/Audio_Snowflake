@@ -1,9 +1,13 @@
+import os
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Text
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-engine = create_engine("sqlite:///audiosnowflake.db", echo=False)
+# DATABASE_URL = os.environ.get("DATABASE_URL")
+
+engine = create_engine("postgres://localhost/audiosnowflake2", echo=False)
+
 db_session = scoped_session(sessionmaker(bind=engine,
                                       autocommit = False,
                                       autoflush = False))
@@ -29,8 +33,8 @@ class Track(Base):
     valence = Column(Float) 
     audio_md5 = Column(String(50))
     spotify_track_uri = Column(String(50))
-    patterns = Column(String(300))
-    sections = Column(String(300))
+    patterns = Column(Text)
+    sections = Column(Text)
     rotation_duration = Column(Float)
 
 class Image(Base):
