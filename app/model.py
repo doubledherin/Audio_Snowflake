@@ -4,9 +4,9 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Float, Text
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-# DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get("DATABASE_URL", "postgres://coder@localhost/audiosnowflake2")
 
-engine = create_engine("postgres://localhost/audiosnowflake2", echo=False)
+engine = create_engine(DATABASE_URL, echo=False)
 
 db_session = scoped_session(sessionmaker(bind=engine,
                                       autocommit = False,
