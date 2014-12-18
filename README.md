@@ -2,7 +2,7 @@ Audio Snowflake
 ===============
 
 
-Audio Snowflake is a music visualizer inspired by Spirograph and by the principles of [cymatics](http://en.wikipedia.org/wiki/Cymatics). Enter an artist name and song title, and Audio Snowflake retrieves detailed data on the song from the Echo Nest Analyzer API. 
+Audio Snowflake (www.audiosnowflake.com) is a music visualizer inspired by Spirograph and by the principles of [cymatics](http://en.wikipedia.org/wiki/Cymatics). Enter an artist name and song title, and Audio Snowflake retrieves detailed data on the song from the Echo Nest Analyzer API. 
 
 After processing and scaling the data, the app uses Processing (a Java-based language commonly used in digital art) and a trigonometric equation to plot a series of hypotrochoids (Spirograph-like images) to the screen. 
 
@@ -13,23 +13,6 @@ Below is a selection of songs from the Gallery page.
 ![image](https://raw.githubusercontent.com/doubledherin/Audio_Snowflake/master/app/static/images/gallery.png)
 
 Relationships between the images and the song's acoustics and composition are detailed below.
-
-How to Install
---------------
-Audio Snowflake will be deployed to www.audiosnowflake.com in the near future. 
-
-If you go to that URL and it's not up yet, you can install the app on your machine by following these steps:
-
-1. You'll need SQLite3 if you don't have it already. Go [here](http://www.sqlite.org/download.html) to download it if you need it.
-2. Create a directory on your machine and clone the repo on [Github](https://github.com/doubledherin/Audio_Snowflake) into that directory.
-2. In your terminal, navigate to that directory, create a virtual environment, and activate it. If you need help with this, try reading [this documentation](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
-3. Make sure you're at the level of the requirements.txt file, then install the required packages by typing `pip install -r requirements.txt`.
-2. Get an Echo Nest API secret key [here](https://developer.echonest.com/account/register). In your cloned repo, navigate to the api_calls.py file, and in the line that says `api_key = os.environ.get("ECHO_NEST_API_KEY")`, replace the string in the parentheses with your API secret key (your key should also be in quotes).
-2. Log in to a Spotify account (this is so that the web player will work, but the app will still run without the web player if you don't want to do this part).
-3. Make sure you're at the level of views.py. Then type `$ python views.py` and hit Enter.
-4. In a browser, enter localhost:5000.
-
-From there, you should be all set. If you have problems, feel free to contact me--my gmail is just my first and last name (Wendy Dherin) with nothing in between.
 
 
 The Mapping
