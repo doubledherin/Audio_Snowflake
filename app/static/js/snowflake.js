@@ -27,9 +27,10 @@ $( "canvas" ).mouseleave(function() {
 $( "#add_button" ).click(function(event) {
     event.preventDefault();
     var canvas = document.getElementById("snowflake");
-    var song_id = $("#song_id").val();
+    var song_id = $("#song_id2").val();
     var artist_name = $("#artist_name2").val();
-    var title = $("#title").val();
+    var title = $("#title2").val();
+    var csrf_token = $("#csrf_token").val();
 
     $.ajax({
         type: "POST", 
@@ -37,7 +38,8 @@ $( "#add_button" ).click(function(event) {
         data: { img : canvas.toDataURL("image/png"),
                 song_id : song_id,
                 artist_name : artist_name,
-                title: title
+                title: title,
+                csrf_token: csrf_token
               },
         success: function() {
             alert("Image saved to gallery.");

@@ -10,7 +10,7 @@
             -webkit-transition-duration: {{ track.rotation_duration }}s;
             -moz-transition-duration: {{ track.rotation_duration }}s;
             -webkit-animation-duration: {{ track.rotation_duration }}s; 
-            -moz-animation-duration: {{ track.rotation_duration }}s;
+            -moz-animation-duration: {{ track.rotation_duration }};
         }
     </style>
 {% endblock %}
@@ -23,8 +23,17 @@
   </ul>
 {% endblock %}
 
-
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
 
     <div id="canvas_container">
     <canvas id="snowflake" data-processing-sources="../static/processing/snowflake/snowflake.pde"></canvas>
@@ -173,9 +182,11 @@
           <div class="col-sm-4" id="save-button">
 
             <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
+                {{ form.hidden_tag() }}
+  
                 <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
-                <input type="hidden" id="title" name="title" value="{{ track.title }}">
-                <input type="hidden" id="song_id" name="song_id" value="{{ track.song_id }}">
+                <input type="hidden" id="title2" name="title" value="{{ track.title }}">
+                <input type="hidden" id="song_id2" name="song_id" value="{{ track.song_id }}">
 
                 <input type="submit" id="add_button" value="Add Snowflake to Gallery" class="btn btn-custom"></input>
             </form>

@@ -9,7 +9,10 @@ from model import db_session
 from api_calls import algorithm
 from add_to_db import add_song_to_db, add_image_to_db
 
+from forms import AddSnowflake
+
 app = Flask(__name__)
+app.config.from_object('config')
 
 
 @app.route("/")
@@ -84,6 +87,8 @@ def get_pattern():
 @app.route("/render_template")
 def render():
 
+    form = AddSnowflake()
+
     song_id=request.args.get('song_id')
 
     track = db_session.query(m.Track).filter_by(song_id=song_id).first()
@@ -94,31 +99,33 @@ def render():
     sections = track.sections
     json_sections = json.loads(sections) 
 
-    return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections)
+    return render_template("index.html", track=track, patterns=json_patterns, sections=json_sections, form=form)
 
 # Takes snapshot of canvas
 @app.route("/add_snowflake", methods=["POST"])
 def add_snowflake():
-    filename = request.form["song_id"] + ".png"
-    image = request.form["img"]
-    artist_name = request.form["artist_name"].title()
-    title = request.form["title"].title()
 
-    if image:
+    form = AddSnowflake(request.form)
+
+    if form.validate():
+
 
         # Decode base64
-        img_type, img_b64data = image.split(",", 1)
+        img_type, img_b64data = form.img.raw_data[0].split(",", 1)
         image_data = base64.b64decode(img_b64data)
 
         # Write to a file using the song id as the filename
-        fout = open(os.path.join("static/uploads", filename), "wb")
+        fout = open(os.path.join("static/uploads", form.song_id.raw_data[0]+".png"), "wb")
         fout.write(image_data)
         fout.close()
 
         # Store in database
-        add_image_to_db(db_session, filename, artist_name, title)
+        add_image_to_db(db_session, form.song_id.raw_data[0]+".png", form.artist_name.raw_data[0], form.title.raw_data[0])
 
-    return "OK"
+        return "OK"
+    else:
+
+        return form.errors
 
 
 @app.route("/about")
