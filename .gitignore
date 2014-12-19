@@ -19,3 +19,5 @@ get_echonest_id.py
 seed.py
 seed.pyc
 add_to_db.pyc
+config.pyc
+forms.pyc
