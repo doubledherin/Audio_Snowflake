@@ -25,7 +25,7 @@ Below is a sample snowflake ("Neighborhood #1" by Arcade Fire).
 ![image](app/static/images/NeighborhoodNo1_forREADME.png) 
 
 #### Rotation => Song Tempo
-Snowflake spin in the browser at a rotation speed that is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy. 
+Snowflakes spin in the browser at a rotation speed that is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy. 
 
 You may find you disagree with the tempo that is displayed in the song data that appears when you hover over a snowflake. The fact is that measuring tempo (as well as many other musical properities) is still a relatively unsolved problem. The Echo Nest (whose data I used for Audio Snowflake) is arguably the best in the world when it comes to music information retrieval, and yet their data is not always accurate.
 
