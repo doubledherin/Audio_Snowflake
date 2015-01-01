@@ -19,7 +19,7 @@ The Mapping
 ----------
 The following sections explain how a snowflake's visual attributes map to the song's musical attributes. When using Audio Snowflake, you can reveal a legend that details the song's attributes by hovering over the image. 
 
-Below is a sample snowflake ("Neighborhood #1" by Arcade Fire).
+Below is a sample snowflake and legend for an Excuses for Skipping song, "Helena."
 
 
 ![image](app/static/images/Screenshot_with_legend.png) 
