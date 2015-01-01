@@ -22,7 +22,7 @@ The following sections explain how a snowflake's visual attributes map to the so
 Below is a sample snowflake ("Neighborhood #1" by Arcade Fire).
 
 
-![image](app/static/images/NeighborhoodNo1_forREADME.png) 
+![image](app/static/images/Screenshot_with_legend.png) 
 
 #### Rotation => Song Tempo
 Snowflakes spin in the browser at a rotation speed that is directly proportional to the song's tempo (the faster the tempo, the faster the rotation). The difference may appear slight; this is purposeful. If the snowflake spins too quickly, it can make the viewer feel dizzy. 
