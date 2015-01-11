@@ -31,6 +31,8 @@ def get_pattern():
     # Get the song title and artist name from the web form
     title = request.args.get("title").lower()
     artist_name = request.args.get("artist_name").lower()
+
+    print "Title, artist:", title, artist_name
     
     # If nothing entered into form
     if not artist_name and not title:
