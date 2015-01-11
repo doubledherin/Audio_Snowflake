@@ -42,7 +42,7 @@ def get_pattern():
     # If only title entered
     elif not artist_name:
         track = db_session.query(m.Track).filter_by(title=title).first()
-        print 200, track.id, track.title
+        print 200, track
 
     # If only artist name entered
     elif not title:
@@ -78,7 +78,7 @@ def get_pattern():
 
         # If song id is not in the database
         else:
-
+            print 500
             # Add it to the database
             add_song_to_db(db_session, song_data)
 
