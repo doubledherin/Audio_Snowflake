@@ -183,8 +183,11 @@
           <div class="col-sm-4" id="save-button">
 
             <form enctype="multipart/form-data" action="/add_snowflake" method="POST">
+                {% if form %}
+
                 {{ form.hidden_tag() }}
-  
+
+                {% endif %}            
                 <input type="hidden" id="artist_name2" name="artist_name" value="{{ track.artist_name }}">
                 <input type="hidden" id="title2" name="title" value="{{ track.title }}">
                 <input type="hidden" id="song_id2" name="song_id" value="{{ track.song_id }}">
