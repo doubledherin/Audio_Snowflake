@@ -42,6 +42,7 @@ def get_pattern():
     # If only title entered
     elif not artist_name:
         track = db_session.query(m.Track).filter_by(title=title).first()
+        print 200, track.id, track.title
 
     # If only artist name entered
     elif not title:
