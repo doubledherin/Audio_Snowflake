@@ -36,6 +36,7 @@ def get_pattern():
     
     # If nothing entered into form
     if not artist_name and not title:
+        print 100
         return redirect("/")
 
     # If only title entered
