@@ -62,6 +62,7 @@ def get_pattern():
         
         # HTML prints message to screen saying sorry, no go
         if not song_data:
+            print 1000000
             return render_template("index.html", track=None, patterns=None, sections=None)
 
 
