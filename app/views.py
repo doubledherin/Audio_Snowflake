@@ -32,18 +32,16 @@ def get_pattern():
     # Get the song title and artist name from the web form
     title = request.args.get("title").lower()
     artist_name = request.args.get("artist_name").lower()
-
-    print "Title, artist:", title, artist_name
     
     # If nothing entered into form
     if not artist_name and not title:
-        print 100
+
         return redirect("/")
 
     # If only title entered
     elif not artist_name:
         track = db_session.query(m.Track).filter_by(title=title).first()
-        print 200, track.id, track.title
+
 
     # If only artist name entered
     elif not title:
@@ -79,7 +77,7 @@ def get_pattern():
 
         # If song id is not in the database
         else:
-            print 500
+
             # Add it to the database
             add_song_to_db(db_session, song_data)
 
