@@ -21,3 +21,12 @@ seed.pyc
 add_to_db.pyc
 config.pyc
 forms.pyc
+../.DS_Store
+.DS_Store
+static/.DS_Store
+static/css/.DS_Store
+static/css/bootstrap/.DS_Store
+static/images/.DS_Store
+static/processing/.DS_Store
+static/uploads/.DS_Store
+templates/.DS_Store
