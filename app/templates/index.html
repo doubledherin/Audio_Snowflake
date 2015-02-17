@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" type="text/css" href="../static/css/style_index.css".>
+    <link rel="stylesheet" type="text/css" href="../static/css/style_index.css">
 {% endblock %}
 
 {% block style %}
@@ -57,8 +57,8 @@
         </div>
 
         {% for section in sections %}
-        <div class="row">
-          <div class="col-sm-4" id="section-legend">
+        <div class="row" id="section-legend">
+          <div class="col-sm-4">
 
             <div class="rect" style="background-color:hsla({{section.hsla[0] }}, {{ section.hsla[1] }}%, {{ section.hsla[2]}}%, {{ section.hsla[3] }})"></div>
 
