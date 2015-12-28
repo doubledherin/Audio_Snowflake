@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DB_USER=vagrant
+DB_NAME=audiosnowflake
+
 sudo apt-get update
 sudo apt-get install python-dev -y
 sudo apt-get install python-virtualenv -y
@@ -16,6 +19,5 @@ pip install WTForms==2.0.1
 pip install requests==2.4.3
 pip install spotipy==2.1.0
 pip install psycopg2==2.5.4
-
-sudo -u postgres createuser -P -s -e vagrant
-createdb audiosnowflake
+sudo -u postgres createuser -P $DB_USER
+sudo -u postgres createdb -O $DB_USER $DB_NAME
