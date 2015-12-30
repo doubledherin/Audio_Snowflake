@@ -1,8 +1,0 @@
-Flask==0.10.1
-Flask-WTF==0.10.3
-Jinja2==2.7.3
-SQLAlchemy==0.9.8
-WTForms==2.0.1
-requests==2.4.3
-spotipy==2.1.0
-psycopg2==2.5.4

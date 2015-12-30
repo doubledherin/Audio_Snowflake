@@ -3,7 +3,7 @@
 DB_USER=vagrant
 DB_NAME=audiosnowflake
 
-# sudo apt-get update
+sudo apt-get update
 
 sudo apt-get install git -y
 sudo apt-get install build-essential -y 
