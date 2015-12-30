@@ -6,14 +6,25 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "postgres://vagrant:vagrant@localhost/audiosnowflake")
 
-engine = create_engine(DATABASE_URL, echo=False)
+Base = declarative_base()
 
-db_session = scoped_session(sessionmaker(bind=engine,
+def get_engine():
+    """
+    Performs database connection using database settings from settings.py.
+    Returns sqlalchemy engine instance
+    """
+    return create_engine(DATABASE_URL, echo=False)
+    # return create_engine(URL(**settings.DATABASE))
+
+
+# engine = create_engine(DATABASE_URL, echo=False)
+engine = get_engine()
+db_session = scoped_session(sessionmaker(bind=get_engine(),
                                       autocommit = False,
                                       autoflush = False))
-
-Base = declarative_base()
 Base.query = db_session.query_property()
+
+
 
 class Track(Base):
     __tablename__ = "tracks"
