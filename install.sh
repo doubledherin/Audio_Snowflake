@@ -31,10 +31,3 @@ sudo -u postgres createuser -P $DB_USER
 sudo -u postgres createdb -O $DB_USER $DB_NAME
 
 python app/seed.py
-=======
-sudo apt-get install python-virtualenv
-sudo apt-get install postgresql-server-dev-9.3
-sudo apt-get install postgresql
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt

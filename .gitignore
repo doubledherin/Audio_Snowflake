@@ -30,3 +30,4 @@ static/images/.DS_Store
 static/processing/.DS_Store
 static/uploads/.DS_Store
 templates/.DS_Store
+.vagrant/*
