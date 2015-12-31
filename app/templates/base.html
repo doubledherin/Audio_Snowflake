@@ -9,20 +9,20 @@
     <link rel="shortcut icon" href="../static/images/favicon.ico?" type="image/x-icon"/>
     <link rel="stylesheet" href="/static/css/bootstrap/css/bootstrap.min.css"/>
     
-    {% block stylesheet %}{% endblock %}
+    {% block stylesheet %}{% endblock stylesheet %}
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/processing-1.3.6.min.js"></script>
     
-    {% block style %}{% endblock %}
+    {% block style %}{% endblock style %}
 </head>
 
 <body>
     
-  {% block breadcrumb %}{% endblock %}
+  {% block breadcrumb %}{% endblock breadcrumb %}
 
-  {% block content %}{% endblock %}
+  {% block content %}{% endblock content %}
 
-  {% block js %}{% endblock %}   
+  {% block js %}{% endblock js %}   
 </body>
 
 </html>

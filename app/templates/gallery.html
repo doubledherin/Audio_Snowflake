@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" type="text/css" href="../static/css/style_gallery.css".>
-{% endblock %}
+{% endblock stylesheet %}
 
 {% block breadcrumb %}
   <ul class="breadcrumb">
@@ -10,7 +10,7 @@
     <li><a href="/about">About</a></li>
     <li class="active">Gallery</li>
   </ul>
-{% endblock %}
+{% endblock breadcrumb %}
 
 {% block content %}
 
@@ -23,4 +23,4 @@
   </figure>
   {% endfor %}
 
-{% endblock %}
+{% endblock content %}

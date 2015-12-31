@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" type="text/css" href="../static/css/style_index.css">
-{% endblock %}
+{% endblock stylesheet %}
 
 {% block style %}
      <style>
@@ -15,7 +15,7 @@
             -moz-animation-duration: {{ track.rotation_duration }}s;
         }
     </style>
-{% endblock %}
+{% endblock style %}
 
 
 {% block breadcrumb %}
@@ -24,7 +24,7 @@
     <li><a href="/about">About</a></li>
     <li><a href="/gallery">Gallery</a></li>
   </ul>
-{% endblock %}
+{% endblock breadcrumb %}
 
 {% block content %}
 
@@ -206,8 +206,8 @@
 
       </div>
     </div>
-{% endblock %}
+{% endblock content %}
 
 {% block js %}
 <script src="../static/js/snowflake.js"></script>
-{% endblock %}
+{% endblock js %}
