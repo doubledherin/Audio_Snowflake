@@ -4,11 +4,9 @@ import os
 import random
 
 from flask import Flask, render_template, redirect, request
-
 from werkzeug import secure_filename
 
-import models as m
-from models import db_session as db
+from models import db_session as db, Image, Track
 from api_calls import algorithm
 from add_to_db import add_song_to_db, add_image_to_db
 
@@ -23,8 +21,8 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 def index():
 
     # Get a random song from the database to start with
-    rand = random.randrange(0, db.query(m.Track).count())
-    track = db.query(m.Track)[rand]
+    rand = random.randrange(0, db.query(Track).count())
+    track = db.query(Track)[rand]
 
     return redirect("/render_template?song_id=%s" % track.song_id)
 
@@ -44,7 +42,7 @@ def get_pattern():
     # If only title entered
     elif not artist_name:
         track = (
-            db.query(m.Track)
+            db.query(Track)
             .filter_by(title=title)
             .first()
         )
@@ -52,7 +50,7 @@ def get_pattern():
     # If only artist name entered
     elif not title:
         track = (
-            db.query(m.Track)
+            db.query(Track)
             .filter_by(artist_name=artist_name)
             .first()
         )
@@ -60,7 +58,7 @@ def get_pattern():
     # If both artist and title entered
     else:
         track = (
-            db.query(m.Track)
+            db.query(Track)
             .filter_by(artist_name=artist_name)
             .filter_by(title=title)
             .first()
@@ -89,7 +87,7 @@ def get_pattern():
         song_id = song_data["song_id"]
 
         track = (
-            db.query(m.Track)
+            db.query(Track)
             .filter_by(song_id=song_id)
             .first()
         )
@@ -106,7 +104,7 @@ def get_pattern():
 
             # Get it from the database (using song id)
             track = (
-                db.query(m.Track)
+                db.query(Track)
                 .filter_by(song_id=song_id)
                 .first()
             )
@@ -119,7 +117,7 @@ def render():
     form = AddSnowflake()
     song_id = request.args.get('song_id')
     track = (
-        db.query(m.Track)
+        db.query(Track)
         .filter_by(song_id=song_id)
         .first()
     )
@@ -172,10 +170,14 @@ def about_page():
 
 @app.route("/gallery")
 def gallery_page():
-    images = db.query(m.Image).all()
+    images = db.query(Image).all()
     return render_template("gallery.html", images=images)
 
 if __name__ == "__main__":
     PORT = int(os.environ.get("PORT", 5000))
     DEBUG = "NO_DEBUG" not in os.environ
-    app.run(debug=DEBUG, host="0.0.0.0", port=PORT)
+    app.run(
+        debug=DEBUG,
+        host="0.0.0.0",
+        port=PORT
+    )
