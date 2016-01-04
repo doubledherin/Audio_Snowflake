@@ -7,8 +7,8 @@ from flask import Flask, render_template, redirect, request
 
 from werkzeug import secure_filename
 
-import model as m
-from model import db_session as db
+import models as m
+from models import db_session as db
 from api_calls import algorithm
 from add_to_db import add_song_to_db, add_image_to_db
 

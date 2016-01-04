@@ -7,7 +7,7 @@
 import json
 from time import sleep
 
-from model import db_session, engine, Base, Track
+from models import db_session, engine, Base, Track
 from api_calls import algorithm
 
 
