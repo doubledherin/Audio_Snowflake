@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import json, model
-from model import db_session
+import json
+from model import db_session, Image, Track
 from sys import argv
 
 
@@ -12,7 +12,7 @@ def add_song_to_db(session, song_data):
     sections = song_data["sections"]
     sections_json = json.dumps(sections)
 
-    track = model.Track()
+    track = Track()
 
     track.song_id = song_data["song_id"]
     track.key = song_data["key"]
@@ -25,7 +25,7 @@ def add_song_to_db(session, song_data):
     track.duration = song_data["duration"]
     track.loudness = song_data["loudness"]
     track.artist_id = song_data["artist_id"]
-    track.valence = song_data["valence"]    
+    track.valence = song_data["valence"]
     track.audio_md5 = song_data["audio_md5"]
     track.spotify_track_uri = song_data["spotify_track_uri"]
     track.patterns = patterns_json
@@ -35,9 +35,10 @@ def add_song_to_db(session, song_data):
     db_session.add(track)
     db_session.commit()
 
+
 def add_image_to_db(session, filename, artist_name, title):
 
-    image = model.Image()
+    image = Image()
 
     image.filename = filename
     image.artist_name = artist_name
@@ -45,4 +46,3 @@ def add_image_to_db(session, filename, artist_name, title):
 
     db_session.add(image)
     db_session.commit()
-
