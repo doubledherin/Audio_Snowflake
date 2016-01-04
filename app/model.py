@@ -18,7 +18,6 @@ def get_engine():
     Returns sqlalchemy engine instance
     """
     return create_engine(DATABASE_URL, echo=False)
-    # return create_engine(URL(**settings.DATABASE))
 
 
 # engine = create_engine(DATABASE_URL, echo=False)
@@ -30,6 +29,7 @@ db_session = scoped_session(
         autoflush=False
         )
     )
+
 Base.query = db_session.query_property()
 
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 from model import db_session, Image, Track
-from sys import argv
 
 
 def add_song_to_db(session, song_data):
