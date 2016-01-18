@@ -16,11 +16,10 @@ function bindDataToProcessing(patterns) {
 }
 
 // Fades in/out legend on canvas enter/leave
-$( "canvas" ).mouseenter(function() {  
-  $( "#box1" ).stop().fadeIn( "slow", "linear" );
-});
-$( "canvas" ).mouseleave(function() {        
-  $( "#box1" ).stop().fadeOut( "slow", "linear" );
+$( "canvas" ).hover(function() {  
+  $( "#box1" ).stop().show( "slow" );
+  }, function() {        
+  $( "#box1" ).hide( "slow" );
 });
 
 // Adds snapshot of current canvas state to gallery
