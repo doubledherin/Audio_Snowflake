@@ -17,7 +17,7 @@ Other_Audio_Snowflake_Stuff/
 api_calls.pyc
 get_echonest_id.py
 seed.py
-seed.pyc
+*.pyc
 add_to_db.pyc
 config.pyc
 forms.pyc
